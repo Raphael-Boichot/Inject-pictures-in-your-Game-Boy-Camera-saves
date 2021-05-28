@@ -1,6 +1,7 @@
 # Inject custom pictures in your Game Boy Camera saves
 
-The idea comes (once again) from the Game Boy Camera Club discord - https://disboard.org/nl/server/568464159050694666. 
+The idea comes (once again) from the Game Boy Camera Club discord - https://disboard.org/nl/server/568464159050694666.
+
 After a discussion about the vintage Game Boy Camera advertisements (like the Funtograpy guide for example) that present screen artworks that were clearly not made with D-pad only, comes the idea that a tool perhaps existed as presskit to make custom saves with pictures not coming from the camera.
 
 So, despite the fact that extracting images from Game Boy Camera saves was made possible by fans, it is still virtually impossible to do the inverse : inject custom pictures into saves. What could be the interest, dear reader ? Messing with pixel perfect artworks, reuse an image that was erased long from camera ago but stored somewhere on computer, steal pictures from other people and claim they are yours or simply exchange pictures with friends if you have no friends.
