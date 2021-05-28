@@ -29,4 +29,4 @@ By trial-and-error I've found that an active image (not empty, not erased) could
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. 
 
-I globally still continue to try understanding how the data are arranged into the savestate, so work in progress...
+I globally still continue to try understanding how the data are arranged into the savestate, so work in progress.
