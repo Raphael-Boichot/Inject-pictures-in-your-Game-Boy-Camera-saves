@@ -68,3 +68,6 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - Finding a way to un-erase a picture ;
 - Finding a way of injecting picture in empty memory slots rather than in active ones.
 
+![Vector state and checksum](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/State%20vectors.png)
+![Scores, counters and checksums](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20and%20counters.png)
+
