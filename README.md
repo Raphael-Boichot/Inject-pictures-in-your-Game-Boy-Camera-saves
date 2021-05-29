@@ -35,7 +35,7 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 
 I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). To what I understand now : 
 - address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It stays permanently in memory when Game Boy is off and can be extracted as a normal image ; 
-- frame border associated to an image is stored at adress 0xXXFB0, XX ranging from 02 to 1F ;
+- frame border associated to an image is stored at adress 0xXXFB0, XX ranging from 02 to 1F. This means that the border information is contains into the image data ;
 - user ID (birthdate, gender and name) is embedded into image informations section only, address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image only (even if image stays blank) ;
 - score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A2 and modifies what seems to be a checksum at address 0x010D7-0x10D8 and address 0x011B0-0x011B1. Score appears in clear at 0x010C9-0x010CA and 0x011A2-0x011A2, but in octal, bytes reversed (a score of 170 is written 0x70, 0x01).
 - score at Space Fever is stored at adress 0x010C5-0x010C6 and 0x0119E-0x0119F and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state. Score appears in clear at 0x010C5-0x010C6 and 0x0119E-0x0119F, but in octal, bytes reversed (a score of 2034 is written 0x34, 0x20).
