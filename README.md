@@ -31,7 +31,7 @@ By trial-and-error I've found that an active image (not empty, not erased) could
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. 
 
-# Research
+# Research, checksums and pain
 
 I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). To what I understand now : 
 - address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It stays permanently in memory when Game Boy is off and can be extracted as a normal image ; 
