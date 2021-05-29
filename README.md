@@ -38,9 +38,9 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - frame border associated to an image is stored at adress 0xXXFB0, XX ranging from 02 to 1F ;
 - user ID (birthdate, gender and name) is embedded into image informations section only, address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image only (even if image stays blank) ;
 - score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A2 and modifies what seems to be a checksum at bytes 0x010D7-0x10D8 and bytes 0x011B0-0x011B1. Score appears in clear at 0x010C9-0x010CA and 0x011A2-0x011A2, but in octal, bytes reversed (a score of 170 is written 0x70, 0x01).
-- score at Space Fever is stored at adress 0x010C5-0x010C6 and 0x0118E-0x0119F and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state.
+- score at Space Fever is stored at adress 0x010C5-0x010C6 and 0x0119E-0x0119F and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state. Score appears in clear at 0x010C5-0x010C6 and 0x0119E-0x0119F, but in octal, bytes reversed (a score of 2034 is written 0x34, 0x20).
 - Each occurence of these checksums is preceded by the word "Magic" in ascii ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
-- Any discrepancy between data and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ;
+- Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ;
 - None of the score information or user ID appears in clear into the savestate ;
 - A top-down attack by decompliling the rom is perhaps more fitted to the task of breaking the savestate format (contributions welcomed).
