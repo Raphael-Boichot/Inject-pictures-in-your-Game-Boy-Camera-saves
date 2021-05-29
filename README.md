@@ -39,7 +39,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - user ID (birthdate, gender and name) is embedded into image informations section (but not in clear), address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image (even if this image stays blank) ;
 - score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A2 and modifies what seems to be a checksum at address 0x010D7-0x10D8 and address 0x011B0-0x011B1. Score appears in clear, but in octal, bytes reversed (a score of 170 is written 0x70, 0x01) ;
 - score at Space Fever is stored at adress 0x010C5-0x010C6 (possibly 0x010C7-0x010C8) and 0x0119E-0x0119F (possibly 0x011A0-0x011A1) and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state. Score appears in clear, but in octal, bytes reversed (a score of 2034 is written 0x34, 0x20) ;
-- I did not find the adrresses for the Run Run Run time for the moment.
+- I did not find the addresses for the Run Run Run time for the moment.
 - Each occurence of these checksums is preceded by the word "Magic" in ascii ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
 - Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ;
