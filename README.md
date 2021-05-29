@@ -23,7 +23,7 @@ The scanning code basically extracts and analyses values at addresses 0x011D7 to
 
 ![Vector state](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector%20state.png)
 
-Anyway, there is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply reversing the order of operation on the vector state. Doing this simply messes-up all the filesystem and forces the camera to self-erase all memory slots.
+Anyway, there is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply reversing the order of operation on the vector state. Doing this simply messes-up all the filesystem and forces the camera to self-erase vector state.
 
 SO
 
@@ -57,6 +57,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - Scores and image counters are stored in octal form by batch of two digits, most significant batch of two digits first ;
 - Scores and image counters increment a checksum at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
 - The vector states seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB ;
+- The data corresponding to picture stored in camera are not protected by any way ;
 - I suppose all of this was implemented as some Game Genie or other cheating hardware counter measure ;
 - Good new, Pocket Camera and Game Boy Camera seems to have the same save structure.
 
@@ -65,5 +66,5 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - Crackin of the checksum system to cheat at minigames and unlock hidden features ;
 - Or finding of the bytes that unlock additionnal features directly ;
 - Finding a way to un-erase a picture ;
-- Fincding a way of injecting picture in free empty rather than in active ones.
+- Finding a way of injecting picture in empty memory slots rather than in active ones.
 
