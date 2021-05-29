@@ -23,7 +23,7 @@ The scanning code basically extracts and analyses values at addresses 0x011D7 to
 
 ![Vector state](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector%20state.png)
 
-Anyway, there is a checksum system somewhere that precludes any possibility of un-erasing a picture by simply reversing the order of operation on the vector state and/or modifying the last byte of its corresponding picture data area that is supposedly used as a state indicator. Doing this simply messes-up all the filesystem and forces the camera to self-erase all memory slots. Additionnaly, each picture slot contains lots of additionnal information poorly documented.
+Anyway, there is a checksum system at addresses 0x010D7-0x10D8 and 0x011B0-0x011B1 that precludes any possibility of un-erasing a picture by simply reversing the order of operation on the vector state. Doing this simply messes-up all the filesystem and forces the camera to self-erase all memory slots.
 
 SO
 
@@ -37,7 +37,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It stays permanently in memory when Game Boy is off and can be extracted as a normal image ; 
 - frame border associated to an image is stored at adress 0xXXFB0, XX ranging from 02 to 1F ;
 - user ID (birthdate, gender and name) is embedded into image informations section only, address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image only (even if image stays blank) ;
-- score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A2 and modifies what seems to be a checksum at bytes 0x010D7-0x10D8 and bytes 0x011B0-0x011B1. Score appears in clear at 0x010C9-0x010CA and 0x011A2-0x011A2, but in octal, bytes reversed (a score of 170 is written 0x70, 0x01).
+- score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A2 and modifies what seems to be a checksum at address 0x010D7-0x10D8 and address 0x011B0-0x011B1. Score appears in clear at 0x010C9-0x010CA and 0x011A2-0x011A2, but in octal, bytes reversed (a score of 170 is written 0x70, 0x01).
 - score at Space Fever is stored at adress 0x010C5-0x010C6 and 0x0119E-0x0119F and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state. Score appears in clear at 0x010C5-0x010C6 and 0x0119E-0x0119F, but in octal, bytes reversed (a score of 2034 is written 0x34, 0x20).
 - Each occurence of these checksums is preceded by the word "Magic" in ascii ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
