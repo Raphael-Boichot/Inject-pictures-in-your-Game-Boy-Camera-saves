@@ -46,7 +46,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - bytes 0x010BF-0x010C0 and 0x01198-0x01199 seem to be image counters for picture transfered (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums). 
 - Bytes 0x010C3, 0x119C stored the number of pictures received from males, bytes 0x010C4, 0x119D received from females ;
 - bytes 0x011D6 and 0x011D6 repeated at 0x011FA and 0x11FB seem to be a checksum only related to vector state ;
-- Some occurence of these checksums is preceded by the word "Magic" in ascii ;
+- Occurences of these checksums is preceded by the word "Magic" in ascii, perhaps a kind of humor ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
 - Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ;
 
