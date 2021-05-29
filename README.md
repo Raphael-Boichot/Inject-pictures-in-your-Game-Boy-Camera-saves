@@ -42,6 +42,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - score at Run Run Run ! is stored at adress 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball. I do not understand the unit of this score, it must be a multiple of machine cycle or something related ;
 - bytes 0x010BB and 0x01194 seem to be image counters for pictures taken (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
 - bytes 0x010BC and 0x01196 seem to be image counters for picture erased (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
+- bytes 0x010C1 and 0x011A9 seem to be image counters for picture printed (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
 - bytes 0x011D6 and 0x011D6 repeated at 0x011FA and 0x11FB seem to be a checksum only related to vector state ;
 - Some occurence of these checksums is preceded by the word "Magic" in ascii ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
@@ -49,5 +50,5 @@ I loosely continue collecting data to understand how bytes are arranged into the
 
 Summary : 
 - Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5 ;
-- Image counters (0x010BB and 0x01194, image taken, 0x011D6 and 0x011D6, image deleted), as well as the game scores, increment a checksum at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
+- Image counters (0x010BB and 0x01194, image taken, 0x011D6 and 0x011D6, image deleted, 0x010C1 and 0x011A9, image printed), as well as the game scores, increment a checksum at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
 - The vector state seems to have its own independant checksum bytes at adresses 0x011D5-0x11D6, repeteated at 0x011FA-0x011FB.
