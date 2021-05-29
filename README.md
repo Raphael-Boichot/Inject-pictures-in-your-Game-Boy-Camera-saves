@@ -50,7 +50,8 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
 - Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ;
 
-Summary : 
+# Summary
+
 - Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5 ;
 - Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D ;
 - Scores and image counters are stored in octal form by batch of two digits, most significant batch of two digits first ;
