@@ -5,6 +5,7 @@
 By Raphaël BOICHOT, May 2021, a Matlab/Octave project.
 
 The idea comes (once again) from the Game Boy Camera Club discord - https://disboard.org/nl/server/568464159050694666.
+Some informations also come from the InsideGdget Discord, https://github.com/lesserkuma/FlashGBX and https://github.com/HerrZatacke/gb-printer-web
 
 After a discussion about the vintage Game Boy Camera advertisements (like the Funtograpy guide for example) that present screen artworks, clearly not made with D-pad only, comes the idea that a tool perhaps existed as presskit to make custom saves with pictures not coming from the camera.
 
@@ -32,8 +33,10 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 
 # Research
 
-I loosely continue trying to understand how the data are arranged into the savestate (see research folder). To what I understand now : 
-- user ID (birthdate, gender and name) is embedded into image informations section only, address range 0xXXFB0-0xXXFF0 ;
+I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). To what I understand now : 
+- address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It stays permanently in memory when Game Boy is off and can be extracted as a normal image ; 
+- Frame border associated to an image is stored at adress 0xXXFB0, XX ranging from 02 to 1F ;
+- user ID (birthdate, gender and name) is embedded into image informations section only, address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image only (even if image stays blank) ;
 - score at Ball is stored at adress 0x01C09 and 0x011A2 (at least) and modifies what seems to be a checksum at bytes 0x010D7-0x10D8 and bytes 0x011B0-0x011B1. It also modifies many bytes in image information.
 - score at Space Fever is stored at adress 0x010C5-0x010C6 and 0x0118E-0x0119F (at least) and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state.
 - Each occurence of these checksums is preceded by the word "Magic" in ascii ;
