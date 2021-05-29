@@ -55,5 +55,6 @@ Summary :
 - Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D ;
 - Scores and image counters are store in octal form by batch of two digits, most significant batch of two digits first ;
 - Scores and image counters increment a checksum at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
-- The vector states seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB.
-- I suppose all of this was implemented as some Game Genie counter measure.
+- The vector states seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB ;
+- I suppose all of this was implemented as some Game Genie counter measure ;
+- Good new, Pocket Camera and Game Boy Camera seems to have the same save structure.
