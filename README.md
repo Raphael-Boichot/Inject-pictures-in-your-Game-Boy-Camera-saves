@@ -40,9 +40,11 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A3 and modifies what seems to be a checksum at address 0x010D7-0x10D8 and address 0x011B0-0x011B1. Score appears in clear, but in octal, bytes reversed (a score of 170 is written 0x70, 0x01) ;
 - score at Space Fever is stored at adress 0x010C5-0x010C6 (possibly 0x010C7-0x010C8) and 0x0119E-0x0119F (possibly 0x011A0-0x011A1) and modifies the same bytes as Ball. Score appears in clear, but in octal, bytes reversed (a score of 2034 is written 0x34, 0x20) ;
 - score at Run Run Run ! is stored at adress 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball. I do not understand the unit of this score, it must be a multiple of machine cycle or something related ;
-- bytes 0x010BB and 0x01194 seem to be image counters for pictures taken (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
-- bytes 0x010BC and 0x01196 seem to be image counters for picture erased (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
-- bytes 0x010C1 and 0x011A9 seem to be image counters for picture printed (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
+- bytes 0x010BB-0x010BC and 0x01194-0x01195 seem to be image counters for pictures taken. They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
+- bytes 0x010BD-0x010BE and 0x01196-0x01197 seem to be image counters for picture erased (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
+- bytes 0x010C1-0x010C1 and 0x0119A-0x0119B seem to be image counters for picture printed (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
+- bytes 0x010BF-0x010C0 and 0x01198-0x01199 seem to be image counters for picture transfered (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums). 
+- Bytes 0x010C3, 0x119C stored the number of pictures received from males, bytes 0x010C4, 0x119D received from females ;
 - bytes 0x011D6 and 0x011D6 repeated at 0x011FA and 0x11FB seem to be a checksum only related to vector state ;
 - Some occurence of these checksums is preceded by the word "Magic" in ascii ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
