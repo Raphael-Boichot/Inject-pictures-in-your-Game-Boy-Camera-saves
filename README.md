@@ -38,5 +38,6 @@ I loosely continue trying to understand how the data are arranged into the saves
 - score at Space Fever is stored at adress 0x010C5-0x010C6 and 0x0118E-0x0119F (at least) and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state.
 - Each occurence of these checksums is preceded by the word "Magic" in ascii ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
-- Any discrepancy between data and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ; 
-- None of the score information or user ID appears in clear into the savestate.
+- Any discrepancy between data and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ;
+- None of the score information or user ID appears in clear into the savestate ;
+- A top-down attack by decompliling the rom is perhaps more fitted to the task of breaking the savestate format (contributions welcomed).
