@@ -23,7 +23,7 @@ The scanning code basically extracts and analyses values at addresses 0x011D7 to
 
 ![Vector state](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector%20state.png)
 
-Anyway, there is a checksum system at addresses 0x010D7-0x10D8 and 0x011B0-0x011B1 that precludes any possibility of un-erasing a picture by simply reversing the order of operation on the vector state. Doing this simply messes-up all the filesystem and forces the camera to self-erase all memory slots.
+Anyway, there is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply reversing the order of operation on the vector state. Doing this simply messes-up all the filesystem and forces the camera to self-erase all memory slots.
 
 SO
 
