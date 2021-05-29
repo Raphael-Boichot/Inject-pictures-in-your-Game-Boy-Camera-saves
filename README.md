@@ -38,15 +38,16 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - frame border associated to an image is indicated at adress 0xXXFB0, XX ranging from 02 to 1F, by a single byte. This means that the border information is contains into the image data ;
 - user ID (birthdate, gender and name) is embedded into image informations section (but not in clear), address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image (even if this image stays blank) ;
 - score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A3 and modifies what seems to be a checksum at address 0x010D7-0x10D8 and address 0x011B0-0x011B1. Score appears in clear, but in octal, bytes reversed (a score of 170 is written 0x70, 0x01) ;
-- score at Space Fever is stored at adress 0x010C5-0x010C6 (possibly 0x010C7-0x010C8) and 0x0119E-0x0119F (possibly 0x011A0-0x011A1) and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state. Score appears in clear, but in octal, bytes reversed (a score of 2034 is written 0x34, 0x20) ;
-- score at Run Run Run ! is stored at adress 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state. I do not understand the unit of this score, it must be a multiple of machine cycle or something related ;
-- bytes 0x010BB and 0x01194 seem to be image counters. They modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
+- score at Space Fever is stored at adress 0x010C5-0x010C6 (possibly 0x010C7-0x010C8) and 0x0119E-0x0119F (possibly 0x011A0-0x011A1) and modifies the same bytes as Ball. Score appears in clear, but in octal, bytes reversed (a score of 2034 is written 0x34, 0x20) ;
+- score at Run Run Run ! is stored at adress 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball. I do not understand the unit of this score, it must be a multiple of machine cycle or something related ;
+- bytes 0x010BB and 0x01194 seem to be image counters for pictures taken (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
+- bytes 0x010BC and 0x01196 seem to be image counters for picture erased (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
 - bytes 0x011D6 and 0x011D6 repeated at 0x011FA and 0x11FB seem to be a checksum only related to vector state ;
-- Each occurence of these checksums is preceded by the word "Magic" in ascii ;
+- Some occurence of these checksums is preceded by the word "Magic" in ascii ;
 - The last byte into an image slot (0xXXFFF) is not related to the image state ;
 - Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted) ;
 
 Summary : 
 - Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5 ;
-- An image counter at 0x010BB, repeated at 0x01194, as well as the game scores, increment a checksum at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
+- Image counters (0x010BB and 0x01194, image taken, 0x011D6 and 0x011D6, image deleted), as well as the game scores, increment a checksum at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
 - The vector state seems to have its own independant checksum bytes at adresses 0x011D5-0x11D6, repeteated at 0x011FA-0x011FB.
