@@ -36,3 +36,5 @@ I loosely continue trying to understand how the data are arranged into the saves
 - user ID (birthdate, gender and name) is embedded into image informations section only, address range 0xXXFB0-0xXXFF0 ;
 - score at Ball is stored at adress 0x01C09 (at least) and 0x011A2 and modifies what seems to be a checksum at bytes 0x010D7-0x10D8 and bytes 0x011B0-0x011B1. It also modifies many bytes in image information.
 - score at Space Fever is stored at adress 0x010C5-0x010C6 (at least) and 0x0118E-0x0119F and modifies the same bytes as Ball in what seems to be a checksum shared with the vector state.
+- Each occurence of these checksums is preceded by the word "Magic" in ascii.
+- None of the score information or user ID appears un clear.
