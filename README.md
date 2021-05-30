@@ -33,7 +33,7 @@ By trial-and-error I've found that an active image (not empty, not erased) could
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigames scores, following the "Magic" words. This is where another form of pain began.
 
-# Research, checksums and pain : why there is no cheating codes for Game Boy Camera
+# Research, checksums and pain : why there is no cheating codes until now for the Game Boy Camera
 
 I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device, even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs). So my motivation to open an hexadecimal editor. 
 To what I understand now : 
