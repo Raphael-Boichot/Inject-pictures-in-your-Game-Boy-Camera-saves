@@ -81,7 +81,7 @@ Based on those checksum rules and brute force attack (I used both, I must admit)
 - Finding a way to un-erase a picture properly (to do) ;
 - Finding a way of injecting picture in empty memory slots rather than in active ones (to do).
 
-Here is some hexadecimal porn to end. Changing a byte randomly in yellow areas is like walking on a mine field, it will erase everything at startup. The data presented here comes from my oldest Game Boy Camera that was loaded with tons of images.
+Here is some hexadecimal porn to end. Changing a byte randomly in yellow areas is like walking on a mine field, it will erase everything at startup. The data presented here comes from my oldest Game Boy Camera that was loaded with tons of images (erased and printed) and not-too-bad minigame scores.
 
 # Vector state and related checksum
 ![Vector state and checksum](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/State%20vectors.png)
