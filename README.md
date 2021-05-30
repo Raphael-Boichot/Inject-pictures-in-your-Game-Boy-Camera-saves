@@ -67,10 +67,10 @@ I loosely continue collecting data to understand how bytes are arranged into the
 
 # To do next
 
-- Full cracking of the checksum system to cheat at minigames and unlock hidden features ;
-- Or finding the bytes that unlocks additionnal features directly ;
-- Finding a way to un-erase a picture properly ;
-- Finding a way of injecting picture in empty memory slots rather than in active ones.
+- Full cracking of the checksum system to cheat at minigames and unlock hidden features (done, but by brute force) ;
+- Or finding the bytes that unlocks additionnal features directly (no need) ;
+- Finding a way to un-erase a picture properly (to do) ;
+- Finding a way of injecting picture in empty memory slots rather than in active ones (to do).
 
 Here is some hexadecimal porn to end. Changing a byte randomly there is like walking on a mine field. 
 
