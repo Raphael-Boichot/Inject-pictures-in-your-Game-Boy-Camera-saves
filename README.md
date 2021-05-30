@@ -67,7 +67,9 @@ I loosely continue collecting data to understand how bytes are arranged into the
 
 # Pimp your save !
 
-Based on checksum rules and brute force attack, I am able to provide 2 saves with everything unlocked (all images), in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder. There is an hidden easter egg into the two saves.
+Based on checksum rules and brute force attack, I was able to provide 2 saves with everything unlocked (all images), in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder. There is an hidden easter egg into the two saves.
+
+![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20you%20will%20never%20get%20in%20real.jpg)
 
 # To do next
 
