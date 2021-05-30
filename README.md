@@ -25,7 +25,7 @@ The scanning code basically extracts and analyses values at addresses 0x011D7 to
 
 Anyway, there is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply reversing the order of operation on the vector state. Doing this simply messes-up all the filesystem and forces the camera to self-erase vector state.
 
-SO
+# SO
 
 By trial-and-error I've found that an active image (not empty, not erased) could be replaced bytewise without activating any checksum issue. In consequence, the injection code targets only slots corresponding to active images and just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
 
