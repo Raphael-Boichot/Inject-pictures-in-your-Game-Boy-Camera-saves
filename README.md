@@ -56,8 +56,8 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D ;
 - Scores and image counters are stored in decimal format by batch of two digits, most significant batch of two digits first ;
 - Scores and image counters increment and decrement at the same time two checksum "bytes" at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
-- Left byte of the checksum is equal to 47 - sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC ;
-- Right byte of the checksum is equal to 63 + sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC ;  
+- Left byte of the checksum is equal to 47 + sum(left value of digits + right value of digits, in decimal) by batch of two "bytes" from 0x010C5 to 0x010CC ;
+- Right byte of the checksum is equal to 63 - sum(left value of digits - right value of digits, in decimal) by batch of two "bytes" from 0x010C5 to 0x010CC ;  
 - The vector states (0x011D7 to 0x011F4) seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB ;
 - left byte of the checksum is equal to 11 + sum(image number in the vector state + 1, FF excluded) ; 
 - calculation of the right byte of the checksum is not understood to me for the moment. It is the sum or difference of something, but what ?
