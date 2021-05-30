@@ -39,7 +39,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - User ID (birthdate, gender and name) is embedded into image informations section (but not in clear), address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image (even if this image stays blank) ;
 - Score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A3 and modifies what seems to be a checksum at address 0x010D7-0x10D8 and address 0x011B0-0x011B1. Score appears in clear, but in decimal, bytes reversed (a score of 170 is written 0x70, 0x01) ;
 - Score at Space Fever is stored at adress 0x010C5-0x010C6 (possibly 0x010C7-0x010C8) and 0x0119E-0x0119F (possibly 0x011A0-0x011A1) and modifies the same bytes as Ball. Score appears in clear, but in decimal, bytes reversed (a score of 2034 is written 0x34, 0x20) ;
-- Score at Run! Run! Run! is stored at address 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball. The value written in savestate at adress 0x010CB-0x010CC is aqual to 99 minus the digits on screen (example : 18s10' is written 0x89,0x81) ;
+- Score at Run! Run! Run! is stored at address 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball. The value written in savestate at adress 0x010CB-0x010CC is equal to 99 minus the digits on screen (example : 18s10' is written 0x89,0x81 in save) ;
 - Bytes 0x010BB-0x010BC and 0x01194-0x01195 seem to be image counters for pictures taken. They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
 - Bytes 0x010BD-0x010BE and 0x01196-0x01197 seem to be image counters for picture erased (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
 - Bytes 0x010C1-0x010C1 and 0x0119A-0x0119B seem to be image counters for picture printed (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
@@ -52,32 +52,33 @@ I loosely continue collecting data to understand how bytes are arranged into the
 
 # Summary
 
+- The Game Boy Camera uses two series of Checksum to protect its own data : one for scores (minigames and counter for images) and one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots).
 - Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5. Second range seems to be an echo only, as modifying the first range is enough to get an effect, but also to destroy the whole coherency of the checksum system in case of error. Second range is not a backup ;
 - Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D. Same remark concerning the first range as the checksum is common with minigame scores ;
 - Scores and image counters are stored in decimal format by batch of two digits, least significant batch of two digits first ;
 - Scores and image counters increment and decrement at the same time two checksum "bytes" at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
-- Left byte of the checksum seems to be equal to 47 + sum(left value of digits + right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sur of the rule ;
-- Right byte of the checksum seems to be equal to 63 - sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sur of the rule  ;  
+- Left byte of the checksum  (low address) seems to be equal to 47 + sum(left value of digits + right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule as I saw some exceptions ;
+- Right byte of the checksum  (high address) seems to be equal to 63 - sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule as I saw some exceptions ;  
 - The vector states (0x011D7 to 0x011F4) seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB ;
-- left byte of the checksum seems to be equal to 11 + sum(image number in the vector state + 1, FF excluded) ; 
-- calculation of the right byte of the checksum is not understood to me for the moment. It is the sum or difference of something, but what ?
-- The data corresponding to picture stored in camera are not protected by any way ;
-- I suppose all of this was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
+- left byte of the checksum  (low address) seems to be equal to 11 + sum(image number in the vector state + 1, FF excluded) ; 
+- calculation of the right byte of the checksum  (high address) is not understood to me for the moment. It is the sum or difference of something, but what ?
+- I suppose that all of this (obfusctation + checksums) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
+- On the contrary, the data corresponding to picture stored in camera are not protected by any way ;
 - Good new, Pocket Camera and Game Boy Camera seems to have the same save structure. They are fully intercompatibles.
-- I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool.
+- I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool but hey, I propose here custom saves ! 
 
 # Pimp your save !
 
-Based on those checksum rules and brute force attack, I was able to provide 2 saves with everything unlocked (all images of B album), in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder. There is an hidden easter egg into the two saves.
+Based on those checksum rules and brute force attack (I used both, I must admit) , I was able to make 2 saves with everything unlocked (all images of B album), in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder. There is also an hidden easter egg into the two saves that some clever nerds on Game Boy Camera Discord have soon discovered.
 
 ![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20you%20will%20never%20get%20in%20real.jpg)
 
-# To do next
+# To do next (optionnaly)
 
 - Finding a way to un-erase a picture properly (to do) ;
 - Finding a way of injecting picture in empty memory slots rather than in active ones (to do).
 
-Here is some hexadecimal porn to end. Changing a byte randomly there is like walking on a mine field. 
+Here is some hexadecimal porn to end. Changing a byte randomly in yellow areas is like walking on a mine field. The data presented here comes from my oldest Game Boy Camera that was loaded with tons of images.
 
 # Vector state and related checksum
 ![Vector state and checksum](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/State%20vectors.png)
