@@ -65,10 +65,12 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - I suppose all of this was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
 - Good new, Pocket Camera and Game Boy Camera seems to have the same save structure.
 
+# Pimp your save !
+
+Based on checksum rules and brute force attack, I am able to provide 2 saves with everything unlocked (all images), in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder. There is an hidden easter egg into the two saves.
+
 # To do next
 
-- Full cracking of the checksum system to cheat at minigames and unlock hidden features (done, but by brute force) ;
-- Or finding the bytes that unlocks additionnal features directly (no need) ;
 - Finding a way to un-erase a picture properly (to do) ;
 - Finding a way of injecting picture in empty memory slots rather than in active ones (to do).
 
