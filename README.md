@@ -32,9 +32,10 @@ By trial-and-error I've found that an active image (not empty, not erased) could
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. 
 
-# Research, checksums and pain
+# Research, checksums and pain : why there is no cheating codes for Game Boy Camera
 
-I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). To what I understand now : 
+I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is no cheating codes on the whole planet earth for this device, which is quite annoying when you know the requirement to unlock the full B album (Yes, make 1000 points at Ball, 7000 pointq at Space Fever and less that 16 seconds at Run! Run! Run! and you can write a new part on your CV). So my motivation. 
+To what I understand now : 
 - Address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It stays permanently in memory when Game Boy is off and can be extracted as a normal image ; 
 - Frame border associated to an image is indicated at adress 0xXXFB0, XX ranging from 02 to 1F, by a single byte. This means that the border information is contains into the image data ;
 - User ID (birthdate, gender and name) is embedded into image informations section (but not in clear), address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image (even if this image stays blank) ;
