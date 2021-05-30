@@ -1,5 +1,5 @@
 # Inject custom pictures in your Game Boy Camera saves 
-# Cheat at minigames and unlock the B album
+# Cheat at minigames and unlock the B album without the pain
 
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.jpg)
 
