@@ -1,4 +1,4 @@
-# Inject custom pictures in your Game Boy Camera saves (and more)
+# Inject custom pictures in your Game Boy Camera saves and cheat at minigames
 
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.jpg)
 
