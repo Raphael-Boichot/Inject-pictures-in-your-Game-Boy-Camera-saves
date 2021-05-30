@@ -54,7 +54,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 
 - Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5 ;
 - Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D ;
-- Scores and image counters are stored in decimal format by batch of two digits, most significant batch of two digits first ;
+- Scores and image counters are stored in decimal format by batch of two digits, least significant batch of two digits first ;
 - Scores and image counters increment and decrement at the same time two checksum "bytes" at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
 - Left byte of the checksum seems to be equal to 47 + sum(left value of digits + right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sur of the rule ;
 - Right byte of the checksum seems to be equal to 63 - sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sur of the rule  ;  
@@ -63,7 +63,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - calculation of the right byte of the checksum is not understood to me for the moment. It is the sum or difference of something, but what ?
 - The data corresponding to picture stored in camera are not protected by any way ;
 - I suppose all of this was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
-- Good new, Pocket Camera and Game Boy Camera seems to have the same save structure.
+- Good new, Pocket Camera and Game Boy Camera seems to have the same save structure. They are fully intercompatibles.
 
 # Pimp your save !
 
