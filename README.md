@@ -64,6 +64,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 - The data corresponding to picture stored in camera are not protected by any way ;
 - I suppose all of this was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
 - Good new, Pocket Camera and Game Boy Camera seems to have the same save structure. They are fully intercompatibles.
+- I suppose some additionnal work would be necessary to make a proper dedicated cheating tool.
 
 # Pimp your save !
 
