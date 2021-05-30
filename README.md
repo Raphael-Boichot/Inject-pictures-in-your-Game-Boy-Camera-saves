@@ -50,8 +50,8 @@ To what I understand now :
 - Bytes 0x010C3, 0x119C stored the number of pictures received from males, bytes 0x010C4, 0x119D received from females ;
 - bytes 0x011D6 and 0x011D6 repeated at 0x011FA and 0x11FB seem to be a checksum only related to vector state ;
 - Occurences of these checksums is preceded by the word "Magic" in ascii, perhaps a kind of humor ;
-- The last byte into an image slot (0xXXFFF) is not related to the image state ;
-- Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero ;
+- The last byte into an image slot (0xXXFFF) is not at all related to the image state (despite some internet informations);
+- Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating ;
 
 # Summary
 
