@@ -70,7 +70,7 @@ To what I understand now :
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 - I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool but hey, I propose here custom saves that makes the job ! 
 
-# Pimp your save wih minigame scores you will never get !
+# Pimp your save with minigame scores you will never get !
 
 Based on those checksum rules and brute force attack (I used both, I must admit) plus some pain, I was able to make 2 saves with everything unlocked (all images of B album), in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder. There is also an hidden easter egg into the two saves that some clever nerds on Game Boy Camera Discord have soon discovered.
 
