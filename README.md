@@ -18,7 +18,7 @@ The two small codes presented here are intended to be easy to use. Here are the 
 - prepare a 128x112 image and a 32x32 pixels thumbnail, 4 shades of gray ;  
 - Inject the two pictures at once with the provided tool (image_injector.m) into any desired available memory slot ;
 - Burn you modified save into the Game Boy Camera ;
-- Enjoy with your old-new image.
+- Enjoy your new image and play with stamps.
 
 The scanning code basically extracts and analyses values at addresses 0x011D7 to 0x011F4 that contains the state and numbering of any image slot on the save (which I will call "state vector"). These data are also duplicated from addresses 0x011B2 to 0x011CF. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the cameras screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector :
 
