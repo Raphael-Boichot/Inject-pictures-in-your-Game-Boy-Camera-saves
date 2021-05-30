@@ -52,8 +52,8 @@ I loosely continue collecting data to understand how bytes are arranged into the
 
 # Summary
 
-- Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5. Second range seems to be a backup as modifying the first range is enough to get an effect ;
-- Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D ;
+- Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5. Second range seems to be an echo only, as modifying the first range is enough to get an effect, but also to destroy the whole coherency of the checksum system in case of error ;
+- Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D. Same remark concerning the first range as the checksum is common with minigame scores ;
 - Scores and image counters are stored in decimal format by batch of two digits, least significant batch of two digits first ;
 - Scores and image counters increment and decrement at the same time two checksum "bytes" at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
 - Left byte of the checksum seems to be equal to 47 + sum(left value of digits + right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sur of the rule ;
