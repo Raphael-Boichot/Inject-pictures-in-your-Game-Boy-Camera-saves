@@ -1,7 +1,7 @@
 # Inject custom pictures in your Game Boy Camera saves 
 # Cheat at minigames and unlock the B album
 
-![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.jpg)
+![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
 By Raphaël BOICHOT, May 2021, a Matlab/Octave project.
 
@@ -81,7 +81,7 @@ To what I understand now :
 
 Based on those checksum rules, hexadecimal editor and brute force attack with two Game Boys, a serial cable and a printer emulator (plus some luck), I was able to make 2 saves with everything unlocked (all images of B album), with in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder for picking ready-to-inject saves. There is also an hidden easter egg into the two saves that some clever nerds on Game Boy Camera Club Discord have soon discovered. I was typically able to manipulate the scores of the 3 minigames and the number of image taken with hexadecimal editor only, step by step, verifying that each step worked on real hardware, then I gave up and physically incremented the other "easy" counters (deleted, printed and exchanged images) on real hardware (it was way faster than messing with hexadecimal values on paper).
 
-![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20you%20will%20never%20get%20in%20real.jpg)
+![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked.png)
 
 # To do next (optionnaly)
 
