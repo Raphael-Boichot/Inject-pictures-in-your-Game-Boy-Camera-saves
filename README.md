@@ -67,7 +67,7 @@ To what I understand now :
 - left byte of the checksum  (low address) seems to be equal to 11 + sum(image number in the vector state + 1, FF excluded) ; 
 - calculation of the right byte of the checksum  (high address) is not understood to me for the moment. It is the sum or difference of something, but what ?
 - I suppose that all of this (obfusctation + checksums) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
-- On the contrary, the data corresponding to picture stored in camera are not protected by any way ;
+- On the contrary, the data corresponding to picture tiles stored in camera are not protected by any way ;
 - Getting the scores in memory is enough to unlock image B album, there is no other byte modified ;
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 - I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool but hey, I propose here custom saves that makes the job ! 
