@@ -15,7 +15,7 @@ So, despite the fact that extracting images from Game Boy Camera saves was made 
 The two small codes presented here are intended to be easy to use. Here are the steps :
 - Extract your save from Game Boy Camera with any tool like this: https://shop.insidegadgets.com/product/gbxcart-rw/
 - Scan you save with the provided tool (slot_viewer.m) to identify memory slots available for injection ;
-- Eventually activate all memory slots with Image_uneraser.m if you want to occupy a free slot ;
+- Eventually activate all memory slots with Image_uneraser.m if you want to occupy any slot ;
 - Prepare a 128x112 image and a 32x32 pixels thumbnail, 4 shades of gray ;  
 - Inject the two pictures at once with the provided tool (image_injector.m) into any desired available memory slot ;
 - Burn you modified save into the Game Boy Camera ;
