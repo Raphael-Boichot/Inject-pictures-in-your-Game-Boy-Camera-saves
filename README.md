@@ -25,13 +25,13 @@ The scanning code basically extracts and analyses values at addresses 0x011D7 to
 ![Vector state](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector%20state.png)
 
 Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came the shit.
-There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images...).
+There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
 
 # So...
 
 By trial-and-error I've found that an active image (not empty, not erased) could be replaced bytewise without activating any suicide code. In consequence, the injection code targets only slots corresponding to active images and just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
 
-Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigames scores, following the "Magic" words. This is where another form of pain began.
+Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigames scores to manipulate, following the word "Magic" . This is where another form of pain began.
 
 # Research, checksums and pain : why there is no cheating codes until now for the Game Boy Camera
 
