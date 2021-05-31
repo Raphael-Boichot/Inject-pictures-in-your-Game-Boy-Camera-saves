@@ -15,6 +15,7 @@ So, despite the fact that extracting images from Game Boy Camera saves was made 
 The two small codes presented here are intended to be easy to use. Here are the steps :
 - Extract your save from Game Boy Camera with any tool like this: https://shop.insidegadgets.com/product/gbxcart-rw/
 - Scan you save with the provided tool (slot_viewer.m) to identify memory slots available for injection ;
+- eventually un-erase all memory slots with Image_uneraser.m if you want to occupy a free slot ;
 - prepare a 128x112 image and a 32x32 pixels thumbnail, 4 shades of gray ;  
 - Inject the two pictures at once with the provided tool (image_injector.m) into any desired available memory slot ;
 - Burn you modified save into the Game Boy Camera ;
@@ -27,9 +28,13 @@ The scanning code basically extracts and analyses values at addresses 0x011D7 to
 Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came the shit.
 There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
 
+In the reasearch section, I've made a small code to un-erase all pictures on the save (Image_uneraser.m), which is the only operation I'm able to perform, knowing the checksum of this particular state. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! It means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Un-erasing a camera after a factory reset gives you 30 white images but no bug...
+
 # So...
 
 By trial-and-error I've found that an active image (not empty, not erased) could be replaced bytewise without activating any suicide code. In consequence, the injection code targets only slots corresponding to active images and just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
+
+Using the combo Image_uneraser.m/image_injector.m allows you to place any image in any memory slot easily.
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigames scores to manipulate, following the word "Magic" . This is where another form of pain began.
 
