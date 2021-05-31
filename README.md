@@ -66,7 +66,7 @@ To what I understand now :
 - The vector states (0x011D7 to 0x011F4) seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB ;
 - left byte of the checksum (low address) seems to be equal to 11 + sum(image number in the vector state + 1, FF excluded) ; 
 - calculation of the right byte of the checksum  (high address) is not understood to me for the moment. It seems to be the simple sum or difference of vector state values, but I did not catch completely the logical behind ;
-- I suppose that all of this (obfusctation + multiple checksums with diffrent rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
+- I suppose that all of this (obfusctation + multiple checksums with diffrent rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
 - On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way ;
 - Setting the scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary ;
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
