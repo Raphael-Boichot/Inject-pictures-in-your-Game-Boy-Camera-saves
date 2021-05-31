@@ -35,14 +35,15 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 
 # Research, checksums and pain : why there is no cheating codes until now for the Game Boy Camera
 
-I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device, even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs). So my motivation to open an hexadecimal editor. 
+I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device, even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs). So my motivation to open an hexadecimal editor rather. 
+My general strategy was to compare different savesates with some accomplishments (not all), byte per byte, to understand where were targeted addresses. I systematically compared with a blank savestate (all data erased). Everuthing was made on real hardware (Game Boy Camera and Pocket Camera in parallel).
 To what I understand now : 
 - Address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It stays permanently in memory when Game Boy is off and can be extracted as a normal image ; 
 - Frame border associated to an image is indicated at adress 0xXXFB0, XX ranging from 02 to 1F, by a single byte. This means that the border information is contains into the image data ;
 - User ID (birthdate, gender and name) is embedded into image informations section (but not in clear), address range 0xXXFB0-0xXXFF0. At fist power-up, ID data are contained in the footer of the first image (even if this image stays blank) ;
 - Score at Ball is stored at address 0x010C9-0x010CA and 0x011A2-0x011A3 and modifies what seems to be a checksum at address 0x010D7-0x10D8 and address 0x011B0-0x011B1. Score appears in clear, but in decimal, bytes reversed (a score of 170 is written 0x70, 0x01) ;
 - Score at Space Fever is stored at adress 0x010C5-0x010C6 (possibly 0x010C7-0x010C8) and 0x0119E-0x0119F (possibly 0x011A0-0x011A1) and modifies the same bytes as Ball. Score appears in clear, but in decimal, bytes reversed (a score of 2034 is written 0x34, 0x20) ;
-- Score at Run! Run! Run! is stored at address 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball. The value written in savestate at adress 0x010CB-0x010CC is equal to 99 minus the digits on screen (example : 18s10' is written 0x89,0x81 in save). Why this weird format ? It probably alows the Camera to start from a blank save with a non zero time for this game ;
+- Score at Run! Run! Run! is stored at address 0x010CB-0x010CC and 0x011A4-0x011A5 and modifies the same bytes as Ball. The value written in savestate at adress 0x010CB-0x010CC is equal to 99 minus the digits on screen, bytes reversed (example : 18s10' is written 0x89,0x81 in save). Why this weird format ? It probably alows the Camera to start from a blank save with a non zero time for this game ;
 - Bytes 0x010BB-0x010BC and 0x01194-0x01195 seem to be image counters for pictures taken. They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
 - Bytes 0x010BD-0x010BE and 0x01196-0x01197 seem to be image counters for picture erased (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
 - Bytes 0x010C1-0x010C1 and 0x0119A-0x0119B seem to be image counters for picture printed (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums) ;
@@ -67,6 +68,7 @@ To what I understand now :
 - calculation of the right byte of the checksum  (high address) is not understood to me for the moment. It is the sum or difference of something, but what ?
 - I suppose that all of this (obfusctation + checksums) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell ;
 - On the contrary, the data corresponding to picture stored in camera are not protected by any way ;
+- Getting the scores in memory is enough to unlock image B album, there is no other byte modified ;
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 - I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool but hey, I propose here custom saves that makes the job ! 
 
