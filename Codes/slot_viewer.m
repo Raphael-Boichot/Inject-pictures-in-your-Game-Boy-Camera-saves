@@ -1,11 +1,11 @@
 clc
 clear
+close all
 %------------------------------------------------------------------------
-fid = fopen('GAMEBOYCAMERA.sav','r');    %save file to check (your file)
+fid = fopen('GAMEBOYCAMERA.sav','r');    
 while ~feof(fid)
 a=fread(fid);
 end
-fclose(fid);
 vector_state=a(4531:4560);
 pos=4531;
 for k=1:1:30
@@ -28,3 +28,44 @@ for k=1:1:30
     end
 end
 %------------------------------------------------------------------------
+
+
+
+game_face=a(4605:4605+3840);
+image_zero=a(1:3840);
+subplot(4,8,1)
+imagesc(decode(game_face))
+title('Game Face')
+colormap(gray)
+drawnow
+subplot(4,8,2)
+imagesc(decode(image_zero))
+title('Slot 0')
+colormap(gray)
+drawnow
+
+for i=1:1:30
+start=8193+4096*(i-1);
+ending=start+3839;
+imagek=a(start:ending);
+subplot(4,8,2+i)
+imagesc(decode(imagek)) 
+    status=sum(imagek);
+    if not(vector_state(i)==255);
+        if status==0;
+        title(['Slot ',num2str(i),':active)']);
+        else
+        title(['Slot ',num2str(i),':active']);
+        end
+    else
+        if status==0;
+        title(['Slot ',num2str(i),':blank']);
+        else
+        title(['Slot ',num2str(i),'erased']);
+        end
+    end
+colormap(gray)
+end
+
+
+
