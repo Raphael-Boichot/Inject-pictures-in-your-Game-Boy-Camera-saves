@@ -50,7 +50,7 @@ To what I understand now :
 - bytes 0x010BF-0x010C0 and 0x01198-0x01199 seem to be image counters for picture transfered (it always increments). They also modifies 0x010D7-0x10D8 and 0x011B0-0x011B1 (the score checksums). 
 - Bytes 0x010C3, 0x119C stored the number of pictures received from males, bytes 0x010C4, 0x119D received from females ;
 - bytes 0x011D6 and 0x011D6 repeated at 0x011FA and 0x11FB seem to be a checksum only related to vector state ;
-- Occurences of these checksums is preceded by the word "Magic" in ascii, perhaps a kind of humor ;
+- Occurences of these checksums is preceded by the word "Magic" in ascii, so in clear from hexadecimal point of view, perhaps a kind of humor, considering that all is obfuscated except the placement of the checksums. I did not try any byte attack on this word to check if it participates also to the checksums ;
 - The last byte into an image slot (0xXXFFF) is not at all related to the image state (despite some internet informations);
 - Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating ;
 
@@ -59,7 +59,7 @@ To what I understand now :
 - The Game Boy Camera uses two series of Checksum to protect its own data : one for scores (minigames and counter for images) and one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
 - Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5. Second range seems to be an echo only, as modifying the first range is enough to get an effect, but also to destroy the whole coherency of the checksum system in case of error. Second range is not a backup ;
 - Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D. Same remark concerning the first range as the checksum is common with minigame scores ;
-- Scores and image counters are stored in decimal format (when red in hexadecimal editor) by batch of two digits, least significant batch of two digits first ;
+- Scores and image counters appear in decimal format (when red in hexadecimal editor) by batch of two digits, least significant batch of two digits first. I do not know if it is a kind of obfuscation or an ease for programmers to display scores on screen ;
 - Scores and image counters increment and decrement at the same time two checksum "bytes" at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
 - Left byte of the checksum  (low address) seems to be equal to 47 + sum(left value of digits + right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule as I saw some slight deviation for high numbers ;
 - Right byte of the checksum  (high address) seems to be equal to 63 - sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule either for the same reasons ;  
