@@ -1,5 +1,4 @@
-# Inject custom pictures in your Game Boy Camera saves 
-# Cheat at minigames and unlock the B album
+# Inject custom pictures in your Game Boy Camera saves, cheat at minigames and unlock the B album
 
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
@@ -12,29 +11,25 @@ After a discussion about the vintage Game Boy Camera advertisements (like the Fu
 
 So, despite the fact that extracting images from Game Boy Camera saves was made possible by fans since many years, it was virtually impossible in 2021 to do the inverse : inject custom pictures into saves. At least until now. What could be the interest, dear reader ? It can be usefull to mess with pixel perfect artworks, to reuse an image that was erased long ago from camera but still stored somewhere on a computer or internet, to steal pictures from other people and claim they are yours or simply exchange pictures with friends even if you have no friends. Be creative ! 
 
-The two small codes presented here are intended to be easy to use. Here are the steps :
+The three small codes presented here are intended to be easy to use. Here are the steps :
 - Extract your save from Game Boy Camera with any tool like this: https://shop.insidegadgets.com/product/gbxcart-rw/
-- Scan you save with the provided tool (slot_viewer.m) to identify memory slots available for injection ;
-- Eventually activate all memory slots with Image_uneraser.m if you want to occupy any other slot ;
+- Scan you save with slot_viewer.m to identify memory slots available for injection. By default an available slot is one ever occupied by an image. This is the "safe mode" of operation, your save will be 100% sure after the injection ;
+- Eventually activate all memory slots with slot_activator.m if you want to occupy any other slot. Blank slots will become white images, erased images will appear again, images will be numbered according to their address in memory. This is the "unsafe mode" of operation as I did not extensively searched if any wicked effet would appear. It must however be OK ;
 - Prepare a 128x112 image and a 32x32 pixels thumbnail, 4 shades of gray ;  
-- Inject the two pictures at once with the provided tool (image_injector.m) into any desired available memory slot ;
+- Inject the two pictures at once with image_injector.m into any desired memory slot ;
 - Burn you modified save into the Game Boy Camera ;
 - Enjoy your new image and play with stamps.
 
-The scanning code basically extracts and analyses values at addresses 0x011D7 to 0x011F4 that contains the state and numbering of any image slot on the save (which I will call "state vector"). These data are also duplicated from addresses 0x011B2 to 0x011CF. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the cameras screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector :
+The scanning code basically extracts and analyses values at addresses 0x011B2 to 0x011CF that contains the state and numbering of any image slot on the save (which I will call "state vector"). These data are also duplicated from addresses 0x011D7 to 0x011F4. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the cameras screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector :
 
 ![Vector state](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector%20state.png)
 
-Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came the shit.
-There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a picture by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
+Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came some tricky surprise.
+There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
 
-In the reasearch section, I've made a small code to un-erase all pictures on the save (Image_uneraser.m), which is the only operation I'm able to perform, knowing the checksum of this particular state. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! It means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Un-erasing a camera after a factory reset gives you 30 white images but no bug...
+This is why I wrote slot_activator.m, which activates all slots. This is the only operation I'm able to perform, knowing the checksum of this particular state vector. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! It means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Activating the 30 slots of a camera after a factory reset gives you 30 white images but no bug apparently... To use at your own risks.
 
-# So...
-
-By trial-and-error I've found that an active image (not empty, not erased) could be replaced bytewise without activating any suicide code. In consequence, the injection code targets only slots corresponding to active images and just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
-
-Using the combo Image_uneraser.m/image_injector.m allows you to place any image in any memory slot easily.
+Hopefully, I've found that an active image could be replaced bytewise without activating any suicide code. In consequence, the injection code just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigames scores to manipulate, following the word "Magic" . This is where another form of pain began.
 
