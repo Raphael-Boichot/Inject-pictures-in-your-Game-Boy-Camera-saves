@@ -25,7 +25,7 @@ The scanning code basically extracts and analyses values at addresses 0x011B2 to
 ![Vector state](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector%20state.png)
 
 Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came some tricky surprise.
-There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
+There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture or activating a new memory slot by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
 
 This is why I wrote slot_activator.m, which activates all slots. This is the only operation I'm able to perform, knowing the checksum of this particular state vector. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! This means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Activating the 30 slots of a camera after a factory reset gives you 30 white images but no bug apparently... To use at your own risks.
 
@@ -51,12 +51,12 @@ To what I understand now :
 - Bytes 0x010C3, 0x119C stored the number of pictures received from males, bytes 0x010C4, 0x119D received from females ;
 - bytes 0x011D6 and 0x011D6 repeated at 0x011FA and 0x11FB seem to be a checksum only related to vector state ;
 - Occurences of these checksums is preceded by the word "Magic" in ascii, so in clear from hexadecimal point of view, perhaps a kind of humor, considering that all is obfuscated except the placement of the checksums. I did not try any byte attack on this word to check if it participates also to the checksums ;
-- The last byte into an image slot (0xXXFFF) is not at all related to the image state (despite some internet informations);
-- Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating ;
+- The last byte into an image slot (0xXXFFF) seems not related to the image state (despite some internet informations), as I was able to reactivate deleted image without modifying this byte ;
+- Any discrepancy between data, scores and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating. I think that the long booting time of the Game Boy Camera is precisely due to amount of verifications made ;
 
 # Summary
 
-- The Game Boy Camera uses two series of Checksum to protect its own data : one for scores (minigames and counter for images) and one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
+- The Game Boy Camera uses (at least) two series of Checksum to protect its own data : one for scores (minigames and counter for images) and one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
 - Scores of minigames are stored in address range 0x010C5-0x010CC and repeated at range 0x0119E-0x011A5. Second range seems to be an echo only, as modifying the first range is enough to get an effect, but also to destroy the whole coherency of the checksum system in case of error. Second range is not a backup ;
 - Image counters are stored in range address range 0x010BB-0x010C4 and repeated at range 0x01194-0x0119D. Same remark concerning the first range as the checksum is common with minigame scores ;
 - Scores and image counters appear in decimal format (when red in hexadecimal editor) by batch of two digits, least significant batch of two digits first. I do not know if it is a kind of obfuscation or an ease for programmers to display scores on screen ;
