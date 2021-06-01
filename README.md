@@ -33,7 +33,7 @@ This is why I wrote slot_activator.m, which activates all slots. This is the onl
 
 Hopefully, I've found that an active image could be replaced bytewise without activating any suicide code. In consequence, the injection code just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
 
-Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigames scores to manipulate, following the word "Magic" . This is where another form of pain began.
+Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon diseappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigame score to manipulate, following the word "Magic" into the save signing the presence of interesting stuff. This is where another form of pain happens.
 
 # Checksums and pain : why there is no cheating codes until now for the Game Boy Camera
 
