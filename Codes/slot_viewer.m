@@ -33,12 +33,12 @@ game_face=a(4605:4605+3584);
 image_zero=a(1:3584);
 subplot(4,8,1)
 imagesc(decode(game_face))
-title('Game Face')
+title('Slot -1')
 colormap(gray)
 drawnow
 subplot(4,8,2)
 imagesc(decode(image_zero))
-title('Slot 0')
+title('Game Face Slot 0')
 colormap(gray)
 drawnow
 
