@@ -41,7 +41,7 @@ I loosely continue collecting data to understand how bytes are arranged into the
 
 My general strategy was to compare different savesates with some accomplishments made (not all, I'm not mad nor stuck at home), byte per byte, to understand where were targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel).
 To what I understand now : 
-- Address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It can be extracted as a normal image. It is persistent (Game Boy on and off) as long as you do not use the Camera sensor ; 
+- Address range 0x00000-0x00DEF contains FF or the last image seen by the Game Boy Camera sensor. It can be extracted as a normal image. It is persistent (Game Boy can be powered on and off) as long as you do not use the Camera sensor ; 
 - Address range 0x011FC to 0x01FFB contains the game face as a 128x112 pixels image (same as camera pictures without the border) ;
 - Frame border associated to an image is indicated at adress 0xXXFB0, XX ranging from 02 to 1F, by a single byte. This means that the border information is contains into the image data ;
 - User ID (birthdate, gender and name) is embedded into image informations section (but not in clear ascii, there is a byte shifting), address range 0xXXFB0-0xXXFF0. At first power-up, ID data are contained in the footer of the first image (even if this image stays blank). This means that after exchange, the owner of an image is probably still identifiable.  Its is associated with at least one checksum (probably two) so it is strongly protected. In consequence images are tagged in a rather robust way. ;
