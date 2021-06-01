@@ -15,4 +15,4 @@ a(4566:4567)=checksum;
 fid = fopen('GAMEBOYCAMERA.sav','w');
 a=fwrite(fid,a);
 fclose(fid);
-disp('All slot are activated')
+disp('All slot are now activated !')

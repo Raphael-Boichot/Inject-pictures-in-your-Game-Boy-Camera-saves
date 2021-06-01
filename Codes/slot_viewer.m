@@ -1,6 +1,4 @@
-clc
-clear
-close all
+
 %------------------------------------------------------------------------
 fid = fopen('GAMEBOYCAMERA.sav','r');    
 while ~feof(fid)
@@ -10,7 +8,7 @@ vector_state=a(4531:4560);
 pos=4531;
 for k=1:1:30
     start=8193+4096*(k-1);
-    ending=start+3839;
+    ending=start+3584;
     image=a(start:ending);
     status=sum(image);
     if not(vector_state(k)==255);
@@ -31,8 +29,8 @@ end
 
 
 
-game_face=a(4605:4605+3840);
-image_zero=a(1:3840);
+game_face=a(4605:4605+3584);
+image_zero=a(1:3584);
 subplot(4,8,1)
 imagesc(decode(game_face))
 title('Game Face')
@@ -46,7 +44,7 @@ drawnow
 
 for i=1:1:30
 start=8193+4096*(i-1);
-ending=start+3839;
+ending=start+3584;
 imagek=a(start:ending);
 subplot(4,8,2+i)
 imagesc(decode(imagek)) 
@@ -64,6 +62,7 @@ imagesc(decode(imagek))
         title(['Slot ',num2str(i),'erased']);
         end
     end
+    drawnow    
 colormap(gray)
 end
 
