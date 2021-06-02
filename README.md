@@ -107,8 +107,9 @@ To what I understand now:
 - **0x02000-0x02DFF: image memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32) - black borders and 4 white lines on the bottom;**
 - **0x02F00-0x02FFF: image tag, see details:**
-- **0x02E00-0x02F5B : first unknown sequence, last byte 0x02F54 is the border associated to image**;
-    - *0x02E00-0x02F54: unknown content;*
+- **0x02E00-0x02F5B : first unknown sequence**;
+    - *0x02E00-0x02F53: unknown content;*
+    - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not understood at all);*
 - **0x02F5C-0x02FB7: fisrt unknown sequence echo;**
