@@ -81,17 +81,17 @@ To what I understand now:
 - 0x00000-0x00FFF : the last image seen by the sensor (128x128 pixels). The last line of 16 tiles is glitchy;
 - 0x01000-0x0102E : filling with 0xFE
 - 0x0102F-0x010D8 : game save area, see details:
- 0x01061-0x010B2 : Trippy-H partitions;
- 0x010BB-0x010BC : counter for image taken (on 2x2 digits reversed);
- 0x010BD-0x010BE : counter for image erased (on 2x2 digits reversed);
-          -0x010BF-0x010C0 : counter for image transfered (on 2x2 digits reversed);
-          -0x010C1-0x010C2 : counter for image printed (on 2x2 digits reversed);
-          -0x010C3-0x010C4 : counter for pictures received by males an females (2x2 digits);
-          -0x010C5-0x010C6 : Score at Space Fever II (on 4x2 digits reversed);
-          -0x010C9-0x010CA : score at balls (on 2x2 digits reversed);
-          -0x010CB-0x010CC : score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);
-          -0x010D2-0x010D6 : "Magic" word in ascii;
-          -0x010D7-0x010D8 : checksum (2 bytes, not 100% understood);
+          - 0x01061-0x010B2 : Trippy-H partitions;
+          - 0x010BB-0x010BC : counter for image taken (on 2x2 digits reversed);
+          - 0x010BD-0x010BE : counter for image erased (on 2x2 digits reversed);
+          - 0x010BF-0x010C0 : counter for image transfered (on 2x2 digits reversed);
+          - 0x010C1-0x010C2 : counter for image printed (on 2x2 digits reversed);
+          - 0x010C3-0x010C4 : counter for pictures received by males an females (2x2 digits);
+          - 0x010C5-0x010C6 : Score at Space Fever II (on 4x2 digits reversed);
+          - 0x010C9-0x010CA : score at balls (on 2x2 digits reversed);
+          - 0x010CB-0x010CC : score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);
+          - 0x010D2-0x010D6 : "Magic" word in ascii;
+          - 0x010D7-0x010D8 : checksum (2 bytes, not 100% understood);
 - 0x010D9-0x01107 : filling with 0xFE;
 - 0x01108-0x011B1 : game save area, echo of 0x0102F-0x010D8 ;
 - 0x011B2-0x011D6 : vector state, see details:
