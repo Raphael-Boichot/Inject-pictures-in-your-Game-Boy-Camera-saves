@@ -121,7 +121,7 @@ To what I understand now:
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
 
-# Visual representation of data at the beginning of save ram
+# Visual representation of data at the beginning of the save ram
 ![Visual representation of data at the beginning of save ram](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Image_ram_beginning.png)
           
 # Pimp your save with minigame scores you will never get !
