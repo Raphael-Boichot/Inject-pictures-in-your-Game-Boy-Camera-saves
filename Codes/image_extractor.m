@@ -9,8 +9,8 @@ end
 fclose(fid);
 
 game_face=a(4605:4605+3584);
-image_zero=a(1:3584);
-frame=decode(image_zero);
+image_zero=a(1:4096);
+frame=decode_zero(image_zero);
 frame_png=(frame==3)*255+(frame==2)*125+(frame==1)*80+(frame==0)*0;
 imwrite(uint8(frame_png),'Image_0.png')
 

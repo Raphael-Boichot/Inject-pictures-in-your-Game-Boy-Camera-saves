@@ -30,9 +30,9 @@ end
 
 
 game_face=a(4605:4605+3584);
-image_zero=a(1:3584);
+image_zero=a(1:4096);
 subplot(4,8,1)
-imagesc(decode(image_zero))
+imagesc(decode_zero(image_zero))
 title('Slot -1')
 colormap(gray)
 drawnow
