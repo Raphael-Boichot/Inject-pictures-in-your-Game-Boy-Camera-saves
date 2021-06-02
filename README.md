@@ -127,6 +127,7 @@ Based on those checksum rules, hexadecimal editor and brute force attack with tw
 
 # Things to do next (optionally)
 
-- Finding a way to fully break the chechsum system ;
+- Finding a way to fully break the checksum system;
+- Elucidating the image tag format;
 - Taking a look at the Trippy-H format and data location.
 
