@@ -130,10 +130,3 @@ Based on those checksum rules, hexadecimal editor and brute force attack with tw
 - Finding a way to fully break the chechsum system ;
 - Taking a look at the Trippy-H format and data location.
 
-Here is some hexadecimal porn to end. Changing a byte randomly in yellow areas is like walking on a mine field, it will erase everything at startup. The data presented here comes from my oldest Game Boy Camera that was loaded with tons of images (erased and printed) and not-too-bad minigame scores.
-
-# Example of vector state and related checksum
-![Vector state and checksum](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/State%20vectors.png)
-# Example of game counter and related checksum
-![Scores, counters and checksums](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20and%20counters.png)
-
