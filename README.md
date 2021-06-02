@@ -78,9 +78,9 @@ To what I understand now:
 - I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool but hey, I propose here custom saves that makes the job ! 
 
 # Game Boy Camera save ram format by order of adresses
-- 0x00000-0x00FFF : the last image seen by the sensor (128x128 pixels). The last line of 16 tiles is glitchy;
-- 0x01000-0x0102E : filling with 0xFE
-- 0x0102F-0x010D8 : game save area, see details:
+**- 0x00000-0x00FFF : the last image seen by the sensor (128x128 pixels). The last line of 16 tiles is glitchy;
+**- 0x01000-0x0102E : filling with 0xFE
+**- 0x0102F-0x010D8 : game save area, see details:
           - 0x01061-0x010B2 : Trippy-H partitions;
           - 0x010BB-0x010BC : counter for image taken (on 2x2 digits reversed);
           - 0x010BD-0x010BE : counter for image erased (on 2x2 digits reversed);
