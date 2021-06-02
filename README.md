@@ -82,7 +82,9 @@ To what I understand now:
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels). The last line of 16 tiles is glitchy;**
 - **0x01000-0x0102E: filling with 0xFE**
 - **0x0102F-0x010D8: game save area, see details:**
+    - *0x0102F-0x01060: unknown data (perhaps some from Trippy-H);*
     - *0x01061-0x010B2: Trippy-H partitions;*
+    - *0x010B3-0x010BA: unknown data (perhaps some from Trippy-H);*
     - *0x010BB-0x010BC: counter for image taken (on 2x2 digits reversed);*
     - *0x010BD-0x010BE: counter for image erased (on 2x2 digits reversed);*
     - *0x010BF-0x010C0: counter for image transfered (on 2x2 digits reversed);*
@@ -105,7 +107,8 @@ To what I understand now:
 - **0x02000-0x02DFF: image memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32) - black borders and 4 white lines on the bottom;**
 - **0x02F00-0x02FFF: image tag, see details:**
-- **0x02E00-0x02F54 : first unknown sequence, last byte 0x02F54 is the border associated to image**;
+- **0x02E00-0x02F5B : first unknown sequence, last byte 0x02F54 is the border associated to image**;
+    - *0x02E00-0x02F54: unknown content;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not understood at all);*
 - **0x02F5C-0x02FB7: fisrt unknown sequence echo;**
