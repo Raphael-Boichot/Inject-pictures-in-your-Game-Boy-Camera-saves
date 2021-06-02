@@ -96,7 +96,7 @@ To what I understand now:
 - **0x010D9-0x01107 : filling with 0xFE;**
 - **0x01108-0x011B1 : game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6 : vector state, see details:**
-- *0x11B2-0x011CF : image number associated to memory slots (minus one), 0xFF means erased or blank;  *   
+- *0x11B2-0x011CF : image number associated to memory slots (minus one), 0xFF means erased or blank;*   
 - *0x11D0-0x011D4 : "Magic" word in ascii;*
 - *0x11D5-0x011D6 : checksum (2 bytes, not 100% understood);*
 - **0x011D7-0x011FB : vector state, echo of 0x011B2-0x011D6;**  
