@@ -77,7 +77,7 @@ To what I understand now:
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 - I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool but hey, I propose here custom saves that makes the job ! 
 
-# Game Boy Camera save ram format by order of adresses
+# Game Boy Camera save ram format by increasing adresses
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels). The last line of 16 tiles is glitchy;**
 - **0x01000-0x0102E: filling with 0xFE**
