@@ -81,7 +81,7 @@ To what I understand now:
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels). The last line of 16 tiles is glitchy;**
 - **0x01000-0x0102E: filling with 0xFE**
-- 
+
 - **0x0102F-0x010D8: game save area, see details:**
 - *0x01061-0x010B2: Trippy-H partitions;*
 - *0x010BB-0x010BC: counter for image taken (on 2x2 digits reversed);*
@@ -94,23 +94,23 @@ To what I understand now:
 - *0x010CB-0x010CC: score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);*
 - *0x010D2-0x010D6: "Magic" word in ascii;*
 - *0x010D7-0x010D8: checksum (2 bytes, not 100% understood);*
-- 
+
 - **0x010D9-0x01107: filling with 0xFE;**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
-- 
+
 - **0x011B2-0x011D6: vector state, see details:**
 - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
 - *0x11D0-0x011D4: "Magic" word in ascii;*
 - *0x11D5-0x011D6: checksum (2 bytes, not 100% understood);*
-- 
+
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
 - **0x011FC-0x01FFB: Game Face (128x112);**
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
 - **0x02000-0x02DFF: image memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32) - black borders and 4 white lines on the bottom;**
-- 
+
 - **0x02F00-0x02FFF: image tag, see details:**
-- 
+
 - **0x2E00-0x02F54 : first unknown sequence, last byte 2F54 is the border associated to image**;
 - *0x02F55-0x02F59: "Magic" word in ascii;*
 - *0x02F5A-0x02F5B:  checksum (2 bytes, not understood at all);*
