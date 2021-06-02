@@ -105,13 +105,14 @@ To what I understand now:
 - **0x02000-0x02DFF: image memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32) - black borders and 4 white lines on the bottom;**
 - **0x02F00-0x02FFF: image tag, see details:**
-- **0x2E00-0x02F54 : first unknown sequence, last byte 2F54 is the border associated to image**;
+- **0x02E00-0x02F54 : first unknown sequence, last byte 0x02F54 is the border associated to image**;
     - *0x02F55-0x02F59: "Magic" word in ascii;*
-    - *0x02F5A-0x02F5B:  checksum (2 bytes, not understood at all);*
+    - *0x02F5A-0x02F5B: checksum (2 bytes, not understood at all);*
 - **0x02F5C-0x02FB7: fisrt unknown sequence echo;**
-- **0x02FB8-0x02FC9: User ID data;**
+- **0x02FB8-0x02FD0: User ID data;**
+    - *0x02FB8-0x02FC9: User ID with a bitshift;*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
-    - *0x02FCF-0x02FD0:  checksum (2 bytes, not understood at all);*
+    - *0x02FCF-0x02FD0: checksum (2 bytes, not understood at all);*
 - **0x02FD1-0x02FE9: User ID echo;**
 - **0x02FEA-0x02FFF: third unknown sequence, filled with 0xAA (last byte seems 0xAA, 0x6E or 0x6B without any particular logic);**          
 
