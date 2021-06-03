@@ -106,14 +106,14 @@ To what I understand now:
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
 - **0x02000-0x02DFF: image data tiles memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32, black borders and 4 white lines on the bottom to not hide the hand);**
-- **0x02F00-0x02FFF: image tag, 4 parts, each beginning by the user ID;**
+- **0x02F00-0x02FFF: image tag or metadata;**
 - **0x02E00-0x02F5B : first sequence**;
     - *0x02E00-0x02F03: user ID 4 bytes sequence (equal to 11 + series of two digits among 8 in reading order);*
     - *0x02F04-0x02F53: Contains comments, with bitshift, plus few unknown bytes and lots of 0x00;*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
-- **0x02F5C-0x02FB7: fisrt sequence echo;**
+- **0x02F5C-0x02FB7: first sequence echo;**
 - **0x02FB8-0x02FD0: User ID and data (all bitshifted);**
     - *0x02FB8-0x02FBB: User ID;
     - *0x02FBC-0x02FC4: Username;
