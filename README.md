@@ -117,7 +117,7 @@ To what I understand now:
     - *0x02FB8-0x02FC9: User ID with a bitshift;*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
     - *0x02FCF-0x02FD0: checksum (2 bytes, not explored, range of data included not sure);*
-- **0x02FD1-0x02FE9: User ID echo;**
+- **0x02FD1-0x02FE9: User ID data echo;**
 - **0x02FEA-0x02FFF: third unknown sequence, filled with 0xAA (last byte seems 0xAA, 0x6E or 0x6B without any particular logic);**          
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
