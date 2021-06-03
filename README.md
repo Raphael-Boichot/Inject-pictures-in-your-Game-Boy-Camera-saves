@@ -109,7 +109,7 @@ To what I understand now:
 - **0x02F00-0x02FFF: image tag, 4 parts, each beginning by the user ID;**
 - **0x02E00-0x02F5B : first sequence**;
     - *0x02E00-0x02F03: user ID 4 bytes sequence (equal to 11 + series of two digits among 8 in reading order);*
-    - *0x02F04-0x02F53: Contains comments, with bitshift, plus other unknown things;*
+    - *0x02F04-0x02F53: Contains comments, with bitshift, plus few unknown bytes and lots of 0x00;*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
