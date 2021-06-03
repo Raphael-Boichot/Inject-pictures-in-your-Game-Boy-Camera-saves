@@ -105,7 +105,7 @@ To what I understand now:
 - **0x011FC-0x01FFB: Game Face (128x112);**
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
 - **0x02000-0x02DFF: image memory slot 1 (128x112);**
-- **0x02E00-0x02EFF: image thumbnail (32x32) - black borders and 4 white lines on the bottom;**
+- **0x02E00-0x02EFF: image thumbnail (32x32, black borders and 4 white lines on the bottom to not hide the hand);**
 - **0x02F00-0x02FFF: image tag, 4 parts, each beginning by the same sequence of 18 bytes (probably user ID with bitshift) + unknown part**
 - **0x02E00-0x02F5B : first unknown sequence**;
     - *0x02E00-0x02F53: unknown content, began by the 18 bytes sequence, contains lots of 0x00 after;*
@@ -120,7 +120,7 @@ To what I understand now:
 - **0x02FD1-0x02FE9: User ID data echo;**
 - **0x02FEA-0x02FFF: second unknown sequence;**          
     - *0x02FEA-0x02FFA: 0xAA repeated;
-    - *0x02FFA-0x02FFF: may not be 0xAA, but without logical, not protected by checksum anyway;
+    - *0x02FFA-0x02FFF: may not be 0xAA, but without any ogical, not protected by checksum anyway;
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
 
