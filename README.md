@@ -106,19 +106,21 @@ To what I understand now:
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
 - **0x02000-0x02DFF: image memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32) - black borders and 4 white lines on the bottom;**
-- **0x02F00-0x02FFF: image tag, see details:**
+- **0x02F00-0x02FFF: image tag, 4 parts, each beginning by the same sequence of 18 bytes (probably user ID with bitshift) + unknown part**
 - **0x02E00-0x02F5B : first unknown sequence**;
-    - *0x02E00-0x02F53: unknown content;*
+    - *0x02E00-0x02F53: unknown content, began by the 18 bytes sequence, contains lots of 0x00 after;*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
 - **0x02F5C-0x02FB7: fisrt unknown sequence echo;**
 - **0x02FB8-0x02FD0: User ID data;**
-    - *0x02FB8-0x02FC9: User ID with a bitshift;*
+    - *0x02FB8-0x02FC9: User ID with a bitshift, 18 bytes, only;*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
     - *0x02FCF-0x02FD0: checksum (2 bytes, not explored, range of data included not sure);*
 - **0x02FD1-0x02FE9: User ID data echo;**
-- **0x02FEA-0x02FFF: third unknown sequence, filled with 0xAA (last byte seems 0xAA, 0x6E, 0x7A or 0x6B without any particular logic);**          
+- **0x02FEA-0x02FFF: second unknown sequence;**          
+    - *0x02FEA-0x02FFA: 0xAA repeated;
+    - *0x02FFA-0x02FFF: may not be 0xAA, but without logical, not protected by checksum anyway;
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
 
