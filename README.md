@@ -117,8 +117,8 @@ To what I understand now:
 - **0x02FB8-0x02FD0: User ID and data (all bitshifted);**
     - *0x02FB8-0x02FBB: User ID;
     - *0x02FBC-0x02FC4: Username;
-    - *0x02FC5: User gender;
-    - *0x02FC6-0x02FC9: Birthdate;
+    - *0x02FC5: User gender (0x00 no gender, 0x01, 0x02 genders);
+    - *0x02FC6-0x02FC9: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
     - *0x02FCF-0x02FD0: checksum (2 bytes, not explored, range of data included not sure);*
 - **0x02FD1-0x02FE9: User ID data echo;**
