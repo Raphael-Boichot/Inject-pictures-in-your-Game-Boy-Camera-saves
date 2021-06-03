@@ -113,8 +113,8 @@ To what I understand now:
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
-- **0x02F5C-0x02FB7: fisrt unknown sequence echo;**
-- **0x02FB8-0x02FD0: User ID data (all data bitshifted);**
+- **0x02F5C-0x02FB7: fisrt sequence echo;**
+- **0x02FB8-0x02FD0: User ID and data (all bitshifted);**
     - *0x02FB8-0x02FBB: User ID;
     - *0x02FBC-0x02FC4: Username;
     - *0x02FB8-0x02FC9: User ID;
