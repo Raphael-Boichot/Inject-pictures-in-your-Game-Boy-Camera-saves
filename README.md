@@ -104,7 +104,7 @@ To what I understand now:
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
 - **0x011FC-0x01FFB: Game Face (128x112);**
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
-- **0x02000-0x02DFF: image memory slot 1 (128x112);**
+- **0x02000-0x02DFF: image data tiles memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32, black borders and 4 white lines on the bottom to not hide the hand);**
 - **0x02F00-0x02FFF: image tag, 4 parts, each beginning by the same sequence of 18 bytes (probably user ID with bitshift) + unknown part**
 - **0x02E00-0x02F5B : first unknown sequence**;
