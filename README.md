@@ -69,8 +69,8 @@ To what I understand now:
 - Left byte of the checksum (low address) seems to be equal to 47 + sum(left value of digits + right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule as I saw some unexpected deviations for high numbers ;
 - Right byte of the checksum  (high address) seems to be equal to 63 - sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule either for the same reasons ;  
 - The vector states (0x011D7 to 0x011F4) seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB ;
-- left byte of the checksum (low address) seems to be equal to 11 + same formula than score checksum (same reservation); 
-- right byte of the checksum (high address) seems to be equal to 15 - same formula than score checksum (same reservation); ;
+- left byte of the checksum (low address) seems to be equal to 11 + same formula than games checksum (with same doubts); 
+- right byte of the checksum (high address) seems to be equal to 15 - same formula than games checksum (with same doubts); ;
 - I suppose that all of this (obfusctation + multiple checksums with diffrent rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
 - On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way;
 - Setting the scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary;
