@@ -13,7 +13,7 @@ So, despite the fact that extracting images from Game Boy Camera saves was made 
 
 The small Matlab/Octave codes presented here are intended to be easy to use. Here are the steps :
 - Extract your save from Game Boy Camera with any tool like this: https://shop.insidegadgets.com/product/gbxcart-rw/
-- Scan you save with slot_viewer.m to identify memory slots available for injection. By default an available slot is one ever occupied by an image. This is the "safe mode" of operation, your save will be 100% sure after the injection. Game face and address 0 are also writable as slots 0 and -1 respectively (they are by default active) ;
+- Scan your save with slot_viewer.m to identify memory slots available for injection. By default an available slot is one ever occupied by an image. This is the "safe mode" of operation, your save will be 100% sure after the injection. Game face and address 0 are also writable as slots 0 and -1 respectively (they are by default active) ;
 - In option, activate all memory slots with slot_activator.m if you want to occupy any slot on camera. Blank slots will become white images, erased images will appear again, images will be numbered according to their address in memory. This is the "unsafe mode" of operation as I did not extensively search if any wicked effet would appear. It must however be OK ;
 - Prepare a 128x112 image and a 32x32 pixels thumbnail, 4 shades of gray ;  
 - Inject the two pictures at once with image_injector.m into any desired memory slot ;
