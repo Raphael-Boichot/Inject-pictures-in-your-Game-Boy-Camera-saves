@@ -107,8 +107,11 @@ To what I understand now:
 - **0x02000-0x02DFF: image data tiles memory slot 1 (128x112);**
 - **0x02E00-0x02EFF: image thumbnail (32x32, black borders and 4 white lines on the bottom to not hide the hand);**
 - **0x02F00-0x02FFF: image tag, 4 parts, each beginning by the same sequence of 18 bytes (probably user ID with bitshift) + unknown part**
-- **0x02E00-0x02F5B : first unknown sequence**;
-    - *0x02E00-0x02F53: unknown content, began by the 18 bytes sequence, contains lots of 0x00 after;*
+- **0x02E00-0x02F5B : first sequence**;
+    - *0x02E00-0x02F11: user ID 18 bytes sequence;*
+    - *0x02F12-0x02F14: unknown;*
+    - *0x02F15-0x02F2F: Comments, with bitshift;*
+    - *0x02F30-0x02F53: unknown;* 
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
@@ -118,7 +121,7 @@ To what I understand now:
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
     - *0x02FCF-0x02FD0: checksum (2 bytes, not explored, range of data included not sure);*
 - **0x02FD1-0x02FE9: User ID data echo;**
-- **0x02FEA-0x02FFF: second unknown sequence;**          
+- **0x02FEA-0x02FFF: second sequence;**          
     - *0x02FEA-0x02FFA: 0xAA repeated;
     - *0x02FFA-0x02FFF: may not be 0xAA, but without any ogical, not protected by checksum anyway;
 
