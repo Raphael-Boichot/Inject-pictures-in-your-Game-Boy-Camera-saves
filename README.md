@@ -124,7 +124,7 @@ To what I understand now:
 - **0x02FD1-0x02FE9: User ID data echo;**
 - **0x02FEA-0x02FFF: second sequence;**          
     - *0x02FEA-0x02FFA: 0xAA repeated;
-    - *0x02FFA-0x02FFF: may not be 0xAA, but without any ogical, not protected by checksum anyway;
+    - *0x02FFA-0x02FFF: may not be 0xAA, but without any logical, not protected by checksum anyway;
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
 
