@@ -94,13 +94,13 @@ To what I understand now:
     - *0x010C9-0x010CA: score at balls (on 2x2 digits reversed);*
     - *0x010CB-0x010CC: score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
-    - *0x010D7-0x010D8: checksum (2 bytes, not 100% understood);*
+    - *0x010D7-0x010D8: checksum (2 bytes, not 100% understood, range of data included not sure);*
 - **0x010D9-0x01107: filling with 0xFE;**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
     - *0x11D0-0x011D4: "Magic" word in ascii;*
-    - *0x11D5-0x011D6: checksum (2 bytes, not 100% understood);*
+    - *0x11D5-0x011D6: checksum (2 bytes, not 100% understood, range of data included not sure);*
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
 - **0x011FC-0x01FFB: Game Face (128x112);**
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
@@ -111,12 +111,12 @@ To what I understand now:
     - *0x02E00-0x02F53: unknown content;*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
-    - *0x02F5A-0x02F5B: checksum (2 bytes, not understood at all);*
+    - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
 - **0x02F5C-0x02FB7: fisrt unknown sequence echo;**
 - **0x02FB8-0x02FD0: User ID data;**
     - *0x02FB8-0x02FC9: User ID with a bitshift;*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
-    - *0x02FCF-0x02FD0: checksum (2 bytes, not understood at all);*
+    - *0x02FCF-0x02FD0: checksum (2 bytes, not explored, range of data included not sure);*
 - **0x02FD1-0x02FE9: User ID echo;**
 - **0x02FEA-0x02FFF: third unknown sequence, filled with 0xAA (last byte seems 0xAA, 0x6E or 0x6B without any particular logic);**          
 
