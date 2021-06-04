@@ -79,7 +79,7 @@ To what I understand now:
 
 # Game Boy Camera save ram format by increasing adresses
 
-- **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels). The last line of 16 tiles is glitchy. The camera copies 0x0100-0x0EFF to memory slots when save is activated. One line of tiles is removed at the top, one glitchy line at the bottom;**
+- **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The last line of 16 tiles is glitchy. The camera copies 0x0100-0x0EFF to memory slots when save is activated. One line of tiles is removed at the top, one glitchy line at the bottom;**
 - **0x01000-0x0102E: filling with 0xFE**
 - **0x0102F-0x010D8: game save area, see details:**
     - *0x0102F-0x01060: unknown data (perhaps some from Trippy-H);*
@@ -104,8 +104,8 @@ To what I understand now:
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
 - **0x011FC-0x01FFB: Game Face (128x112);**
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
-- **0x02000-0x02DFF: image data tiles memory slot 1 (128x112);**
-- **0x02E00-0x02EFF: image thumbnail (32x32, black borders and 4 white lines on the bottom to not hide the hand);**
+- **0x02000-0x02DFF: image data tiles in memory slot 1 (128x112, 224 tiles);**
+- **0x02E00-0x02EFF: image thumbnail (32x32, 16 tiles, black borders and 4 white lines on the bottom to not hide the hand);**
 - **0x02F00-0x02FFF: image tag or metadata;**
 - **0x02E00-0x02F5B : first sequence**;
     - *0x02E00-0x02F03: user ID 4 bytes sequence (equal to 11 + series of two digits among 8 in reading order);*
