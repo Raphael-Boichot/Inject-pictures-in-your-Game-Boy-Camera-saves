@@ -1,4 +1,4 @@
-# Inject custom pictures, scores and pimp your Game Boy Camera saves.
+# Pimp your Game Boy Camera saves. Inject custom pictures, cheat at minigames and more !
 
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
