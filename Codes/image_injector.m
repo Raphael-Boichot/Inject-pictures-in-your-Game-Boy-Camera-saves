@@ -1,11 +1,11 @@
 %By Raphaël BOICHOT, 1 june 2021
 clc;
 clear;
-slot=7;                                 %slot for injection after inspection with slot_viewer.m
+slot=-1;                                 %slot for injection after inspection with slot_viewer.m
                                         %Slot 1...30 regular slots, Slot 0 : Game Face, Slot -1 : Address 0
 input_name='GAMEBOYCAMERA.sav';         %save file to modify (your file)
 output_name='GAMEBOYCAMERA.sav';        %save file modified to burn (can be the same name)
-image2inject='Image_7.png';                   %your image 128x112 pixels 4 shades of gray
+image2inject='128x128.png';                   %your image 128x112 pixels 4 shades of gray
 thumbnail='thumbnail.png';              %your thumbnail 32x32 pixels 4 shades of gray
 
     fid = fopen(input_name,'r');
@@ -66,11 +66,11 @@ if (slot==-1)
         [hauteur, largeur, profondeur]=size(pixels);
         C = unique(pixels);
             if not(length(C)==4); msgbox('The image is not 4 colors !');end
-            if not(hauteur==112);msgbox('The image height is not 112 pixels');end
+            if not(hauteur==128);msgbox('The image height is not 128 pixels');end
             if not(largeur==128);msgbox('The image width is not 128 pixels');end
         
         O=encode(pixels);
-        a(1:3584)=O;
+        a(1:4096)=O;
 end
 
 
