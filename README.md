@@ -110,7 +110,7 @@ To what I understand now:
 - **0x02E00-0x02F5B : User ID, data, comments and some other information from image owner**;
     - *0x02E00-0x02F03: user ID, 4 bytes sequence (equal to 11 + series of two digits among 8 in reading order);*
     - *0x02F04-0x02F0C: username;*
-    - *0x02F0D: User gender (0x00 no gender, 0x01, 0x02 genders);*
+    - *0x02F0D: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02F0E-0x02F11: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
     - *0x02F12-0x02F14: 3 unknown bytes;
     - *0x02F15-0x02F2F: Contains comments, with bitshift;
@@ -122,7 +122,7 @@ To what I understand now:
 - **0x02FB8-0x02FD0: User ID and data from camera owner (below the first image only, slot 1, just replaced by 0xAA on other slots);**
     - *0x02FB8-0x02FBB: User ID;*
     - *0x02FBC-0x02FC4: Username;*
-    - *0x02FC5: User gender (0x00 no gender, 0x01, 0x02 genders);*
+    - *0x02FC5: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02FC6-0x02FC9: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
     - *0x02FCF-0x02FD0: checksum (2 bytes, not explored, range of data included not sure);*
