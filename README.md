@@ -146,6 +146,10 @@ Based on those checksum rules, hexadecimal editor and brute force attack with tw
 # Things to do next (optionally)
 
 - Finding a way to fully break the checksum system;
-- Elucidating the image tag format;
-- Taking a look at the Trippy-H format and data location.
+
+# Example of state vector checksums
+![State vector](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector_state_checksum.png)
+
+# Example of Minigame checksums
+![Minigames](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Minigame_checksum.png)
 
