@@ -106,16 +106,19 @@ To what I understand now:
 - **0x011FC-0x01FFB: Game Face (128x112);**
 - **0x01FFC-0x01FFF: Camera tag (0x00, 0x39, 0x00, 0x39 western, 0x00, 0x56, 0x56, 0x53 for Corocoro, etc.);**
 - **0x02000-0x02DFF: image data tiles in memory slot 1 (128x112, 224 tiles);**
-- **0x02E00-0x02EFF: image thumbnail (32x32, 16 tiles, black borders and 4 white lines on the bottom to not hide the hand);**
+- **0x02E00-0x02EFF: image thumbnail (32x32, 16 tiles, black borders and 4 white lines on the bottom to not hide the hand). Image exchanged displays a small distinctive badge;**
 - **0x02F00-0x02FFF: image tag or metadata (contains informations on the owner of camera and image);**
 - **0x02E00-0x02F5B : User ID, data, comments and some other information from image owner**;
     - *0x02E00-0x02F03: user ID, 4 bytes sequence (equal to 11 + series of two digits among 8 in reading order);*
     - *0x02F04-0x02F0C: username;*
     - *0x02F0D: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02F0E-0x02F11: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
-    - *0x02F12-0x02F14: 3 unknown bytes;
-    - *0x02F15-0x02F2F: Contains comments, with bitshift;
-    - *0x02F30-0x02F53:0x00, plus 2 unknown bytes;*
+    - *0x02F12-0x02F14: 3 unknown bytes;*
+    - *0x02F15-0x02F2F: Contains comments, with bitshift;*
+    - *0x05F30-0x02F32: 0x00;*
+	- *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
+	- *0x05F34-0x02F35: 2 unknown bytes, looks like a checksum but may not be;*
+	- *0x02F36-0x02F53: 0x00.*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
