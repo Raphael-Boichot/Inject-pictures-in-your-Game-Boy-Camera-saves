@@ -25,7 +25,7 @@ See more on Github : https://github.com/Raphael-Boichot/Inject-pictures-in-your-
 	0x11D0-0x011D4: "Magic" word in ascii;
 	0x11D5-0x011D6: checksum (2 bytes, left is a 8-bit sum, rigth is a 8-bit XOR);
 0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;
-0x011FC-0x01FFB: Game Face (128x112);
+0x011FC-0x01FFB: Game Face (128x112). This range is not erased when booting with START+SELECT;
 0x01FFC-0x01FFF: Possible camera tag (0x00, 0x56, 0x56, 0x53 to unlock Corocoro features);
 0x02000-0x02FFF: memory slot #1
 	0x02000-0x02DFF: image data tiles in memory slot 1 (128x112, 224 tiles);
