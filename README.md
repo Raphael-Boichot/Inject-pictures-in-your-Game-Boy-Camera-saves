@@ -148,7 +148,7 @@ OK, at this point I was curious to understand how the checksum system worked. It
 # Example of Minigame checksum attack
 ![Minigames](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Minigame_checksum.png)
 
-The next example is interesting : after a factory reset, the metadata range contains only the "Magic" word + lots of 0x00, so it could be concluded that the initial checksum is only made on those characters. The result is however not correct, which means that the checksum must use some starting value not equal to 0 or embed more bytes. Anyway, this weakness does not preclude a byte attack by diffrences.
+The next example is interesting : after a factory reset, the metadata range contains only the "Magic" word + lots of 0x00, so it could be concluded that the initial checksum is only made on those characters. The result is however not correct, which means that the checksum must use some starting value not equal to 0 or embed more bytes. Anyway, this weakness does not preclude a byte attack by difference.
 
 # Example of Metadata checksums
 ![Metadata](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Metadata_checksum.png)
