@@ -142,10 +142,10 @@ To what I understand now:
 
 OK, at this point I was curious to understand how the checksum system worked. It was not a two bytes checksum like the Game Boy Printer protocol for sure, But some savestates comparisons showed that increasing values of scores or pictures taken always increased the left byte of the cheksum (low address). So this one was just a sum. The right byte (high address) had a weird behavior. It increased for small variations of scores but suddendly decreased for higher values. I initially though it was a kind of 4 bits operation or the sum of the diffrence between odd and even addresses bytes. I even though it was a decimal operation. These diffrent hypotheses worked in many case, but not all. I finally tried all the common operators available in assembly and XOR was of course the good one. So left byte is a 8-bit sum and right byte a 8 bit XOR of values considered in the checksum. I did not try to find the exact range of data included into the sum and the xor given that knowing the rule is enough to try score attack.
 
-# Example of state vector checksums attack
+# Example of state vector checksum attack
 ![State vector](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector_state_checksum.png)
 
-# Example of Minigame checksums attack
+# Example of Minigame checksum attack
 ![Minigames](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Minigame_checksum.png)
 
 The next example is interesting : after a factory reset, the metadata range contains only the "Magic" word + lots of 0x00, so it could be concluded that the initial checksum is only made on those characters. The result is however not correct, which means that the checksum must use some starting value not equal to 0 or embed more bytes. Anyway, this weakness does not preclude a byte attack by diffrences.
