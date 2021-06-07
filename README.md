@@ -67,12 +67,10 @@ To what I understand now:
 - Scores and image counters appear in decimal format (when red in hexadecimal editor) by batch of two digits, least significant batch of two digits first. I do not know if it is a kind of obfuscation or an ease for programmers to display scores on screen;
 - Trippy-H data are stored at address 0x01061-0x10B2, repeated at range 0x0113A-0x0118B; 
 - Trippy-H, Scores and image counters increment and decrement at the same time two checksum "bytes" at address 0x010D7-0x10D8, repeated at address 0x011B0-0x011B1 ;
-- Left byte of the checksum (low address) seems to be equal to 47 + sum(left value of digits + right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule as I saw some unexpected deviations for high numbers ;
-- Right byte of the checksum  (high address) seems to be equal to 63 - sum(left value of digits - right value of digits) by batch of two "bytes" from 0x010C5 to 0x010CC. I'm not 100% sure of the rule either for the same reasons ;  
 - The vector states (0x011D7 to 0x011F4) seem to have their own independant checksum bytes at adresses 0x011D5-0x11D6, repeated at 0x011FA-0x011FB ;
 - left byte of the checksums (low address) seems to be equal to a sum of values; 
 - right byte of the checksums (high address) seems to be equal to an operation that is not a sum;
-- I suppose that all of this (obfusctation + multiple checksums with different rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
+- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
 - On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way;
 - Setting the scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary;
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
@@ -95,13 +93,13 @@ To what I understand now:
     - *0x010C9-0x010CA: score at balls (on 2x2 digits reversed);*
     - *0x010CB-0x010CC: score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
-    - *0x010D7-0x010D8: checksum (2 bytes, not 100% understood, range of data included not sure);*
+    - *0x010D7-0x010D8: checksum (2 bytes, range of data included not sure);*
 - **0x010D9-0x01107: filling with 0xFE;**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
     - *0x11D0-0x011D4: "Magic" word in ascii;*
-    - *0x11D5-0x011D6: checksum (2 bytes, not 100% understood, range of data included not sure);*
+    - *0x11D5-0x011D6: checksum (2 bytes, range of data included not sure);*
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
 - **0x011FC-0x01FFB: Game Face (128x112);**
 - **0x01FFC-0x01FFF: Possible camera tag (0x00, 0x56, 0x56, 0x53 to unlock Corocoro features);**
@@ -121,7 +119,7 @@ To what I understand now:
 	- *0x02F36-0x02F53: 0x00.*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
-    - *0x02F5A-0x02F5B: checksum (2 bytes, not explored, range of data included not sure);*
+    - *0x02F5A-0x02F5B: checksum (2 bytes, range of data included not sure);*
 - **0x02F5C-0x02FB7: User ID, data, comments and some other information from image owner, echo;**
 - **0x02FB8-0x02FD0: User ID and data from camera owner (below the first image only, slot 1, just replaced by 0xAA on other slots);**
     - *0x02FB8-0x02FBB: User ID;*
@@ -129,7 +127,7 @@ To what I understand now:
     - *0x02FC5: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02FC6-0x02FC9: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
-    - *0x02FCF-0x02FD0: checksum (2 bytes, not explored, range of data included not sure);*
+    - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included not sure);*
 - **0x02FD1-0x02FE9: User ID data echo (below the first image only, slot 1, just replaced by 0xAA on other slots);**
 - **0x02FEA-0x02FFF: end of memory slot;**          
     - *0x02FEA-0x02FFA: 0xAA repeated;*
@@ -140,22 +138,23 @@ To what I understand now:
 # Visual representation of data at the beginning of the save ram
 ![Visual representation of data at the beginning of save ram](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Image_ram_beginning2.png)
           
+# Now lets' attack the checksum system !
+
+OK, at this point I was curious to understand how the checksum system worked. It was not a two bytes checksum like the Game Boy Printer protocol for sure, But some savestates comparisons showed that increasing values of scores or pictures taken always increased the left byte of the cheksum (low address). So this one was just a sum. The right byte (high address) had a weird behavior. It increased for small variations of scores but suddendly decreased for higher values. I initially though it was a kind of 4 bits operation or the sum of the diffrence between odd and even addresses bytes. I even though it was a decimal operation. These diffrent hypotheses worked in many case, but not all. I finally tried all the common operators available in assembly and XOR was of course the good one. So left byte is a 8-bit sum and right byte a 8 bit XOR of values considered in the checksum. I did not try to find the exact range of data included into the sum and the xor given that knowing the rule is enough to try score attack.
+
+# Example of state vector checksums attack
+![State vector](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector_state_checksum.png)
+
+# Example of Minigame checksums attack
+![Minigames](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Minigame_checksum.png)
+
+The next example is interesting : after a factory reset, the metadata range contains only the "Magic" word + lots of 0x00, so it could be concluded that the initial checksum is only made on those characters. The result is however not correct, which means that the checksum must use some starting value not equal to 0 or embed more bytes. Anyway, this weakness does not preclude a byte attack by diffrences.
+
+# Example of Metadata checksums
+![Metadata](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Metadata_checksum.png)
+
 # Pimp your save with minigame scores you will never get !
 
 Based on those checksum rules, hexadecimal editor and brute force attack with two Game Boys, a serial cable and a printer emulator (plus some luck), I was able to make 2 saves with everything unlocked (all images of B album), with in bonus the images of the Corocoro comics for pocket camera. See the "Pimp your save" folder for picking ready-to-inject saves. There is also an hidden easter egg into the two saves that some clever nerds on Game Boy Camera Club Discord have soon discovered. I was typically able to manipulate the scores of the 3 minigames and the number of image taken with hexadecimal editor only, step by step, verifying that each step worked on real hardware, then I gave up and physically incremented the other "easy" counters (deleted, printed and exchanged images) on real hardware (it was way faster than messing with hexadecimal values on paper). The scores of minigames were chosen close to the limit to unlock features but reachable enough to stay challenging to overtake (yes, I could have put 10,000,000 at Space Fever II, but is is less fun).
 
 ![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked.png)
-
-# Things to do next (optionally)
-
-- Finding a way to fully break the checksum system;
-
-# Example of state vector checksums
-![State vector](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector_state_checksum.png)
-
-# Example of Minigame checksums
-![Minigames](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Minigame_checksum.png)
-
-# Example of Metadata checksums
-![Metadata](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Metadata_checksum.png)
-
