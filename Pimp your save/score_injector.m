@@ -46,14 +46,14 @@ fake_vector(13,1)=hex2dec(space_fever(3:4));
 fake_vector(14,1)=hex2dec(space_fever(1:2));
 fake_vector(15,1)=hex2dec(ball(3:4));
 fake_vector(16,1)=hex2dec(ball(1:2));
-d1=9-str2num(run(1))
-d2=9-str2num(run(2))
-sec=[num2str(d1),num2str(d2)]
-d3=9-str2num(run(3))
-d4=9-str2num(run(4))
-cent=[num2str(d3),num2str(d4)]
-hex2dec(cent)
-hex2dec(sec)
+d1=9-str2num(run(1));
+d2=9-str2num(run(2));
+sec=[num2str(d1),num2str(d2)];
+d3=9-str2num(run(3));
+d4=9-str2num(run(4));
+cent=[num2str(d3),num2str(d4)];
+hex2dec(cent);
+hex2dec(sec);
 
 fake_vector(17,1)=hex2dec(cent);
 fake_vector(18,1)=hex2dec(sec);
