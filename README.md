@@ -110,11 +110,11 @@ To what I understand now:
 - **0x02F00-0x02FFF: image tag or metadata (contains informations on the owner of camera and image);**
 - **0x02E00-0x02F5B : User ID, data, comments and some other information from image owner**;
     - *0x02E00-0x02F03: user ID, 4 bytes sequence (equal to 11 + series of two digits among 8 in reading order);*
-    - *0x02F04-0x02F0C: username;*
+    - *0x02F04-0x02F0C: username (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x02F0D: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02F0E-0x02F11: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
     - *0x02F12-0x02F14: 3 unknown bytes;*
-    - *0x02F15-0x02F2F: Contains comments, with bitshift;*
+    - *0x02F15-0x02F2F: Contains comments (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x05F30-0x02F32: 0x00;*
 	- *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
 	- *0x05F34-0x02F35: 2 unknown bytes, looks like a checksum but may not be;*
@@ -125,7 +125,7 @@ To what I understand now:
 - **0x02F5C-0x02FB7: User ID, data, comments and some other information from image owner, echo;**
 - **0x02FB8-0x02FD0: User ID and data from camera owner (below the first image only, slot 1, just replaced by 0xAA on other slots);**
     - *0x02FB8-0x02FBB: User ID;*
-    - *0x02FBC-0x02FC4: Username;*
+    - *0x02FBC-0x02FC4: Username (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x02FC5: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02FC6-0x02FC9: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
