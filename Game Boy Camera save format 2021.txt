@@ -1,4 +1,5 @@
 By Raphael BOICHOT, 7 june 2021, V1.0
+Thanks to Cristofer CRUZ for help.
 Game Boy Camera save format in details.
 See more on Github : https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves
 
