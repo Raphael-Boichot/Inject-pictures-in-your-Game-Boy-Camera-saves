@@ -117,7 +117,7 @@ To what I understand now:
     - *0x02F15-0x02F2F: Contains comments (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x05F30-0x02F32: 0x00;*
 	- *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
-	- *0x05F34-0x02F35: 2 unknown bytes, looks like a checksum. Erasing them does nothing particular, but camera rewrites exactly the same value;*
+	- *0x05F34-0x02F35: 0x05F34-0x02F35: Probably a checksum from image data. Erasing these bytes do nothing particular, but camera rewrites them automatically. Two identical image copies have the same value.;*
 	- *0x02F36-0x02F53: 0x00.*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
