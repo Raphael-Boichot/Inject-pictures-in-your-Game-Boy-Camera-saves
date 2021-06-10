@@ -76,7 +76,6 @@ To what I understand now:
 - On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way;
 - Setting the scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary;
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
-- I suppose that some additionnal work would be necessary to make a proper dedicated cheating tool but hey, I propose here custom saves that makes the job ! 
 
 # Game Boy Camera save ram format by increasing adresses
 
@@ -143,6 +142,8 @@ To what I understand now:
 # Now let's attack the checksum system !
 
 OK, at this point I was curious to understand how the checksum system worked. It was not a two bytes checksum like the Game Boy Printer protocol for sure, But some savestates comparisons showed that increasing values of scores or pictures taken always increased the left byte of the cheksum (low address). So this one was just a sum. The right byte (high address) had a weird behavior. It increased for small variations of scores but suddendly decreased for higher values. I initially though it was a kind of 4 bits operation or the sum of the difference between odd and even addresses bytes, but honestly, writing it is assembly would have been particularly tedious. I even though it was a decimal operation (even more tedious to code). These different hypotheses worked in some cases, but not all. I finally tried all the common operators available in assembly and XOR was (of course) the good one. So left byte is a 8-bit sum and right byte a 8 bit XOR of values considered in the checksum. I did not try to find the exact range of data included into the sum and the xor given that knowing the rule is enough to perform easy score attacks. The code score_injector.m allows you to manipulate scores into your save easily.
+
+Well enough to enjoy all the crap of the B album of the camera.
 
 # Example of state vector checksum attack
 ![State vector](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector_state_checksum.png)
