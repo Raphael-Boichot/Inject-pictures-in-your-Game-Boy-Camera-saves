@@ -182,4 +182,5 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 
 The counter for images is followed by a flower meter below.
 
+# Example of byte attack on Hello Kitty Pocket Camera (own by Cristopher Cruz)
 ![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Hello_Kitty.jpg)
