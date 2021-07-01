@@ -160,7 +160,7 @@ The next example is interesting : after a factory reset, the metadata range cont
 ![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked.png)
 ![Scores you will never get in real2](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked%202.png)
 
-# 2021-07-01 Update : structure of the Hello Kitty Pocket Camera
+# 2021-07-01 Update : structure of the Hello Kitty Pocket Camera save
 
 Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dead body of a Pocket Camera and a MX27C8000 EPROM, we were able to explore the SRAM structure from various dumps. The save format is about the same than the Game Boy Camera with some exceptions : 
 
