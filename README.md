@@ -162,8 +162,21 @@ The next example is interesting : after a factory reset, the metadata range cont
 
 # 2021-07-01 Update : structure of the Hello Kitty Pocket Camera
 
-Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dead body of a Pocket Camera and a MX27C8000 EPROM, I was able to explore the SRAM structure from his dumps. The save format is about the same than the Game Boy Camera with some exceptions : 
+Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dead body of a Pocket Camera and a MX27C8000 EPROM, we were able to explore the SRAM structure from various dumps. The save format is about the same than the Game Boy Camera with some exceptions : 
 - **0x00000-0x00FFF: still the last image seen by the sensor (128x128 pixels, 256 tiles); **
 - **0x01000-0x01016: game save data**
-    - *0x01000-0x01001: image taken;*
-    - *0x01002-0x01003: image taken;*
+    - *0x01000-0x01001: counter for image taken (on 2x2 digits reversed);*
+    - *0x01002-0x01003: counter for image erased (on 2x2 digits reversed);*
+    - *0x01004-0x01005: counter for image transfered (on 2x2 digits reversed);*
+    - *0x01006-0x01007: counter for image printed (on 2x2 digits reversed);*
+    - *0x01008-0x01009: counter for pictures received by males an females (2x2 digits);*
+    - *0x0100A-0x0100C: counter for Kitts (on 3x2 digits reversed);*
+    - *0x0100D-0x01011: Unknown data;*
+    - *0x01012-0x01016: "Magic" word in ascii with NO CHECKSUM after, data are not protected;*
+    - *0x01017-0x011B1: 0x00;*
+- **0x011B2-0x011D6: vector state, same as Game Boy Camera, protected with checksum**
+- **0x011FC-0x0187B: user profile 3 photos animated, 40x56 pixels (5x7 tiles), written consecutively**
+
+The counter for images is followed by a flower meter below.
+
+
