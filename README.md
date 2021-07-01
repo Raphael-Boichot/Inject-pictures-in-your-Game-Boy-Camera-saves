@@ -175,7 +175,7 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
     - *0x0100D-0x01011: Unknown data;*
     - *0x01012-0x01016: "Magic" word in ascii with NO CHECKSUM after, data are not protected;*
     - *0x01017-0x011B1: 0x00;*
-- **0x011B2-0x011D6: vector state, same as Game Boy Camera, protected with checksum**
+- **0x011B2-0x011FB: vector state, same as Game Boy Camera, protected with checksum**
 - **0x011FC-0x0187B: user profile 3 photos animated, 40x56 pixels (5x7 tiles), written consecutively**
 - **0x0187C-0x01FFF: 0x00**
 - **0x02000-0x1FFFF: same as Game Boy Camera**
