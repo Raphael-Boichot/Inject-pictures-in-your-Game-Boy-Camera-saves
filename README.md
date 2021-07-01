@@ -179,7 +179,7 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**
 - **0x011FC-0x0187B: user profile 3 photos animated, 40x56 pixels (5x7 tiles), written consecutively;**
 - **0x0187C-0x01FFF: 0x00;**
-- **0x02000-0x1FFFF: same as Game Boy Camera;*
+- **0x02000-0x1FFFF: same as Game Boy Camera;**
 
 The counter for images is followed by a flower meter below.
 
