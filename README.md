@@ -163,6 +163,7 @@ The next example is interesting : after a factory reset, the metadata range cont
 # 2021-07-01 Update : structure of the Hello Kitty Pocket Camera
 
 Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dead body of a Pocket Camera and a MX27C8000 EPROM, we were able to explore the SRAM structure from various dumps. The save format is about the same than the Game Boy Camera with some exceptions : 
+
 - **0x00000-0x00FFF: still the last image seen by the sensor (128x128 pixels, 256 tiles); **
 - **0x01000-0x01016: game save data**
     - *0x01000-0x01001: counter for image taken (on 2x2 digits reversed);*
