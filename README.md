@@ -181,7 +181,7 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 - **0x0187C-0x01FFF: 0x00;**
 - **0x02000-0x1FFFF: same as Game Boy Camera;**
 
-The counter for images is followed by a flower meter below.
+The counter for images is followed by a flower meter below. I think the data are not protected just because the game is not finished as the "Magic" word still exist and the game save data are not echoed contrary to the sate vector. Means that it is enough for working but not "polished".
 
 # Example of byte attack on Hello Kitty Pocket Camera (Created by Cristopher Cruz @ https://github.com/cristofercruz)
 ![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Hello_Kitty.jpg)
