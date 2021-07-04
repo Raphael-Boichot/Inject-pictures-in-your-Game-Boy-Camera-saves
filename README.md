@@ -145,6 +145,8 @@ OK, at this point I was curious to understand how the checksum system worked. It
 
 Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better).
 
+Time passing, I think more and more than the checksum is calculated based on the difference between the current vector of data in the sram and a reference vector of data written somewhere in the rom, very close from data written in sram after a factory reset. This may explain why modifying the checksum just with the XOR of a difference (which is surprising) works. If programmers had just chosen a reference vector containing random values, the protection would have been nearly unbreakable.
+
 # Example of state vector checksum attack
 ![State vector](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector_state_checksum.png)
 
