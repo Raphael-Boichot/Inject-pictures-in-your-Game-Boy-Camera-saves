@@ -102,8 +102,8 @@ To what I understand now:
     - *0x11D0-0x011D4: "Magic" word in ascii;*
     - *0x11D5-0x011D6: checksum (2 bytes, range of data included not sure);*
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
-- **0x011FC-0x01FFB: Game Face (128x112);**
-- **0x01FFC-0x01FFF: Possible camera tag (0x00, 0x56, 0x56, 0x53 to unlock Corocoro features);**
+- **0x011FC-0x01FFB: Game Face (128x112) - This area is not erased by booting while pressing START+SELECT;**
+- **0x01FFC-0x01FFF: Possible camera tag (0x00, 0x56, 0x56, 0x53 to unlock Corocoro features) - This area is not erased by booting while pressing START+SELECT;**
 - **0x02000-0x02DFF: image data tiles in memory slot 1 (128x112, 224 tiles);**
 - **0x02E00-0x02EFF: image thumbnail (32x32, 16 tiles, black borders and 4 white lines on the bottom to not hide the hand). Image exchanged displays a small distinctive badge;**
 - **0x02F00-0x02FFF: image tag or metadata (contains informations on the owner of camera and image);**
