@@ -184,7 +184,7 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 - **0x0187C-0x01FFF: 0x00;**
 - **0x02000-0x1FFFF: same as Game Boy Camera;**
 
-The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Means that SRAM functionnality is enough for running and testing the game but not "polished" for antipiracy.
+The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Means that SRAM functionality is enough for running and testing the game but not "polished" for antipiracy.
 
 # Example of byte attack on Hello Kitty Pocket Camera (Created by Cristopher Cruz @ https://github.com/cristofercruz)
 ![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Hello_Kitty.jpg)
