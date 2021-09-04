@@ -60,7 +60,7 @@ My general strategy was to compare different savesates with some accomplishments
 
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 
-- Funfact:  the beginning of the save ram acts as an image buffer in which everything seens by the sensor is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not activate the camera sensor again. This image can be extracted (or modified) as easily as another.
+- Funfact:  the beginning of the save ram acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird surprises.
 
 So I can now propose a revised structure of the Game Boy Camera save format since Jeff Frohwein proposed the first one in the early 2000's.
 
