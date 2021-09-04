@@ -1,11 +1,11 @@
 %By Raphaël BOICHOT, 1 june 2021
 clc;
 clear;
-slot=-1;                                 %slot for injection after inspection with slot_viewer.m
+slot=30;                                 %slot for injection after inspection with slot_viewer.m
                                         %Slot 1...30 regular slots, Slot 0 : Game Face, Slot -1 : Address 0
 input_name='GAMEBOYCAMERA.sav';         %save file to modify (your file)
 output_name='GAMEBOYCAMERA.sav';        %save file modified to burn (can be the same name)
-image2inject='128x128.png';                   %your image 128x112 pixels 4 shades of gray
+image2inject='Image_7.png';                   %your image 128x112 pixels 4 shades of gray
 thumbnail='thumbnail.png';              %your thumbnail 32x32 pixels 4 shades of gray
 
     fid = fopen(input_name,'r');
