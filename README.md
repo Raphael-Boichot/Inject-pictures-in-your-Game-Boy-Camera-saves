@@ -46,9 +46,11 @@ My general strategy was to compare different savesates with some accomplishments
 
 - The Game Boy Camera save uses several internal checksums systematically echoed one time to protect its own data : one for scores (minigames and counter for images), one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots), one for camera owner informations and one for picture owner informations (In case the picture was exchanged). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
 
-- Each Checksum have two bytes corresponding to two diffrent calculation rules (see next sections) and is preceded by the ascii word "Magic";
+- Each checksum have two bytes corresponding to two different calculation rules (see next sections) and is preceded by the ascii word "Magic";
 
-- Any discrepancy between data, scores, states and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating. I think that the long booting time of the Game Boy Camera is precisely due to the amount of verifications made; Data protected by checksums are systematically echoed. First occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file);
+- Any discrepancy between data, scores, states and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating. I think that the long booting time of the Game Boy Camera is precisely due to the amount of verifications made; 
+
+- Data protected by checksums are systematically echoed. First occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file);
 
 - I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
 
@@ -57,6 +59,8 @@ My general strategy was to compare different savesates with some accomplishments
 - Forcing the minigame scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary;
 
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
+
+So I can now propose a general structure of the Game Boy Camera save format for the first time since Jeff Froheim proposed one in 2001.
 
 # Game Boy Camera save ram format by increasing adresses
 
