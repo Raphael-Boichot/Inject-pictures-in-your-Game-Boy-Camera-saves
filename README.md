@@ -62,7 +62,7 @@ My general strategy was to compare different savesates with some accomplishments
 
 - Funfact:  the beginning of the save ram acts as an image buffer in which everything seens by the sensor is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not activate the camera sensor again. This image can be extracted (or modified) as easily as another.
 
-So I can now propose a revised structure of the Game Boy Camera save format for the first time since Jeff Frohwein proposed the first one in the early 2000's.
+So I can now propose a revised structure of the Game Boy Camera save format since Jeff Frohwein proposed the first one in the early 2000's.
 
 # Game Boy Camera save ram format by increasing adresses
 
