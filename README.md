@@ -60,7 +60,7 @@ My general strategy was to compare different savesates with some accomplishments
 
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 
-So I can now propose a general structure of the Game Boy Camera save format for the first time since Jeff Froheim proposed one in 2001.
+So I can now propose a general structure of the Game Boy Camera save format for the first time since Jeff Frohwein proposed one in the early 2000's.
 
 # Game Boy Camera save ram format by increasing adresses
 
