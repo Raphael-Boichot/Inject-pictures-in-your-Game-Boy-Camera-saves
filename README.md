@@ -52,7 +52,7 @@ My general strategy was to compare different savesates with some accomplishments
 
 - Data protected by checksums are systematically echoed. First occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file);
 
-- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
+- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie, Gameshark or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
 
 - On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way (as well as Game Face data);
 
