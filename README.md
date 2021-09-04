@@ -54,17 +54,19 @@ My general strategy was to compare different savesates with some accomplishments
 
 - I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
 
-- On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way;
+- On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way (as well as Game Face data);
 
 - Forcing the minigame scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary;
 
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 
+- Funfact:  the beginning of the save ram acts as an image buffer in which everything seens by the sensor is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not activate the camera sensor again. This image can be extracted (or modified) as easily as another.
+
 So I can now propose a general structure of the Game Boy Camera save format for the first time since Jeff Frohwein proposed one in the early 2000's.
 
 # Game Boy Camera save ram format by increasing adresses
 
-- **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The last line of 16 tiles is glitchy. The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective resolution is in fact only 128x123 as indicated in the datasheet of the M64282FP sensor so the last 5 lines of pixels are blank.;**
+- **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective resolution is in fact only 128x123 as indicated in the datasheet of the M64282FP sensor so the last 5 lines of pixels are blank.;**
 - **0x01000-0x0102E: filling with 0xFE**
 - **0x0102F-0x010D8: game save area, see details:**
     - *0x0102F-0x01060: unknown data (perhaps some from Trippy-H);*
