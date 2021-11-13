@@ -67,7 +67,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 # Game Boy Camera save ram format by increasing adresses
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective resolution is in fact only 128x123 as indicated in the datasheet of the M64282FP sensor so the last 5 lines of pixels are blank.;**
-- **0x01000-0x0102E: filling with 0xFE**
+- **0x01000-0x0102E: filling with 0xFE, not embedded into any checksum (must be a test zone).**
 - **0x0102F-0x010D8: game save area, see details:**
     - *0x0102F-0x01060: unknown data (perhaps some from Trippy-H);*
     - *0x01061-0x010B2: Trippy-H partitions;*
@@ -83,7 +83,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010CD-0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
     - *0x010D7-0x010D8: checksum (2 bytes, range of data included not sure);*
-- **0x010D9-0x01107: filling with 0xFE;**
+- **0x010D9-0x01107: filling with 0xFE, not embedded into any checksum, not embedded into any checksum (must be a test zone).;**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
@@ -171,7 +171,7 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 - **0x0187C-0x01FFF: 0x00;**
 - **0x02000-0x1FFFF: same as Game Boy Camera;**
 
-The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Means that SRAM functionality is enough for running and testing the game but not "polished" for antipiracy. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
+The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich seems to be a test area for regular Game Boy Camera. Means that save functionality is enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot. Running a regular Game Boy Camera with an Hello Kitty save and the inverse is possible. It will just jam the game face area or the Hello Kitty face thumnail.
 
 # Example of byte attack on Hello Kitty Pocket Camera (Created by Cristopher Cruz @ https://github.com/cristofercruz)
 ![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Hello_Kitty.jpg)
