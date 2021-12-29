@@ -176,7 +176,7 @@ The counter for images is followed by a nice flower meter just below. I think th
 # Example of byte attack on Hello Kitty Pocket Camera (Created by Cristopher Cruz @ https://github.com/cristofercruz)
 ![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Hello_Kitty.jpg)
 
-# 2021-12-29 Update: A new scret menu discovered
+# 2021-12-29 Update: A new secret menu discovered
 A secret menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included) at the same time when booting, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing the dancing man music. The purpose of this menu is currently unknown. It seems that it rewrites the sram at a deeper level that the classic START+SELECT at bootup. As this is impossible to perform on a standard Game Boy (you may use an emulator), another way of activating the code have been found: filling the sram with 0xAA values with a card flasher. All the known version of camera includes this feature.
 
 ![Secret menu](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Secret%20menu.png)
