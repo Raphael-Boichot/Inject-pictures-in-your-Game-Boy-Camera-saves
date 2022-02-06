@@ -40,7 +40,7 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 
 # Checksums and pain : why there is no cheating codes until now for the Game Boy Camera
 
-I loosely continue collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the CoroCoro save hack), even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to open an hexadecimal editor was rather strong. 
+I loosely continued collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the CoroCoro save hack), even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to open an hexadecimal editor was rather strong. 
 
 My general strategy was to compare different savesates with some accomplishments made (not all, I'm not mad nor stuck at home), byte per byte, to understand where were targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
 
@@ -83,7 +83,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010CD-0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
     - *0x010D7-0x010D8: checksum (2 bytes, range of data included not sure);*
-- **0x010D9-0x01107: filling with 0xFE, not embedded into any checksum, not embedded into any checksum (must be a test zone).;**
+- **0x010D9-0x01107: filling with 0xFE, not embedded into any checksum (must be a test zone).;**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
