@@ -25,6 +25,8 @@ fid = fopen('GAMEBOYCAMERA.sav','r');
 while ~feof(fid)
 a=fread(fid);
 end
+disp('We apply the corocoro patch')
+a(8190:8192)=[86 86 83];
 disp('----The old vector---------------')
 minigames=a(4284:4313);
 score_viewer(minigames);
