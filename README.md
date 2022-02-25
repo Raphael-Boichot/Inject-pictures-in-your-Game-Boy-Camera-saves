@@ -63,7 +63,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 # Game Boy Camera save ram format by increasing adresses
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective resolution is in fact only 128x123 as indicated in the datasheet of the M64282FP sensor so the last 5 lines of pixels are blank.;**
-- **0x01000-0x0102E: filling with 0xFE, not embedded into any checksum (must be a test zone).**
+- **0x01000-0x0102E: filling with 0xFE, not embedded into any checksum (but rewritten after a factory reset).**
 - **0x0102F-0x010D8: game save area, see details:**
     - *0x0102F-0x01060: unknown data (perhaps some from Trippy-H);*
     - *0x01061-0x010B2: Trippy-H partitions;*
