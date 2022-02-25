@@ -2,7 +2,7 @@
 
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
-By Raphaël BOICHOT, May 2021, a Matlab/Octave project. Last update: 2021-08-02.
+By Raphaël BOICHOT, May 2021, a Matlab/Octave project. Last major update: 2021-12-29.
 
 The idea comes (once again) from the [Game Boy Camera Club discord](https://disboard.org/nl/server/568464159050694666). Some informations also come from the InsideGdget Discord, [Lesserkuma](https://github.com/lesserkuma/FlashGBX) and [HerrZatacke](https://github.com/HerrZatacke/gb-printer-web). Great contributions from Game Boy Camera club mate [Cristofer Cruz](https://github.com/cristofercruz).
 
@@ -79,7 +79,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010CD-0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
     - *0x010D7-0x010D8: checksum (2 bytes, range of data included not sure);*
-- **0x010D9-0x01107: filling with 0xFE, not embedded into any checksum (must be a test zone).;**
+- **0x010D9-0x01107: filling with 0xFE, not embedded into any checksum (but rewritten after a factory reset).;**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
@@ -115,7 +115,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included not sure);*
 - **0x02FD1-0x02FE9: User ID data echo (below the first image only, slot 1, just replaced by 0xAA on other slots);**
 - **0x02FEA-0x02FFF: end of memory slot;**          
-    - *0x02FEA-0x02FFA: 0xAA repeated;*
+    - *0x02FEA-0x02FFA: 0xAA repeated (remnants of the initial factory sram tests, never erased since camera release, other value means that backup battery has been replaced);*
     - *0x02FFA-0x02FFF: may not be 0xAA, but without any logical, not protected by checksum anyway;*
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
