@@ -4,7 +4,7 @@
 
 By Raphaël BOICHOT, May 2021, a Matlab/Octave project. Last major update: 2022-02-25.
 
-The idea comes (once again) from the [Game Boy Camera Club discord](https://disboard.org/nl/server/568464159050694666). Some informations also come from the InsideGdget Discord, [Lesserkuma](https://github.com/lesserkuma/FlashGBX) and [HerrZatacke](https://github.com/HerrZatacke/gb-printer-web). Great contributions from Game Boy Camera club mate [Cristofer Cruz](https://github.com/cristofercruz).
+The idea comes (once again) from the [Game Boy Camera Club discord](https://disboard.org/nl/server/568464159050694666). Some informations also come from the InsideGdget Discord, [Lesserkuma](https://github.com/lesserkuma/FlashGBX) and [HerrZatacke](https://github.com/HerrZatacke/gb-printer-web). Great contributions from Game Boy Camera club mate [Cristofer Cruz](https://github.com/cristofercruz) who also wrote a tool to [replace regular and wild frames into a rom](https://github.com/cristofercruz/gb-camera-frames) in order to make custom versions on the Game Boy Camera for the [flashable camera project](https://github.com/HDR/Gameboy-Camera-Flashcart/).
 
 All started as a joke, as usual. After a discussion about the vintage Game Boy Camera advertisements (like the Funtograpy guide for example) that present screen artworks, clearly not made with D-pad only, comes the idea that a tool perhaps existed as presskit to make custom saves with pictures not coming from the camera, and perhaps cheating at minigames. I did not know initially what hexadecimal nightmare was hidden behind this.
 
