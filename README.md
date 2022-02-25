@@ -2,7 +2,7 @@
 
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
-By Raphaël BOICHOT, May 2021, a Matlab/Octave project. Last major update: 2021-12-29.
+By Raphaël BOICHOT, May 2021, a Matlab/Octave project. Last major update: 2022-02-25.
 
 The idea comes (once again) from the [Game Boy Camera Club discord](https://disboard.org/nl/server/568464159050694666). Some informations also come from the InsideGdget Discord, [Lesserkuma](https://github.com/lesserkuma/FlashGBX) and [HerrZatacke](https://github.com/HerrZatacke/gb-printer-web). Great contributions from Game Boy Camera club mate [Cristofer Cruz](https://github.com/cristofercruz).
 
