@@ -115,10 +115,12 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included not sure);*
 - **0x02FD1-0x02FE9: User ID data echo (below the first image only, slot 1, just replaced by 0xAA on other slots);**
 - **0x02FEA-0x02FFF: end of memory slot;**          
-    - *0x02FEA-0x02FFA: 0xAA repeated (remnants of the initial factory sram tests, never erased since camera release, other value means that backup battery has been replaced);*
+    - *0x02FEA-0x02FFA: 0xAA repeated;*
     - *0x02FFA-0x02FFF: may not be 0xAA, but without any logical, not protected by checksum anyway;*
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
+
+General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode.
 
 # Visual representation of data at the beginning of the save ram
 ![Visual representation of data at the beginning of save ram](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Image_ram_beginning2.png)
