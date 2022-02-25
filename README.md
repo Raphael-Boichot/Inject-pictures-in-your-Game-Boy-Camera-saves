@@ -145,8 +145,7 @@ The next example is interesting : after a factory reset, the metadata range cont
 ![Metadata](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Metadata_checksum.png)
 
 # Examples of score attack on real hardware
-![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked.png)
-![Scores you will never get in real2](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked%202.png)
+![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked_3.png)
 
 # 2021-07-01 Update: structure of the Hello Kitty Pocket Camera save
 
