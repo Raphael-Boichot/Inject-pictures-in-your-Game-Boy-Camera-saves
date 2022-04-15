@@ -132,11 +132,9 @@ General comment: any extended 0xAA range is a remnant of the initial factory sra
 
 OK, at this point I was curious to understand how the checksum system worked. It was not a two bytes checksum like the Game Boy Printer protocol for sure, But some savestates comparisons showed that increasing values of scores or pictures taken always increased the left byte of the cheksum (low address). So this one was just a sum. The right byte (high address) had a weird behavior. It increased for small variations of scores but suddendly decreased for higher values. I initially though it was a kind of 4 bits operation or the sum of the difference between odd and even addresses bytes, but honestly, writing it is assembly would have been particularly tedious. I even though it was a decimal operation (even more tedious to code). These different hypotheses worked in some cases, but not all. I finally tried all the common operators available in assembly and XOR was (of course) the good one. So left byte is a 8-bit sum and right byte a 8 bit XOR of values considered in the checksum. I did not try to find the exact range of data included into the sum and the xor given that knowing the rule is enough to perform easy score attacks. The code score_injector.m allows you to manipulate scores into your save easily. The rule to modify any byte protected by checksum is the following:
 
-- *modify the old byte value by a new byte value;*
-
-- *modify the left byte of its checksum like this: old checksum byte+(new byte value-old byte value);*
-
-- *modify the rigth byte of its checksum like this : old checksum byte XOR old byte value XOR new byte value;*
+- **modify the old byte value by a new byte value;**
+- **modify the left byte of its checksum like this: old checksum byte+(new byte value-old byte value);**
+- **modify the rigth byte of its checksum like this : old checksum byte XOR old byte value XOR new byte value;**
 
 That's it !
 
