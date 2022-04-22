@@ -66,7 +66,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 # Game Boy Camera save ram format by increasing adresses
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective resolution is in fact only 128x123 as indicated in the datasheet of the M64282FP sensor so the last 5 lines of pixels are blank.;**
-- **0x01000-0x0102E: filling with 0xFE, not embedded into any checksum (but rewritten after a factory reset).**
+- **0x01000-0x0102E: filling with 0xFE (unknown function);**
 - **0x0102F-0x010D8: game save area, see details:**
     - *0x0102F-0x01060: unknown data (perhaps some from Trippy-H);*
     - *0x01061-0x010B2: Trippy-H partitions;*
@@ -81,8 +81,8 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010CB-0x010CC: score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);*
     - *0x010CD-0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
-    - *0x010D7-0x010D8: checksum (2 bytes, range of data included not sure);*
-- **0x010D9-0x01107: filling with 0xFE, not embedded into any checksum (but rewritten after a factory reset).;**
+    - *0x010D7-0x010D8: checksum (2 bytes, see next section, range of data included 0x01000-0x01D8);*
+- **0x010D9-0x01107: filling with 0xFE (unknown function);**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
