@@ -87,7 +87,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
     - *0x11D0-0x011D4: "Magic" word in ascii;*
-    - *0x11D5-0x011D6: checksum (2 bytes, range of data included not sure);*
+    - *0x11D5-0x011D6: checksum (2 bytes, see next section, range of data included 0x11B2-0x011D4);*
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
 - **0x011FC-0x01FFB: Game Face (128x112) - This area is not erased by booting while pressing START+SELECT;**
 - **0x01FFC-0x01FFF: Possible camera tag (0x00, 0x56, 0x56, 0x53 to unlock Corocoro features in Pocket Camera) - This area is not erased by booting while pressing START+SELECT;**
