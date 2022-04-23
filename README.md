@@ -103,11 +103,11 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02F15-0x02F2F: Contains comments (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x02F30-0x02F32: 0x00;*
 	- *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
-	- *0x02F34-0x02F35: Probably a checksum from image data. Erasing these bytes do nothing particular, but camera rewrites them automatically. Two identical image copies have the same value;*
+	- *0x02F34-0x02F35: Probably a checksum from image data. Two identical image copies have the same value;*
 	- *0x02F36-0x02F53: 0x00.*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
-    - *0x02F5A-0x02F5B: checksum (2 bytes, range of data included not sure);*
+    - *0x02F5A-0x02F5B: checksum (2 bytes, range of data included 0x02F00-0x02F59);*
 - **0x02F5C-0x02FB7: User ID, data, comments and some other information from image owner, echo;**
 - **0x02FB8-0x02FD0: User ID and data from camera owner (below the first image only, slot 1, just replaced by 0xAA on other slots);**
     - *0x02FB8-0x02FBB: User ID;*
