@@ -103,7 +103,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02F15-0x02F2F: Contains comments (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x02F30-0x02F32: 0x00;*
 	- *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
-	- *0x02F34-0x02F35: Probably a checksum from image data. Erasing these bytes do nothing particular, but camera rewrites them automatically. Two identical image copies have the same value.;*
+	- *0x02F34-0x02F35: Probably a checksum from image data. Erasing these bytes do nothing particular, but camera rewrites them automatically. Two identical image copies have the same value;*
 	- *0x02F36-0x02F53: 0x00.*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
@@ -115,7 +115,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02FC5: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02FC6-0x02FC9: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
-    - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included not sure);*
+    - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included 0x02FB8-0x02FCE);*
 - **0x02FD1-0x02FE9: User ID data echo (below the first image only, slot 1, just replaced by 0xAA on other slots);**
 - **0x02FEA-0x02FFF: end of memory slot;**          
     - *0x02FEA-0x02FFA: 0xAA repeated;*
