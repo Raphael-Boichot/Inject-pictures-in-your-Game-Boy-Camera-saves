@@ -8,6 +8,8 @@ The idea comes (once again) from the [Game Boy Camera Club discord](https://disb
 
 All started as a joke, as usual. After a discussion about the vintage Game Boy Camera advertisements (like the Funtograpy guide for example) that present screen artworks, clearly not made with D-pad only, comes the idea it could be cool to make a custom tool to inject pictures not coming from the camera sensor, and perhaps cheat at minigames. I did not initially know how complicated the second task would be.
 
+# Part 1: Injecting pictures into the save
+
 So, despite the fact that extracting images from Game Boy Camera saves was made possible by fans since many years, it was virtually impossible in 2021 to do the inverse : inject custom pictures into saves. At least until now. What could be the interest, dear reader ? It can be usefull to mess with pixel perfect artworks, to reuse an image that was erased long ago from camera but still stored somewhere on a computer or internet or simply exchange pictures with friends if you have no friends. Be creative ! 
 
 The small Matlab/Octave codes presented here are intended to be easy to use. Here are the steps:
@@ -37,7 +39,7 @@ Hopefully, I've found that an active image could be replaced bytewise without ac
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon disappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigame score to manipulate, following the word "Magic" into the save signing the presence of interesting stuff. This is where another form of pain happens.
 
-# Checksums and pain : why there is no cheating codes until now for the Game Boy Camera
+# Part 2: Checksums and pain: why there is no cheating codes until now for the Game Boy Camera...
 
 I loosely continued collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the CoroCoro save hack), even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to open an hexadecimal editor was rather strong. 
 
