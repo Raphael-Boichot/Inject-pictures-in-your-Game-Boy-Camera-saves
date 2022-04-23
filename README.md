@@ -43,7 +43,7 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 
 I loosely continued collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the CoroCoro save hack), even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to open an hexadecimal editor was rather strong. 
 
-My general strategy was to compare different savesates with some accomplishments made (not all, I'm not mad nor stuck at home), byte per byte, to understand where were targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
+My general (tedious) strategy was to compare different savesates with some accomplishments made (not all, I'm not mad nor stuck at home), byte per byte, to understand where were targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
 
 - The Game Boy Camera save uses several internal checksums systematically echoed to protect its own data : one for scores (minigames and counter for images), one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots), one for camera owner informations and one for picture owner informations (In case the picture was exchanged). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
 
@@ -62,6 +62,8 @@ My general strategy was to compare different savesates with some accomplishments
 - Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
 
 - Funfact:  the beginning of the save ram acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird (or cringe) surprises.
+
+- It was completely stupid to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is reliable enough to do the same very rapidely...
 
 So I can now propose a revised structure of the Game Boy Camera save format since Jeff Frohwein proposed the first one in the early 2000's.
 
