@@ -1,4 +1,4 @@
-# Pimp your Game Boy Camera saves : inject custom pictures and scores !
+# Pimp your Game Boy Camera saves : inject custom pictures and break the internal checksums for cheating !
 
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
@@ -6,7 +6,7 @@ By Raphaël BOICHOT, May 2021, a Matlab/Octave project. Last major update: 2022-
 
 The idea comes (once again) from the [Game Boy Camera Club discord](https://disboard.org/nl/server/568464159050694666). Some informations also come from the InsideGdget Discord, [Lesserkuma](https://github.com/lesserkuma/FlashGBX) and [HerrZatacke](https://github.com/HerrZatacke/gb-printer-web). Great contributions from Game Boy Camera Club comrade [Cristofer Cruz](https://github.com/cristofercruz) who also wrote a tool to [replace regular and wild frames into a rom](https://github.com/cristofercruz/gb-camera-frames) in order to make custom versions on the Game Boy Camera for the [flashable camera project](https://github.com/HDR/Gameboy-Camera-Flashcart/).
 
-All started as a joke, as usual. After a discussion about the vintage Game Boy Camera advertisements (like the Funtograpy guide for example) that present screen artworks, clearly not made with D-pad only, comes the idea it could be cool to make a custom tool to inject pictures not coming from the camera sensor, and perhaps cheat at minigames. I did not know initially how complicated the second task would be.
+All started as a joke, as usual. After a discussion about the vintage Game Boy Camera advertisements (like the Funtograpy guide for example) that present screen artworks, clearly not made with D-pad only, comes the idea it could be cool to make a custom tool to inject pictures not coming from the camera sensor, and perhaps cheat at minigames. I did not initially know how complicated the second task would be.
 
 So, despite the fact that extracting images from Game Boy Camera saves was made possible by fans since many years, it was virtually impossible in 2021 to do the inverse : inject custom pictures into saves. At least until now. What could be the interest, dear reader ? It can be usefull to mess with pixel perfect artworks, to reuse an image that was erased long ago from camera but still stored somewhere on a computer or internet or simply exchange pictures with friends if you have no friends. Be creative ! 
 
