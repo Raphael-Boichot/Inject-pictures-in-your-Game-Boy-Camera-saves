@@ -3,7 +3,7 @@
 clc
 clear
 
-fid = fopen('GAMEBOYCAMERA.sav','r');   %indicate your. sav file name here  
+fid = fopen('GAMEBOYCAMERA.sav','r');    
 a=fread(fid);
 
 %-----------------Unlock Hello kitty Pocket camera animations--------------
@@ -12,10 +12,7 @@ beginning_data_address=0x01000;
 beginning_checksum_address=0x010D7;
 data=[0x99 0x99 0x99 0x99 0x99 0x99 0x99 0x99 0x99 0x99 0x99 0x99 0x99 0x60 0x00 0x00 0x00 0x00 0x4D 0x61 0x67 0x69 0x63];
 [a]=checksum(a,beginning_data_address,beginning_checksum_address,data);
-%echo
-beginning_data_address=beginning_data_address+217;
-beginning_checksum_address=beginning_checksum_address+217;
-[a]=checksum(a,beginning_data_address,beginning_checksum_address,data);
+%no echo on this one
 %-----------------Unlock Hello kitty Pocket camera animations--------------
 
 %---------Unlock regular cameras B album (Pocket, Zelda, Eu, Int)----------
