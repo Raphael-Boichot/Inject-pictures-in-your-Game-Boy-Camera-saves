@@ -2,7 +2,7 @@
 %this code replaces pictures by random data
 clc
 clear
-fid = fopen('POCKETCAMERA.sav','r');    %save file where you want to activate all slots
+fid = fopen('Universal_unlocking_save.sav','r');    %save file where you want to activate all slots
 while ~feof(fid)
 a=fread(fid);
 end
@@ -18,7 +18,7 @@ a(4566:4567)=checksum;
 for i=1:1:30
 start=8193+4096*(i-1);
 ending=start+3584;
-a(start:ending)=uint8(rand(ending-start+1,1)*255);
+a(start:ending)=uint8(zeros(ending-start+1,1));
 end
 
 fid = fopen('POCKETCAMERA.sav','w');
