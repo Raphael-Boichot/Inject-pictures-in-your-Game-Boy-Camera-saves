@@ -1,8 +1,8 @@
-%By Raphaël BOICHOT, 7 Mai 2022
+%By RaphaÃ«l BOICHOT, 7 Mai 2022
 %this code replaces pictures by random data
 clc
 clear
-fid = fopen('Universal_unlocking_save.sav','r');    %save file where you want to activate all slots
+fid = fopen('POCKETCAMERA.sav','r');    %save file where you want to activate all slots
 while ~feof(fid)
 a=fread(fid);
 end
