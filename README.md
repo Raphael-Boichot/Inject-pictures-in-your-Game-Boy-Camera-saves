@@ -85,7 +85,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010CB-0x010CC: score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);*
     - *0x010CD-0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
-    - *0x010D7-0x010D8: checksum (2 bytes, see next section, range of data included 0x01000-0x01D8);*
+    - *0x010D7-0x010D8: checksum (2 bytes, see next section, range of data included 0x01000-0x01D6);*
 - **0x010D9-0x01107: filling with 0xFE (unknown function);**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
