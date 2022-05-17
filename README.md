@@ -130,7 +130,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 - **0x02FD1-0x02FE9: User ID data echo (below the first image only, slot 1, just replaced by 0xAA on other slots);**
 - **0x02FEA-0x02FFF: end of memory slot;**          
     - *0x02FEA-0x02FFA: 0xAA repeated;*
-    - *0x02FFA-0x02FFF: may not be 0xAA, but without any logical, not protected by checksum anyway;*
+    - *0x02FFA-0x02FFF: may not be 0xAA, but without any logical, not protected by checksum anyway. 0X02FFF changes with hotspots;*
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
 
