@@ -108,9 +108,14 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02F12-0x02F14: 3 unknown bytes;*
     - *0x02F15-0x02F2F: Contains comments (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x02F30-0x02F32: 0x00;*
-	- *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
-	- *0x02F34-0x02F35: Probably a checksum from image data. Two identical image copies have the same value;*
-	- *0x02F36-0x02F53: 0x00.*
+    - *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
+    - *0x02F34-0x02F35: Probably a checksum from image data. Two identical image copies have the same value;*
+    - *0x02F36-0x02F3A: 0x01 if hotspot is activated among 5 possible (0x00 otherwise);*
+    - *0x02F3B-0x02F3F: xpos of the 5 hotspots, range 0x00-0x0E;*
+    - *0x02F40-0x02F44: ypos of the 5 hotspots, range 0x00-0x0C;*
+    - *0x02F45-0x02F49: sound effects and music associated to the 5 hotspots, range 0x00-0x3F, 0xFF for OFF;*
+    - *0x02F4A-0x02F4E: visual effects associated to the 5 hotspots, range 0x00-0x06, 0xFF for OFF;*
+    - *0x02F4F-0x02F53: jump to image XX, range 0x00-0x1D, 0xFF for OFF;*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
     - *0x02F5A-0x02F5B: checksum (2 bytes, range of data included 0x02F00-0x02F59);*
