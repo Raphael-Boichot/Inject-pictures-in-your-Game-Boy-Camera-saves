@@ -83,7 +83,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010C5-0x010C6: Score at Space Fever II (on 4x2 digits reversed);*
     - *0x010C9-0x010CA: score at balls (on 2x2 digits reversed);*
     - *0x010CB-0x010CC: score at Run! Run! Run! (on 2x2 digits reversed, 99 minus value on screen);*
-    - *0x010CD-0x010CF: unknown data;*
+    - *0x010CD-0x010CF: unknown data (seems never used);*
     - *0x010D0: printing intensity (0x00 min, 0x040 typical, 0x7F maximum);*
     - *0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
