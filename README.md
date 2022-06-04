@@ -74,10 +74,10 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 - **0x0102F-0x010D8: Trippy H and minigames save area, see details:**
     - *0x0102F-0x0105E: 0x00 (seems unused);*
     - *0x0105F-0x01060: unknown area (always 0x09, 0x00);*
-    - *0x1061: SOUND I - from MSB to LSB-> unknown (2 bits), duty length (2 bits), gate (4 bits);*
-    - *0x1062: SOUND I - env. from MSB to LSB-> U/D (1 bit), time (3 bits), gain (4 bits);*
-    - *0x1063: SOUND I - mod. from MSB to LSB-> square or sine (1 bit), dep. (7 bits);*
-    - *0x1064: SOUND I - mod. from MSB to LSB-> ? (1 bit), freq.  (7 bits);*
+    - *0x01061: SOUND I - from MSB to LSB-> unknown (2 bits), duty length (2 bits), gate (4 bits);*
+    - *0x01062: SOUND I - env. from MSB to LSB-> U/D (1 bit), time (3 bits), gain (4 bits);*
+    - *0x01063: SOUND I - mod. from MSB to LSB-> square or sine (1 bit), dep. (7 bits);*
+    - *0x01064: SOUND I - mod. from MSB to LSB-> ? (1 bit), freq.  (7 bits);*
     - *0x01065-0x01074: SOUND I - notes (range 0x01-0x25);*
     - *0x01075-0x01078: always 0x55 (unknown function);*
     - *0x01079-0x01088: SOUND II - 32 values for wave enveloppe (16 bytes, 16 levels by group of 4 bits);*
