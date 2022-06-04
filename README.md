@@ -71,10 +71,29 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective resolution is in fact only 128x123 as indicated in the datasheet of the M64282FP sensor so the last 5 lines of pixels are blank.;**
 - **0x01000-0x0102E: filling with 0xFE (unknown function);**
-- **0x0102F-0x010D8: game save area, see details:**
-    - *0x0102F-0x01060: unknown data (perhaps some from Trippy-H);*
-    - *0x01061-0x010B2: Trippy-H partitions;*
-    - *0x010B3-0x010BA: unknown data (perhaps some from Trippy-H);*
+- **0x0102F-0x010D8: Trippy H and minigames save area, see details:**
+    - *0x0102F-0x0105E: 0x00 (seems unused);*
+    - *0x0105F-0x01060: unknown area (always 0x09, 0x00);*
+    - *0x1061: SOUND I - from MSB to LSB-> unknown (2 bits), duty length (2 bits), gate (4 bits);*
+    - *0x1062: SOUND I - env. from MSB to LSB-> U/D (1 bit), time (3 bits), gain (4 bits);*
+    - *0x1063: SOUND I - mod. from MSB to LSB-> square or sine (1 bit), dep. (7 bits);*
+    - *0x1064: SOUND I - mod. from MSB to LSB-> ? (1 bit), freq.  (7 bits);*
+    - *0x01065-0x01074: SOUND I - notes (range 0x01-0x25);*
+    - *0x01075-0x01078: always 0x55 (unknown function);*
+    - *0x01079-0x01088: SOUND II - 32 values for wave enveloppe (16 bytes, 16 levels by group of 4 bits);*
+    - *0x01089: SOUND II - from MSB to LSB-> unknown (2 bits), wave pattern (2 bits), env. g. (4 bits);*
+    - *0x0108A: SOUND II - mod. from MSB to LSB-> square or sine (1 bit), dep. (7 bits);*
+    - *0x0108B: SOUND II - mod. from MSB to LSB-> ? (1 bit), frq. (7 bits);*
+    - *0x0108C-0x0109B: SOUND II - notes (range 0x01-0x025);*
+    - *0x0109C-0x0109F: always 0x55 (unknown function);*
+    - *0x010A0: loop count - from MSB to LSB-> SOUND I (4 bits), SOUND II (4 bits);*
+    - *0x010A1: NOISE - env. from MSB to LSB-> U/D (1 bit), unknown (3 bits), gain (4 bits);*
+    - *0x010A2: NOISE - from MSB to LSB-> gate (4 bits), loop count (4 bits);*
+    - *0x010A3-0x010B2: NOISE - notes (range 0x01-0x025);*
+    - *0x010B3-0x010B6: always 0x55 (unknown function);*
+    - *0x010B7-0x010B8: unknown area (seems unused);*
+    - *0x010B9: Tempo;*
+    - *0x010BA: 0x01 if any partition is saved, 0x00 either;*
     - *0x010BB-0x010BC: counter for image taken (on 2x2 digits reversed);*
     - *0x010BD-0x010BE: counter for image erased (on 2x2 digits reversed);*
     - *0x010BF-0x010C0: counter for image transfered (on 2x2 digits reversed);*
