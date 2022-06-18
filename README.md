@@ -128,7 +128,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02F15-0x02F2F: Contains comments (0x56 = A to 0xC8 = @, same tileset as first character stamps);*
     - *0x02F30-0x02F32: 0x00;*
     - *0x02F33: 0x00 if image is original, 0x01 if image is a copy;*
-    - *0x02F34-0x02F35: Probably a checksum from image data. Two identical image copies have the same value;*
+    - *0x02F34-0x02F35: Probably a checksum from image data to detect modifications and trigger save menu. Two identical image copies have the same value;*
     - *0x02F36-0x02F3A: 0x01 if hotspot is activated among 5 possible (0x00 otherwise);*
     - *0x02F3B-0x02F3F: xpos of the 5 hotspots, range 0x00-0x0E;*
     - *0x02F40-0x02F44: ypos of the 5 hotspots, range 0x00-0x0C;*
