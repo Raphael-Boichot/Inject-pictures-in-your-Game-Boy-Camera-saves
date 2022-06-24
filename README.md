@@ -106,13 +106,13 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010D0: printing intensity (0x00 min, 0x040 typical, 0x7F maximum);*
     - *0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
-    - *0x010D7-0x010D8: checksum (2 bytes, see next section, range of data included 0x01000-0x01D6);*
+    - *0x010D7-0x010D8: checksum (2 bytes, see next section, range of data included 0x01000-0x01D6, starting seed: "Magic" followed by 0x2F, 0x15);*
 - **0x010D9-0x01107: filling with 0xFE (unknown function);**
 - **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
     - *0x11D0-0x011D4: "Magic" word in ascii;*
-    - *0x11D5-0x011D6: checksum (2 bytes, see next section, range of data included 0x11B2-0x011D4);*
+    - *0x11D5-0x011D6: checksum (2 bytes, see next section, range of data included 0x11B2-0x011D4, starting seed: "Magic" followed by 0x2F, 0x15);*
 - **0x011D7-0x011FB: vector state, echo of 0x011B2-0x011D6;**  
 - **0x011FC-0x01FFB: Game Face (128x112) - This area is not erased by booting while pressing START+SELECT;**
 - **0x01FFC-0x01FFF: Possible camera tag (0x00, 0x56, 0x56, 0x53 to unlock Corocoro features in Pocket Camera) - This area is not erased by booting while pressing START+SELECT (hopefully for the owners of the feature);**
@@ -137,7 +137,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02F4F-0x02F53: jump to image XX, range 0x00-0x1D, 0xFF for Off;*
     - *0x02F54: border number associated to the image;*
     - *0x02F55-0x02F59: "Magic" word in ascii;*
-    - *0x02F5A-0x02F5B: checksum (2 bytes, range of data included 0x02F00-0x02F59);*
+    - *0x02F5A-0x02F5B: checksum (2 bytes, range of data included 0x02F00-0x02F59, starting seed: "Magic" followed by 0x2F, 0x15);*
 - **0x02F5C-0x02FB7: User ID, data, comments and some other information from image owner, echo;**
 - **0x02FB8-0x02FD0: User ID and data from camera owner (below the first image only, slot 1, just replaced by 0xAA on other slots);**
     - *0x02FB8-0x02FBB: User ID;*
@@ -145,7 +145,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02FC5: User gender (0x00 no gender, 0x01 male, 0x02 female) and blood type (japanese only, +0x04 A, +0x08 B, +0x0C O, +0x10 AB);*
     - *0x02FC6-0x02FC9: Birthdate (year, 2x2 bytes, day, 2 bytes, month, 2 bytes, each 2 bytes + 11);*
     - *0x02FCA-0x02FCE: "Magic" word in ascii;*
-    - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included 0x02FB8-0x02FCE);*
+    - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included 0x02FB8-0x02FCE, starting seed: "Magic" followed by 0x2F, 0x15);*
 - **0x02FD1-0x02FE9: User ID data echo (below the first image only, slot 1, just replaced by 0xAA on other slots);**
 - **0x02FEA-0x02FFF: end of memory slot;**          
     - *0x02FEA-0x02FFA: 0xAA repeated;*
@@ -166,7 +166,7 @@ OK, at this point I was curious to understand how the checksum system worked. It
 - **modify the left byte of its checksum like this: old checksum byte+(new byte value-old byte value);**
 - **modify the rigth byte of its checksum like this : old checksum byte XOR old byte value XOR new byte value;**
 
-And that's all !
+And that's all ! The checksum is calculated from scratch from always the same seed: "Magic" followed by 0x2F, 0x15 (starting checksum when all data are 0x00). Each new data entering a protected area modifies the values of its corresponding checksum according to the rules.
 
 Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). The folder **/Universal cheater all cameras** contains self-explanatory codes to inject what you want in protected area of the save file. The defaut code configuration creates an **universal save unlocking all the features of all the camera versions.**
 
