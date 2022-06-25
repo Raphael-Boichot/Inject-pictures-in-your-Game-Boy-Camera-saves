@@ -70,10 +70,12 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 # Game Boy Camera save ram format by increasing adresses
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective visual resolution is only 128x123 as indicated in the datasheet of the M64282FP sensor. The 5 missing lines (at the bottom of image) gather the signal of pixels physically masked on the sensor intended to measure the residual dark voltage. How to use this signal for practical calibration of the sensor is unclear in its documentation;**
-- **0x01000-0x0102E: filling with 0xFE (unknown function);**
-- **0x0102F-0x010D8: Trippy H and minigames save area, see details:**
-    - *0x0102F-0x0105E: 0x00 (seems unused);*
-    - *0x0105F-0x01060: unknown area (always 0x09, 0x00);*
+- **0x01000-0x010D8: Animation settings, Trippy H and minigames save area, see details:**
+    - *0x01000-0x0102E: animation slots 1-47 (index 0-29. MSB=1 for album B);*
+    - *0x0102F: animation loop flag;*
+    - *0x01030-0x0105E: animation loops (loop start 0x80 + loop time), between (loop time 0x02-0x32), (loop end 0x40 + loop time);*
+    - *0x0105F: animation speed;*
+    - *0x01060: animation border;*
     - *0x01061: SOUND I - from MSB to LSB-> unknown (2 bits), duty length (2 bits), gate (4 bits);*
     - *0x01062: SOUND I - env. from MSB to LSB-> U/D (1 bit), time (3 bits), gain (4 bits);*
     - *0x01063: SOUND I - mod. from MSB to LSB-> square or sine (1 bit), dep. (7 bits);*
@@ -107,8 +109,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x010D1: unknown data;*
     - *0x010D2-0x010D6: "Magic" word in ascii;*
     - *0x010D7-0x010D8: checksum (2 bytes, see next section, range of data included 0x01000-0x01D6, starting seed: "Magic" followed by 0x2F, 0x15);*
-- **0x010D9-0x01107: filling with 0xFE (unknown function);**
-- **0x01108-0x011B1: game save area, echo of 0x0102F-0x010D8;**
+- **0x010D9-0x011B1: Animation settings, Trippy H and minigames save area,  echo of 0x01000-0x010D8;**
 - **0x011B2-0x011D6: vector state, see details:**
     - *0x11B2-0x011CF: image number associated to memory slots (minus one), 0xFF means erased or blank;*   
     - *0x11D0-0x011D4: "Magic" word in ascii;*
@@ -166,7 +167,7 @@ OK, at this point I was curious to understand how the checksum system worked. It
 - **modify the left byte of its checksum like this: old checksum byte+(new byte value-old byte value);**
 - **modify the rigth byte of its checksum like this : old checksum byte XOR old byte value XOR new byte value;**
 
-And that's all ! The checksum is calculated from scratch from always the same seed: "Magic" followed by 0x2F, 0x15 (starting checksum when all data are 0x00). Each new data entering a protected area modifies the values of its corresponding checksum according to the rules.
+And that's all ! The checksum could be calculated from scratch from always the same seed: "Magic" followed by 0x2F, 0x15 (starting checksum when all data are 0x00). Each new data entering a protected area modifies the values of its corresponding checksum according to the rules. "Magic" is a mandatory keyword (its absence triggers the suicide code even if the checksum is correct).
 
 Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). The folder **/Universal cheater all cameras** contains self-explanatory codes to inject what you want in protected area of the save file. The defaut code configuration creates an **universal save unlocking all the features of all the camera versions.**
 
