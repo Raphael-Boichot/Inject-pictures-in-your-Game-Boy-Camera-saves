@@ -151,7 +151,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 - **0x02FEA-0x02FFF: end of memory slot;**          
     - *0x02FEA-0x02FEF: 0xAA repeated;*
     - *0x02FF0-0x02FF1: 0xAA repeated, but not always;*
-    - *0x02FF2-0x02FFE: 0xAA repeated or sensor calibration vector under image slot 3 (0x04FF2-0x04FFE) and image slot 16 (0x11FF2-0x011FFE, echo).*
+    - *0x02FF2-0x02FFF: 0xAA repeated or sensor calibration vector under image slot 3 (0x04FF2-0x04FFF) and image slot 16 (0x11FF2-0x011FFF, echo).*
     - *0X02FFF: changes with hotspots and events in the camera;*
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
@@ -216,7 +216,7 @@ The counter for images is followed by a nice flower meter just below. I think th
 
 A secret factory menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included) at the same time when booting on emulator, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing the dancing man music. The exact purpose of this menu have been discovered by serendipity the 7 august 2022 from a glitched save that changes the sensor auto-exposure rules: this is a calibration menu.
 
-During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFE, echoed at the range 0x11FF2-0x011FFE. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
+During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFF, echoed at the range 0x11FF2-0x011FFF. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
 
 So for calibrating the camera, you must proceed as following:
 - Write to the sram a save filled with 0xAA (you can download one [here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Research/DUMB_AA.sav));
