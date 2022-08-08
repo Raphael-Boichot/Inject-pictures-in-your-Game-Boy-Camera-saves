@@ -227,7 +227,7 @@ So for calibrating the camera, you must proceed as following:
 - Reboot your camera and enjoy its fresh calibration.
 
 **Method 2:**
-* Just burn [this custom save](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Universal%20cheater%20all%20cameras/Data_injector.m) and boot your Game Boy in the dark. It will calibrate the sensor, unlock B album and CoroCoro features at the same time !
+* Just burn [this custom save](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Universal%20cheater%20all%20cameras/Universal_unlocking_save.sav) and boot your Game Boy in the dark. It will calibrate the sensor, unlock B album and CoroCoro features at the same time !
 
 Of course, science is only a consensus among enlightened people that establishes the sum of factual knowledge at the present time. Saving your sram before applying this procedure, just in case, would avoid disappointment if the consensus changes.
 
