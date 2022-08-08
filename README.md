@@ -214,7 +214,7 @@ The counter for images is followed by a nice flower meter just below. I think th
 
 # Part 3: Calibrating the sensor
 
-A secret factory menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included) at the same time when booting on emulator, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing the dancing man music. The exact purpose of this menu have been discovered by serendipity the 7 august 2022 from a glitched save that changes the sensor auto-exposure rules: this is a calibration menu.
+A secret factory menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included) at the same time when booting on emulator, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The exact purpose of this menu have been discovered by serendipity the 7 august 2022 from a glitched save that changes the sensor auto-exposure rules: this is a calibration menu.
 
 During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFF, echoed at the range 0x11FF2-0x011FFF. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
 
