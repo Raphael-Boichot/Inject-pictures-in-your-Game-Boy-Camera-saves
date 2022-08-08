@@ -154,6 +154,8 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
 
+
+
 General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode.
 
 # Visual representation of data at the beginning of the save ram
@@ -210,7 +212,8 @@ The counter for images is followed by a nice flower meter just below. I think th
 ![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Hello_Kitty.jpg)
 ![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Unlock_Hello_Kitty.png)
 
-# 2021-12-29 Update: A new secret menu discovered
+# Part 3: Calibrating the sensor
+
 A secret menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included) at the same time when booting, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing the dancing man music. The purpose of this menu is currently unknown (probably factory read/write tests on sram) but after completion, the sram is configured like after a START+SELECT reset at bootup. As pressing all keys at once is impossible to perform on a standard Game Boy (you may use an emulator), another way of activating the code have been found: filling the sram with 0xAA values with a card flasher. In fact it is probably the normal way of activating this menu and it is probably a factory prodecure. All the known version of camera includes this feature. It seems even that any range of 0xAA values on the sram is a remnant of this initial factory tests: the sram was never rewritten here since the factory. I also triggered this menu once by messing with the eyeball connections so there must be several ways of activating this "self check" function. 
 
 ![Secret menu](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Secret%20menu.png)
