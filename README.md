@@ -149,12 +149,12 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
     - *0x02FCF-0x02FD0: checksum (2 bytes, range of data included 0x02FB8-0x02FCE, starting seed: "Magic" followed by 0x2F, 0x15);*
 - **0x02FD1-0x02FE9: User ID data echo (below the first image only, slot 1, just replaced by 0xAA on other slots);**
 - **0x02FEA-0x02FFF: end of memory slot;**          
-    - *0x02FEA-0x02FFA: 0xAA repeated;*
-    - *0x02FFA-0x02FFF: may not be 0xAA, but without any logical, not protected by checksum anyway. 0X02FFF changes with hotspots;*
+    - *0x02FEA-0x02FEF: 0xAA repeated;*
+    - *0x02FF0-0x02FF1: 0xAA repeated, but not always;*
+    - *0x02FF2-0x02FFE: 0xAA repeated or sensor calibration vector under image slot 3 (0x04FF2-0x04FFE) and image slot 16 (0x11FF2-0x011FFE, echo).*
+    - *0X02FFF: changes with hotspots and events in the camera;*
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
-
-
 
 General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode.
 
@@ -214,6 +214,14 @@ The counter for images is followed by a nice flower meter just below. I think th
 
 # Part 3: Calibrating the sensor
 
-A secret menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included) at the same time when booting, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing the dancing man music. The purpose of this menu is currently unknown (probably factory read/write tests on sram) but after completion, the sram is configured like after a START+SELECT reset at bootup. As pressing all keys at once is impossible to perform on a standard Game Boy (you may use an emulator), another way of activating the code have been found: filling the sram with 0xAA values with a card flasher. In fact it is probably the normal way of activating this menu and it is probably a factory prodecure. All the known version of camera includes this feature. It seems even that any range of 0xAA values on the sram is a remnant of this initial factory tests: the sram was never rewritten here since the factory. I also triggered this menu once by messing with the eyeball connections so there must be several ways of activating this "self check" function. 
+A secret factory menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included) at the same time when booting on emulator, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing the dancing man music. The exact purpose of this menu have been discovered by serendipity the 7 august 2022 from a glitched save that changes the sensor auto-exposure rules; this is a calibration menu.
+
+During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFE, echoed at the range 0x11FF2-0x011FFE. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
+
+So for calibrating the camera, you must proceed as following:
+- Write to the sram a save filled with 0xAA (you can download one [here]());
+- Place your camera in complete dark and boot it;
+- Wait for the ending jingle (take about 10-20 seconds);
+- Reboot your camera and enjoy its fresh calibration.
 
 ![Secret menu](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Secret%20menu.png)
