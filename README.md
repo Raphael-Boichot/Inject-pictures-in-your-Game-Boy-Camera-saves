@@ -219,7 +219,7 @@ A secret factory menu have been discovered in december 2021 independently by two
 During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFE, echoed at the range 0x11FF2-0x011FFE. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
 
 So for calibrating the camera, you must proceed as following:
-- Write to the sram a save filled with 0xAA (you can download one [here]());
+- Write to the sram a save filled with 0xAA (you can download one [here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Research/DUMB_AA.sav));
 - Place your camera in complete dark and boot it;
 - Wait for the ending jingle (take about 10-20 seconds);
 - Reboot your camera and enjoy its fresh calibration.
