@@ -224,4 +224,6 @@ So for calibrating the camera, you must proceed as following:
 - Wait for the ending jingle (take about 10-20 seconds);
 - Reboot your camera and enjoy its fresh calibration.
 
+Of course, science is only a consensus among enlightened people that establishes the sum of factual knowledge at the present time. Saving your sram before applying this procedure, just in case, would avoid disappointment if the consensus changes.
+
 ![Secret menu](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Secret%20menu.png)
