@@ -219,10 +219,14 @@ A secret factory menu have been discovered in december 2021 independently by two
 During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFF, echoed at the range 0x11FF2-0x011FFF. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
 
 So for calibrating the camera, you must proceed as following:
+*Method 1:*
 - Write to the sram a save filled with 0xAA (you can download one [here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Research/DUMB_AA.sav));
 - Place your camera in complete dark and boot it;
 - Wait for the ending jingle (take about 10-20 seconds);
 - Reboot your camera and enjoy its fresh calibration.
+
+*Method 2:*
+Or just burn [this save](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Universal%20cheater%20all%20cameras/Data_injector.m) and boot your Game Boy in the dark !
 
 Of course, science is only a consensus among enlightened people that establishes the sum of factual knowledge at the present time. Saving your sram before applying this procedure, just in case, would avoid disappointment if the consensus changes.
 
