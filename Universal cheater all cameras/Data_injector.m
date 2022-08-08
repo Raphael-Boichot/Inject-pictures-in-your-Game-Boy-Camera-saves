@@ -31,6 +31,13 @@ beginning_checksum_address=beginning_checksum_address+217;
 a(8190:8190+2)=[0x56 0x56 0x53]; 
 %---------Unlock Corocoro content for the Pocket Camera--------------------
 
+%----------------------Triggers sensor calibration-------------------------
+a(20467:20480)=[0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA]; 
+a(73715:73728)=[0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA]; 
+%----------------------Triggers sensor calibration-------------------------
+
+
+
 %{
 %---------Unerase all images-----------------------------------------------
 %first range
