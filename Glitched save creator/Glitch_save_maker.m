@@ -5,8 +5,8 @@ clc
 clear
 
 Magic=[0x4D 0x61 0x67 0x69 0x63];
-a=ceil(rand(1,131072)*256-1);%random data
-%a=zeros(1,131072);%just zeros
+a=ceil(rand(1,2^17)*256-1);%random data
+%a=zeros(1,2^17);%just zeros
 
 % fid = fopen('Universal_unlocking_save.sav','r');    
 % a=fread(fid);
