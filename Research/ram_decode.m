@@ -1,14 +1,12 @@
 %By Raphaël BOICHOT, 1 june 2021
-function GB_pixels=ram_decode(GB_tile)
-    PACKET_image_width=128;
-    PACKET_image_height=4096;
+function GB_pixels=ram_decode(GB_tile,PACKET_image_width,PACKET_image_height)
     PACKET_image=zeros(PACKET_image_height,PACKET_image_width);    
     pos=1;
     %tile decoder
     tile_count=0;
     height=1;
     width=1;
-while tile_count<8192
+while tile_count<(PACKET_image_width/8)*(PACKET_image_height/8)-1
     tile=zeros(8,8);
     for i=1:1:8
     byte1=dec2bin(GB_tile(pos),8);
