@@ -185,7 +185,7 @@ Well enough to enjoy all the crappy images of the B album of the camera (At leas
 # Example of starting seed for checksums
 ![Starting seed](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Metadata_checksum.png)
 
-The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum, it becomes simply 0x4E, 0x54 ("NT" in Ascii), but the save will be rejected as non legit by the camera.
+The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii), but the save will be rejected as non legit by the camera.
 
 # 2021-07-01 Update: structure of the Hello Kitty Pocket Camera save
 
