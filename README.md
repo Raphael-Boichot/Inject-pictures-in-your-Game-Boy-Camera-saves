@@ -247,7 +247,10 @@ A [prototype of Game Boy Camera](https://tcrf.net/Proto:Game_Boy_Camera) has bee
 - **0x02F00-0x02FFF: image tag or metadata (mostly 0x00 but 0x02FE8-0x02FFF contains data of unknown purpose);**
 - **0x02000-0x1FFFF: overall the same as the Game Boy Camera, images are stored exactly at the same offset**
 
-I cannot detect any identifiable vector state (yet there is probably a rudimentary one as the camera keeps track of the next slot available). It could be a single byte only somewhere...
+Summary of some tests made on real hardware:
+- The camera writes nothing in ram at boot;
+- It allows accessing any memory slot in Gallery mode, so it does not keep track of the slots occupied except than locally in software.
+
 
 ## Some of the hidden images into the rom
 ![Programmer face](Pictures/secondimpact.png)
