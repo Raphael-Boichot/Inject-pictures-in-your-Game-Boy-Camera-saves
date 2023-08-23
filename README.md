@@ -21,7 +21,7 @@ The small Matlab/Octave codes presented here are intended to be easy to use. Her
 
 The scanning code basically extracts and analyses values at addresses 0x011B2 to 0x011CF that contains the state and numbering of any image slot on the save (which I will call "state vector"). These data are also duplicated from addresses 0x011D7 to 0x011F4. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the camera screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector:
 
-![Vector state](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector%20state.png)
+![Vector state](Pictures/Vector%20state.png)
 
 Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came some bad surprise.
 There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture or activating a new memory slot by simply manipulating the state vector. Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
@@ -29,14 +29,14 @@ There is a checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that
 This is why I wrote slot_activator.m, which activates all slots (an unerases all pictures). This was the only operation that I was initially able to perform, knowing the checksum of this particular state vector. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! This means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Activating the 30 slots of a camera after a factory reset gives you 30 white images.
 
 ## Hexadecimal codes to unerase all picture
-![unerase pictures](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/uneraser.png)
+![unerase pictures](Pictures/uneraser.png)
 
 Hopefully, I've found that an active image could be replaced bytewise without activating any suicide code. In consequence, the injection code just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon disappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigame score to manipulate, following the word "Magic" into the save signing the presence of interesting stuff. This is where another form of pain happens.
 
 ## This was the easy part !
-![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
+![Time for creativity](Pictures/Piece%20of%20cake.png)
 
 # Part 2: breaking the checksum system just for science
 
@@ -160,7 +160,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode.
 
 ## Visual representation of data at the beginning of the sram
-![Visual representation of data at the beginning of save ram](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Image_ram_beginning2.png)
+![Visual representation of data at the beginning of save ram](Pictures/Image_ram_beginning2.png)
           
 ## Now let's reverse engineer the checksum system !
 
@@ -175,16 +175,16 @@ And that's all ! The checksum could be calculated from scratch from always the s
 Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). The folder **/Universal cheater all cameras** contains self-explanatory codes to inject what you want in protected area of the save file. The defaut code configuration creates an **universal save unlocking all the features of all the camera versions.**
 
 ## Example of state vector checksum attack
-![State vector](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Vector_state_checksum.png)
+![State vector](Pictures/Vector_state_checksum.png)
 
 ## Example of Minigame checksum attack
-![Minigames](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Minigame_checksum.png)
+![Minigames](Pictures/Minigame_checksum.png)
 
 ## Examples of score attack on real hardware
-![Scores you will never get in real](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Scores%20hacked%203.png)
+![Scores you will never get in real](Pictures/Scores%20hacked%203.png)
 
 ## Example of starting seed for checksums
-![Starting seed](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Metadata_checksum.png)
+![Starting seed](Pictures/Metadata_checksum.png)
 
 The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii), but the save will be rejected as non legit by the camera.
 
@@ -197,18 +197,18 @@ During this procedure, the camera sensor is activated and the game stores data i
 So for calibrating the camera, you must proceed as following:
 
 **Method 1:**
-- Write to the sram a save filled with 0xAA (you can download one [here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Research/DUMB_AA.sav));
+- Write to the sram a save filled with 0xAA (you can download one [here](Research/DUMB_AA.sav));
 - Place your camera in complete dark and boot it;
 - Wait for the ending jingle (take about 10-20 seconds);
 - Reboot your camera and enjoy its fresh calibration.
 
 **Method 2:**
- - Just burn [this custom save](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Universal%20cheater%20all%20cameras/Universal_unlocking_save.sav) and boot your Game Boy in the dark. It will calibrate the sensor, unlock B album and CoroCoro features at the same time.
+ - Just burn [this custom save](Universal_unlocking_save.sav) and boot your Game Boy in the dark. It will calibrate the sensor, unlock B album and CoroCoro features at the same time.
 - Reboot your camera and enjoy its new features.
 
 This should be made after battery loss/replacement as non-calibrated cameras can behave weirdly.
 
-![Secret menu](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Secret%20menu.png)
+![Secret menu](Pictures/Secret%20menu.png)
 
 # Part 4: some random stuff for camera nerds
 ## 2021-07-01 Update: structure of the Hello Kitty Pocket Camera save
@@ -235,8 +235,8 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich seems to be a test area for regular Game Boy Camera. Means that save functionality is enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot. Running a regular Game Boy Camera with an unmodified Hello Kitty save and the inverse is possible. It will erase the records, jam the game face area or the Hello Kitty face thumbnail but **recorded images will be conserved**.
 
 ## Byte attack on HK Pocket Camera (Created by [Cristofer Cruz](https://github.com/cristofercruz))
-![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Hello_Kitty.jpg)
-![Byte attack on Hello Kitty](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Unlock_Hello_Kitty.png)
+![Byte attack on Hello Kitty](Pictures/Hello_Kitty.jpg)
+![Byte attack on Hello Kitty](Pictures/Unlock_Hello_Kitty.png)
 
 ## 2023-05-20 Update: structure of the Debagame Tester - Second Impact
 
@@ -248,3 +248,6 @@ A [prototype of Game Boy Camera](https://tcrf.net/Proto:Game_Boy_Camera) has bee
 - **0x02000-0x1FFFF: overall the same as the Game Boy Camera, images are stored exactly at the same offset**
 
 I cannot detect any identifiable vector state (yet there is probably a rudimentary one as the camera keeps track of the next slot available). It could be a single byte only somewhere...
+
+![Programmer face](Pictures/secondimpact.png)
+
