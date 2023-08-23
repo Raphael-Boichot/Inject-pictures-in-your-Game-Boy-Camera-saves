@@ -203,7 +203,7 @@ So for calibrating the camera, you must proceed as following:
 - Reboot your camera and enjoy its fresh calibration.
 
 **Method 2:**
- - Just burn [this custom save](Universal_unlocking_save.sav) and boot your Game Boy in the dark. It will calibrate the sensor, unlock B album and CoroCoro features at the same time.
+ - Just burn [this custom save](Universal%20cheater%20all%20cameras/Universal_unlocking_save.sav) and boot your Game Boy in the dark. It will calibrate the sensor, unlock B album and CoroCoro features at the same time.
 - Reboot your camera and enjoy its new features.
 
 This should be made after battery loss/replacement as non-calibrated cameras can behave weirdly.
