@@ -236,3 +236,14 @@ So for calibrating the camera, you must proceed as following:
 This should be made after battery loss/replacement as non-calibrated cameras can behave weirdly.
 
 ![Secret menu](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Secret%20menu.png)
+
+2023-05-20 Update: structure of the Debagame Tester - Second Impact
+
+A [prototype of Game Boy Camera](https://tcrf.net/Proto:Game_Boy_Camera) has been found on Ebay in may 2023. Images of the device are [archived here](https://archive.org/details/gbcam-debug-cart). It has a main menu very similar with the [MBC5 mapper chip test program](https://twitter.com/WaluigiBSOD/status/1659914999765008384?s=20) linked in 2020. Most intersting things are within the rom as it contains quite a lot of hidden features like programmer faces, unused graphics and pieces of assembly code with comments . I rapidely checked the save format:
+
+- **0x00000-0x00FFF: same as Game Boy Camera, ram exchange data**
+- **0x01000-0x01FFF: zone for ram read/write and aging test**
+- **0x02F00-0x02FFF: image tag or metadata (mostly 0x00 but 0x02FE8-0x02FFF contains data);**
+- **0x02000-0x1FFFF: overall the same as Game Boy Camera, images are stored exactly at the same offset**
+
+I cannot detect any identifiable vector state (yet there is probably a rudimentary one as the camera keeps track of the next slot available). It could be a single byte only.
