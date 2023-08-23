@@ -40,15 +40,15 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 
 # Part 2: breaking the checksum system just for science
 
-I loosely continued collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the CoroCoro save hack), even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to open an hexadecimal editor was rather strong. 
+I loosely continued collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the CoroCoro save hack), even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to crack the thing was rather strong. 
 
-My general (tedious) strategy was to compare different savesates with some accomplishments made (not all, I'm not mad nor stuck at home), byte per byte, to understand where were targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
+My general (tedious) strategy was to compare different savesates with some accomplishments made (not all, I'm not mad nor stuck at home with broken legs), byte per byte, to understand where were the targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
 
 - The Game Boy Camera save uses several internal checksums systematically echoed to protect its own data : one for scores (minigames and counter for images), one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots), one for camera owner informations and one for picture owner informations (In case the picture was exchanged). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
 
-- Each checksum have two bytes corresponding to two different calculation rules (see next sections) and is preceded by the ascii word "Magic" (a kind of crual joke probably);
+- Each checksum have two bytes corresponding to two different calculation rules (see next sections) and is preceded by the ascii word "Magic" (a kind of crual programmer joke probably);
 
-- Any discrepancy between data, scores, states and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating. I think that the long booting time of the Game Boy Camera is precisely due to the amount of verifications made; 
+- Any discrepancy between data, scores, states and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating. I think that the long booting time of the Game Boy Camera is precisely due to the amount of verifications/rewrite made; 
 
 - Data protected by checksums are systematically echoed but first occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file);
 
@@ -64,7 +64,7 @@ My general (tedious) strategy was to compare different savesates with some accom
 
 - It was completely stupid to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is reliable enough to do the same very rapidely...
 
-So I can now propose a revised structure of the Game Boy Camera save format since Jeff Frohwein proposed the first one in the early 2000's.
+So I can now propose a revised structure of the Game Boy Camera save format since [Jeff Frohwein](https://www.devrs.com/gb/files/gbcam.txt) proposed the first one in the early 2000's.
 
 # Game Boy Camera save ram format by increasing adresses
 
