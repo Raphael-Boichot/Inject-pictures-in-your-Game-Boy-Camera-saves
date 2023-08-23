@@ -253,6 +253,6 @@ Summary of some tests made on real hardware:
 - Aging test can be made by writing saves with certain patterns more or less convoluted. It must be possible to generate them onboard but I did not find how.
 
 
-## Some of the hidden images into the rom
-![Programmer face](Pictures/secondimpact.png)
+## The Debagame Tester
+![Debagame_Tester](Pictures/Debagame_Tester.jpg)
 
