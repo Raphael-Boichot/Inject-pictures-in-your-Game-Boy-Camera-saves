@@ -1,7 +1,5 @@
 # Reverse engineer your Game Boy Camera save !
 
-![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
-
 The idea comes (once again) from the [Game Boy Camera Club discord](https://disboard.org/nl/server/568464159050694666). Some informations also come from the InsideGdget Discord, [Lesserkuma](https://github.com/lesserkuma/FlashGBX) and [HerrZatacke](https://github.com/HerrZatacke/gb-printer-web). Great contributions from Game Boy Camera Club comrade [Cristofer Cruz](https://github.com/cristofercruz) who also wrote a tool to [replace regular and wild frames into a rom](https://github.com/cristofercruz/gb-camera-frames) in order to make custom versions on the Game Boy Camera for the [flashable camera project](https://github.com/HDR/Gameboy-Camera-Flashcart/).
 
 All started as a joke, as usual. After a discussion about the vintage Game Boy Camera advertisements (like the Funtograpy guide for example) that present screen artworks, clearly not made with D-pad only, comes the idea it could be cool to make a custom tool to inject pictures not coming from the camera sensor, and perhaps cheat at minigames. I did not initially know how complicated the second task would be.
@@ -20,6 +18,8 @@ The small Matlab/Octave codes presented here are intended to be easy to use. Her
 - Burn your modified save into the Game Boy Camera;
 - Enjoy your new image and play with stamps;
 - You can additionnaly extract your images from save in .png format with image_extractor.m;
+
+![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
 The scanning code basically extracts and analyses values at addresses 0x011B2 to 0x011CF that contains the state and numbering of any image slot on the save (which I will call "state vector"). These data are also duplicated from addresses 0x011D7 to 0x011F4. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the camera screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector:
 
