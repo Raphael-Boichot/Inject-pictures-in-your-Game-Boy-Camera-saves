@@ -243,13 +243,14 @@ The counter for images is followed by a nice flower meter just below. I think th
 A [prototype of Game Boy Camera](https://tcrf.net/Proto:Game_Boy_Camera) has been found on Ebay in may 2023. Images of the device are [archived here](https://archive.org/details/gbcam-debug-cart). It has a main menu very similar with the [MBC5 mapper chip test program](https://twitter.com/WaluigiBSOD/status/1659914999765008384?s=20) linked in 2020. Most intersting things are within the rom as it contains quite a lot of hidden features like programmer faces, unused graphics and pieces of assembly code with comments. I rapidely checked the save format:
 
 - **0x00000-0x00FFF: same as Game Boy Camera, ram exchange data;**
-- **0x01000-0x01FFF: zone for ram read/write and aging test;**
-- **0x02F00-0x02FFF: image tag or metadata (mostly 0x00 but 0x02FE8-0x02FFF contains data of unknown purpose);**
+- **0x01000-0x01FFF: remnants of the ram read/write and aging test;**
+- **0x02F00-0x02FFF: image tag or metadata (mostly 0x00 but 0x02FE8-0x02FFF contains data of unknown purpose but I think this is Japanese comments);**
 - **0x02000-0x1FFFF: overall the same as the Game Boy Camera, images are stored exactly at the same offset**
 
 Summary of some tests made on real hardware:
 - The camera writes nothing in ram at boot;
 - It allows accessing any memory slot in Gallery mode, so it does not keep track of the slots occupied except than locally in software.
+- Aging test can be made by writing saves with certain patterns more or less convoluted. It must be possible to generate them onboard but I did not find how.
 
 
 ## Some of the hidden images into the rom
