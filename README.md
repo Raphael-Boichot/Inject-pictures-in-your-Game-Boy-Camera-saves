@@ -35,7 +35,7 @@ Hopefully, I've found that an active image could be replaced bytewise without ac
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon disappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigame score to manipulate, following the word "Magic" into the save signing the presence of interesting stuff. This is where another form of pain happens.
 
-# This way the easy part !
+# This was the easy part !
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
 # Part 2: The hard path of breaking the checksum system to cheat at ridiculous minigames just for science
