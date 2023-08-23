@@ -38,7 +38,7 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 # This was the easy part !
 ![Time for creativity](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Piece%20of%20cake.png)
 
-# Part 2: The hard path of breaking the checksum system to cheat at ridiculous minigames just for science
+# Part 2: breaking the checksum system just for science
 
 I loosely continued collecting data to understand how bytes are arranged into the savestate (see research folder). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the CoroCoro save hack), even more than 20 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to open an hexadecimal editor was rather strong. 
 
