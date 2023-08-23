@@ -210,7 +210,7 @@ This should be made after battery loss/replacement as non-calibrated cameras can
 
 ![Secret menu](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Pictures/Secret%20menu.png)
 
-# Part 4: some random stuff
+# Part 4: some random stuff for camera nerds
 ## 2021-07-01 Update: structure of the Hello Kitty Pocket Camera save
 
 Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dead body of a Pocket Camera and a MX27C8000 EPROM, we were able to explore the SRAM structure from various dumps. The save format is about the same than the Game Boy Camera with some exceptions: 
