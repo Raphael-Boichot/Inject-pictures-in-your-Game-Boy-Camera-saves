@@ -172,7 +172,7 @@ OK, at this point I was curious to understand how the checksum system worked. It
 
 And that's all ! The checksum could be calculated from scratch from always the same seed: "Magic" followed by 0x2F, 0x15 (starting checksum when all data are 0x00). Each new data entering a protected area modifies the values of its corresponding checksum according to the rules. "Magic" is a mandatory keyword (its absence triggers the suicide code even if the checksum is correct).
 
-Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). The folder **/Universal cheater all cameras** contains self-explanatory codes to inject what you want in protected area of the save file. The defaut code configuration creates an **universal save unlocking all the features of all the camera versions.**
+Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file in legit save. [This folder](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** strating from any of your preferd save.
 
 ## Example of state vector checksum attack
 ![State vector](Pictures/Vector_state_checksum.png)
