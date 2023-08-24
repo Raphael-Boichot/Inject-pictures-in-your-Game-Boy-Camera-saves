@@ -171,7 +171,7 @@ OK, at this point I was curious to understand how the checksum system worked (it
 
 And that's all ! The checksum could be calculated from scratch from always the same seed: "Magic" followed by 0x2F, 0x15 (starting checksum when all data are 0x00). Each new data entering a protected area modifies the values of its corresponding checksum according to the rules. "Magic" is a mandatory keyword (its absence triggers the suicide code even if the checksum is correct).
 
-## Example of starting seed for checksums
+## Starting seed for ALL camera checksums
 ![Starting seed](Pictures/Metadata_checksum.png)
 
 If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I don't know, I expected something more meaningfull like the 2 bytes [most hilarious joke of the world](https://www.youtube.com/watch?v=Qklvh5Cp_Bs)).
