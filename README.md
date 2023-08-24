@@ -185,7 +185,7 @@ Well enough to enjoy all the crappy images of the B album of the camera (At leas
 ## Example of starting seed for checksums
 ![Starting seed](Pictures/Metadata_checksum.png)
 
-The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I expected something more meaningfull like a 2 bytes hilarious joke), but the save will be rejected as non legit by the camera.
+The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I don't know, I expected something more meaningfull like the 2 bytes [most hilarious joke of the world](https://www.youtube.com/watch?v=Qklvh5Cp_Bs)), but the save will be rejected as non legit by the camera.
 
 # Part 3: Calibrating the sensor
 
