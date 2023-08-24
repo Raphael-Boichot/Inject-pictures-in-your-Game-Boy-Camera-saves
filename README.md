@@ -32,9 +32,9 @@ This is why I wrote [slot_activator.m](https://github.com/Raphael-Boichot/Inject
 
 Hopefully, I've found that an active image could be replaced bytewise without activating any suicide code. In consequence, the image injection code just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
 
-Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon disappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigame score to manipulate, following the word "Magic" into the save signing the presence of interesting stuff. This is where another form of pain happens.
+Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon disappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigame score to manipulate (that damn mole is too fast !), following the word "Magic" into the save signing the presence of interesting stuff. This is where another form of pain begins.
 
-## This was the easy part !
+## This was the easy part, now entering a world of pain
 ![Time for creativity](Pictures/Piece%20of%20cake.png)
 
 # Part 2: breaking the data encoding system just for science
