@@ -171,6 +171,11 @@ OK, at this point I was curious to understand how the checksum system worked (it
 
 And that's all ! The checksum could be calculated from scratch from always the same seed: "Magic" followed by 0x2F, 0x15 (starting checksum when all data are 0x00). Each new data entering a protected area modifies the values of its corresponding checksum according to the rules. "Magic" is a mandatory keyword (its absence triggers the suicide code even if the checksum is correct).
 
+## Example of starting seed for checksums
+![Starting seed](Pictures/Metadata_checksum.png)
+
+If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I don't know, I expected something more meaningfull like the 2 bytes [most hilarious joke of the world](https://www.youtube.com/watch?v=Qklvh5Cp_Bs)).
+
 Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file in legit save. [This folder](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
 
 ## Example of state vector checksum attack
@@ -181,11 +186,6 @@ Well enough to enjoy all the crappy images of the B album of the camera (At leas
 
 ## Examples of score attack on real hardware
 ![Scores you will never get in real](Pictures/Scores%20hacked%203.png)
-
-## Example of starting seed for checksums
-![Starting seed](Pictures/Metadata_checksum.png)
-
-The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I don't know, I expected something more meaningfull like the 2 bytes [most hilarious joke of the world](https://www.youtube.com/watch?v=Qklvh5Cp_Bs)), but the save will be rejected as non legit by the camera.
 
 # Part 3: Calibrating the sensor
 
