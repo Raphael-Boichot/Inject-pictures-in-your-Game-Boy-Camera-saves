@@ -161,9 +161,9 @@ General comment: any extended 0xAA range is a remnant of the initial factory sra
 ## Visual representation of data at the beginning of the sram
 ![Visual representation of data at the beginning of save ram](Pictures/Image_ram_beginning2.png)
           
-## Now let's reverse engineer the checksum system !
+## Now let's finally reverse engineer this damn checksum system !
 
-OK, at this point I was curious to understand how the checksum system worked. It was not a two bytes checksum like the Game Boy Printer protocol for sure, But some savestates comparisons showed that increasing values of scores or pictures taken always increased the left byte of the cheksum (low address). So this one was just a sum. The right byte (high address) had a weird behavior. I've tried all the common operators available in assembly and XOR was (of course) the good one. So left byte is a 8-bit sum and right byte a 8 bit XOR of values considered in the checksum. The rule to modify any byte in an area protected by checksum is the following:
+OK, at this point I was curious to understand how the checksum system worked (it was even a matter of honor). It was not a two bytes checksum like the Game Boy Printer protocol for sure, But some savestates comparisons showed that increasing values of scores or pictures taken always increased the left byte of the cheksum (low address). So this one was just a sum on 8 bits. The right byte (high address) had a weird behavior. I've tried all the common operators available in assembly and XOR was (of course) the good one. So left byte is a 8-bit sum and right byte a 8 bit XOR of values considered in the checksum. The rule to modify any byte in an area protected by checksum is the following:
 
 - **modify the old byte value by a new byte value;**
 - **modify the left byte of its checksum like this: old checksum byte+(new byte value-old byte value);**
@@ -185,7 +185,7 @@ Well enough to enjoy all the crappy images of the B album of the camera (At leas
 ## Example of starting seed for checksums
 ![Starting seed](Pictures/Metadata_checksum.png)
 
-The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I expected something more meaningfull but not...), but the save will be rejected as non legit by the camera.
+The seed for Checksum is always "Magic" followed by 0x2F, 0x15. If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I expected something more meaningfull like a 2 bytes hilarious joke), but the save will be rejected as non legit by the camera.
 
 # Part 3: Calibrating the sensor
 
