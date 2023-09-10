@@ -10,22 +10,22 @@ So, despite the fact that extracting images from Game Boy Camera saves was made 
 
 The small Matlab/Octave codes [presented here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Codes%20Regular%20cameras) are intended to be easy to use. Here are the steps:
 - Extract your save from Game Boy Camera with any great tool like the [GBxCart dumper](https://shop.insidegadgets.com/product/gbxcart-rw/);
-- Scan your save with slot_viewer.m to identify memory slots available for injection. By default an available slot is one ever occupied by an image. Game face and address 0 are also writable as slots 0 and -1 respectively (they are by default active);
-- In option, activate all memory slots with slot_activator.m if you want to occupy any slot on camera. Blank slots will become white images, erased images will appear again, images will be numbered according to their address in memory;
+- Scan your save with [**slot_viewer.m**](Codes%20Regular%20cameras/slot_viewer.m) to identify memory slots available for injection. By default an available slot is one ever occupied by an image. Game face and address 0 are also writable as slots 0 and -1 respectively (they are by default active);
+- In option, activate all memory slots with [**slot_activator.m**](Codes%20Regular%20cameras/slot_activator.m) if you want to occupy any slot on camera. Blank slots will become white images, erased images will appear again, images will be numbered according to their address in memory;
 - Prepare a 128x112 (ore 128x128 for slot -1) image and a 32x32 pixels thumbnail (optional), 4 shades of gray;  
-- Inject the two pictures at once with image_injector.m into any desired memory slot ;
-- You can check again the success of image injection with slot_viewer.m;
+- Inject the two pictures at once with [**image_injector.m**](Codes%20Regular%20cameras/image_injector.m) into any desired memory slot;
+- You can check again the success of image injection with [**slot_viewer.m**](Codes%20Regular%20cameras/slot_viewer.m);
 - Burn your modified save into the Game Boy Camera;
 - Enjoy your new image and play with stamps;
-- You can additionnaly extract your images from save in .png format with image_extractor.m;
+- You can additionnaly extract your images from save in .png format with [**image_extractor.m**](Codes%20Regular%20cameras/image_extractor.m);
 
-The scanning code basically extracts and analyses values at addresses 0x011B2 to 0x011CF that contains the state and numbering of any image slot on the save (which I will call **"state vector"** because it had no name until now). These data are also duplicated from addresses 0x011D7 to 0x011F4. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the camera screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector:
+The scanning code basically extracts and analyses values at addresses 0x011B2 to 0x011CF that contains the state and numbering of any image slot on the save (which I will call **"State Vector"** because it had no name until now). These data are also duplicated from addresses 0x011D7 to 0x011F4. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the camera screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector:
 
 ![Vector state](Pictures/Vector%20state.png)
 
-Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came some very bad undocumented surprise. There is a fucking checksum system at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture or activating a new memory slot by simply manipulating the state vector (except as a whole as in this case the checksum is known). Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've fucked your precious images in case you just own original hardware in 1998).
+Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came some very bad undocumented surprise. There is an **undocumented checksum system** at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture or activating a new memory slot by simply manipulating the state vector (except as a whole as in this case the checksum is known). Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've basically fucked your precious images in case you just own original hardware in 1998).
 
-This is why I wrote [slot_activator.m](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/blob/main/Codes%20Regular%20cameras/slot_activator.m), which activates all slots (an unerases all pictures). This was the only operation that I was initially able to perform, knowing the checksum of this particular state vector. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! This means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Activating the 30 slots of a camera after a factory reset gives you 30 white images.
+This is why I wrote [slot_activator.m](Codes%20Regular%20cameras/slot_activator.m), which activates all slots (an unerases all pictures). This was the only operation that I was initially able to perform, knowing the checksum of this particular state vector. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! This means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Activating the 30 slots of a camera after a factory reset gives you 30 white images.
 
 ## Hexadecimal codes to unerase all picture
 ![unerase pictures](Pictures/uneraser.png)
@@ -34,12 +34,12 @@ Hopefully, I've found that an active image could be replaced bytewise without ac
 
 Funfact, the thumbnail is dynamically rewritten each time the image is saved into the Game Boy Camera, even if just one pixel is changed. So I just provide a generic image thumbnail that will soon disappear. Invigorated by my half-a-success, I took a look around the state vector in search for any minigame score to manipulate (that damn mole is too fast !), following the word "Magic" into the save signing the presence of interesting stuff. This is where another form of pain begins.
 
-## This was the easy part, now entering a world of pain
+## This was the easy part, now began the tricky one
 ![Time for creativity](Pictures/Piece%20of%20cake.png)
 
 # Part 2: breaking the data encoding system just for science
 
-I loosely continued collecting data to understand how bytes are arranged into the savestate (see [research folder](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Research)). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the [CoroCoro save hack](https://tcrf.net/Game_Boy_Camera) that targets one of the rare unprotected range), even more than 25 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to crack the thing was rather strong. 
+I loosely continued collecting data to understand how bytes are arranged into the savestate (see [research folder](Research)). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the [CoroCoro save hack](https://tcrf.net/Game_Boy_Camera) that targets one of the rare unprotected range), even more than 25 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to crack the thing was rather strong. 
 
 My general (tedious) strategy was to compare different dumped savesates with some accomplishments made (not all, I'm not mad nor stuck at home with broken legs), byte per byte, to understand where were the targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
 
@@ -51,7 +51,7 @@ My general (tedious) strategy was to compare different dumped savesates with som
 
 - Data protected by checksums are systematically echoed but first occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file);
 
-- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie, Gameshark or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a suicide code as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
+- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie, Gameshark or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a **suicide code** as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
 
 - On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way (as well as Game Face data);
 
@@ -61,7 +61,7 @@ My general (tedious) strategy was to compare different dumped savesates with som
 
 - Funfact:  the beginning of the save ram acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird (or cringe) surprises.
 
-- It was partly stupid to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is reliable enough to do mostly the same more rapidely...
+- It was a bit tedious to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is reliable enough to do mostly the same more rapidely...
 
 So I can now propose a revised structure of the Game Boy Camera save format since [Jeff Frohwein](https://www.devrs.com/gb/files/gbcam.txt) proposed the first one in the early 2000's.
 
@@ -176,7 +176,7 @@ And that's all ! The checksum could be calculated from scratch from always the s
 
 If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I don't know, I expected something more meaningfull like the 2 bytes [most hilarious joke of the world](https://www.youtube.com/watch?v=Qklvh5Cp_Bs)).
 
-Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file in legit save. [This folder](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
+Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file in legit save. [This folder](Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
 
 ## Example of state vector checksum attack
 ![State vector](Pictures/Vector_state_checksum.png)
@@ -250,7 +250,7 @@ A [prototype of Game Boy Camera](https://tcrf.net/Proto:Game_Boy_Camera) has bee
 Summary of some tests made on real hardware:
 - The camera writes nothing in ram at boot;
 - It allows accessing any memory slot in GALLERY mode, so it does not keep track of the slots occupied except than locally in software;
-- Aging test can be made only by writing saves with [certain patterns more or less convoluted](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Codes%20Debagame%20Tester%20-%20Second%20Impact). It must be possible to generate them onboard but I did not find how;
+- Aging test can be made only by writing saves with [certain patterns more or less convoluted](Codes%20Debagame%20Tester%20-%20Second%20Impact). It must be possible to generate them onboard but I did not find how;
 - Many functions let no traces in ram so I cannot really document their effect at the moment;
 - The MOVIE function allows trying register configurations and dithering patterns not available in the original rom;
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
