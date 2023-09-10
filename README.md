@@ -149,7 +149,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 - **0x02FEA-0x02FFF: end of memory slot;**          
     - *0x02FEA-0x02FEF: 0xAA repeated;*
     - *0x02FF0-0x02FF1: 0xAA repeated, but not always;*
-    - *0x02FF2-0x02FFF: 0xAA repeated or sensor calibration vector under image slot 3 (0x04FF2-0x04FFF) and image slot 16 (0x11FF2-0x011FFF, echo).*
+    - *0x02FF2-0x02FFF: 0xAA repeated or sensor calibration vector under image slot 5 (0x04FF2-0x04FFF) and image slot 18 (0x11FF2-0x011FFF, echo).*
     - *0X02FFF: changes with hotspots and events in the camera;*
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
