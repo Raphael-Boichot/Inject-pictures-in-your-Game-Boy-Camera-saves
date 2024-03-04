@@ -170,7 +170,7 @@ And that's all ! The checksum could be calculated from scratch from always the s
 ## Starting seed for ALL camera checksums
 ![Starting seed](Pictures/Metadata_checksum.png)
 
-If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I don't know, I expected something more meaningfull like the 2 bytes [most hilarious joke of the world](https://www.youtube.com/watch?v=Qklvh5Cp_Bs)).
+If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii, I don't know, I expected something more meaningfull.
 
 Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file in legit save. [This folder](Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
 
@@ -185,7 +185,7 @@ Well enough to enjoy all the crappy images of the B album of the camera (At leas
 
 # Part 3: Calibrating the sensor
 
-A secret factory menu have been discovered in december 2021 independently by two different members of the Game Boy Camera Club Discord: by pressing all inputs (4 directions included, I know this is completely stupid) at the same time when booting, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The exact purpose of this menu have been discovered by serendipity the 7 august 2022 from a glitched save that changes the sensor auto-exposure rules: this is a calibration menu.
+A secret factory menu have been discovered in december 2021 independently by me and [Cristofer Cruz](https://github.com/cristofercruz): by pressing all inputs (4 directions included, I know this is completely stupid) at the same time when booting, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The exact purpose of this menu have been discovered by serendipity the 7 august 2022 from a glitched save that changes the sensor auto-exposure rules: this is a calibration menu.
 
 During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFF, echoed at the range 0x11FF2-0x011FFF. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
 
