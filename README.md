@@ -4,7 +4,7 @@
 
 So, despite the fact that extracting images from Game Boy Camera saves was made possible by fans since many years, it was virtually impossible in 2021 to do the inverse : inject custom pictures into saves. At least until now. What could be the interest, dear reader ? It can be usefull to mess with pixel perfect artworks, to reuse an image that was erased long ago from camera but still stored somewhere on a computer or internet or simply exchange pictures with friends if you have no friends, which is my case.
 
-All codes given here are GNU Octave / Matlab compatible. GNU Octave is an open source version of Matlab. Codes are meant to be easy to use / modify from any of these multi OS development environments.
+All codes given here are [GNU Octave](https://octave.org/) / Matlab compatible. GNU Octave is an open source version of Matlab, a langage for scientific computing. Codes are meant to be short and easy to use / modify from any of these multi OS development environments.
 
 The small codes [presented here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Codes%20Regular%20cameras) allows injecting custom pictures in any save. Here are the steps:
 - Extract your save from Game Boy Camera with any great tool like the [GBxCart dumper](https://shop.insidegadgets.com/product/gbxcart-rw/);
