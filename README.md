@@ -4,7 +4,9 @@
 
 So, despite the fact that extracting images from Game Boy Camera saves was made possible by fans since many years, it was virtually impossible in 2021 to do the inverse : inject custom pictures into saves. At least until now. What could be the interest, dear reader ? It can be usefull to mess with pixel perfect artworks, to reuse an image that was erased long ago from camera but still stored somewhere on a computer or internet or simply exchange pictures with friends if you have no friends, which is my case.
 
-The small Matlab/Octave codes [presented here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Codes%20Regular%20cameras) are intended to be easy to use. Here are the steps:
+All codes given here are GNU Octave / Matlab compatible. GNU Octave is an open source version of Matlab.
+
+The small codes [presented here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Codes%20Regular%20cameras) are intended to be easy to use. Here are the steps:
 - Extract your save from Game Boy Camera with any great tool like the [GBxCart dumper](https://shop.insidegadgets.com/product/gbxcart-rw/);
 - Scan your save with [**slot_viewer.m**](Codes%20Regular%20cameras/slot_viewer.m) to identify memory slots available for injection. By default an available slot is one ever occupied by an image. Game face and address 0 are also writable as slots 0 and -1 respectively (they are by default active);
 - In option, activate all memory slots with [**slot_activator.m**](Codes%20Regular%20cameras/slot_activator.m) if you want to occupy any slot on camera. Blank slots will become white images, erased images will appear again, images will be numbered according to their address in memory;
@@ -234,6 +236,8 @@ These minor ram save format inconsistencies mean that switching from regular rom
 Save functionality of the leaked rom was probably enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
 
 It was also observed that the image is overall "smoother" (in a not pleasant way I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of sensor registers or dithering tables compared to regular roms. I've never investigated more on this point as I guess that nobody (included me) cares of that in fact.
+
+Funfact: as the number of borders in HK rom is higher than in regular roms (and checksum correctly updated for this entry in HK rom), you can save a value from HK rom not supported by regular rom. This leads to an incorrect address to tilemap and very interesting glitched borders appear.
 
 ## Byte attack on HK Pocket Camera (Created by [Cristofer Cruz](https://github.com/cristofercruz))
 ![Byte attack on Hello Kitty](Pictures/Hello_Kitty.jpg)
