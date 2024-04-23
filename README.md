@@ -1,4 +1,4 @@
-# All you want to know about the Game Boy Camera save format !
+## All you want to know about the Game Boy Camera save format !
 
 # Part 1: Injecting custom pictures into the save
 
@@ -227,7 +227,13 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 - **0x0187C-0x01FFF: 0x00;**
 - **0x02000-0x1FFFF: same as Game Boy Camera;**
 
-The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich seems to be a test area for regular Game Boy Camera. Means that save functionality is enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot. Running a regular Game Boy Camera with an unmodified Hello Kitty save and the inverse is possible. It will erase the records, jam the game face area or the Hello Kitty face thumbnail but **recorded images will be conserved**.
+The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich corresponds to animation settings in the regular Game Boy Camera (so it will mess all minigames data if you change the rom as checksum won't be updated properly).
+
+These minor ram save format inconsistencies mean that switching from regular rom to HK rom with the same save is OK, but switching back will probably wipe your records if you catch any "kitt", the rom "currency". Images are anyway always conserved.
+
+Save functionality of the leaked rom was probably enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
+
+It was also observed that the image is overall "smoother" (in a not pleasant way I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of sensor registers or dithering tables compared to regular roms. I've never investigated more on this point as I guess that nobody (included me) cares of that in fact.
 
 ## Byte attack on HK Pocket Camera (Created by [Cristofer Cruz](https://github.com/cristofercruz))
 ![Byte attack on Hello Kitty](Pictures/Hello_Kitty.jpg)
