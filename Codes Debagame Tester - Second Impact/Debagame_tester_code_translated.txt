@@ -1,0 +1,1839 @@
+LD	(AKARUSA),A		;Target value for work
+	
+	LD	A,$00
+	LD	($4000),A		;Change of RAM bank
+	
+	
+;-------------Display of current exposure time---------------
+
+	IFE	OOE
+
+	LD	A,(B_CNTR2)
+	LD	(TEST1),A
+	LD	A,(B_CNTR3)
+	LD	(TEST2),A
+
+	ENDIF
+	
+;-------------Sunspot count (middle)-----------------------
+	IFE	ZENTAI
+	LD	BC,$00		;Count the number of 1's in the middle 8 x 7 character.
+				;Checkerboard pattern (check 448 bytes)
+	LD	de,BUF_ADR+$340
+	CALL	LINE_CHECK
+	LD	de,BUF_ADR+$440
+	CALL	LINE_CHECK
+	LD	de,BUF_ADR+$540
+	CALL	LINE_CHECK
+	LD	de,BUF_ADR+$640
+	CALL	LINE_CHECK
+	LD	de,BUF_ADR+$740
+	CALL	LINE_CHECK
+	LD	de,BUF_ADR+$840
+	CALL	LINE_CHECK
+	LD	de,BUF_ADR+$940
+	CALL	LINE_CHECK
+	ENDIF
+
+;------------Black spot count (entire screen)----------------------
+	ifn	ZENTAI
+	LD	BC,$00
+	
+	LD	DE,BUF_ADR
+	CALL	SCREEN_CHECK
+
+	endif
+
+;********At this point, the number of sunspots in BC***********
+;********    Possible values for BC are 0000 to 1500H      ***********
+
+_COUNT_END
+
+	LD	A,(AKARUSA)
+	LD	D,A		; AKARUSA's target value for the number of sunspots (0 to A8)
+
+	SLA	C	; BC shifted 3 bits to the left
+	RL	B		
+	SLA	C
+	RL	B
+	SLA	C	; The top 8 BITs of the number of sunspots go into the B register
+	RL	B	; The value of B is 0 to A8
+
+
+;--------------------------------------------
+;   Now compare the current sunspot number with the target value
+;--------------------------------------------
+	LD	A,B
+	SUB	D	; Subtract C (AKARUSA: target value) from B (number of sunspots)
+	JR	NC,_UP
+
+;===========================================
+; When the current sunspot number is less than the target value
+;  Shorten exposure time
+;===========================================
+_DOWN
+	CPL			; BIT inversion
+	INC	A		; Now the two's complement
+	LD	B,A
+	LD	(TEST),A
+;------------------------------------	
+	LD	A,(B_CNTR2)	;Put current exposure time in HL,DE
+	LD	H,A
+	LD	D,A
+	LD	A,(B_CNTR3)
+	LD	L,A
+	LD	E,A
+;------------------------------------
+	LD	A,B		; Calculation of exposure time increase
+	LD	BC,CHG_TIME_TBL_D	;Get the number of times to shift from table
+	ADD	A,C
+	LD	C,A
+	JR	NC,_NO_CARRY
+	INC	B
+_NO_CARRY
+	LD	A,(BC)		;Loop counter (number of times to shift)
+				;This number determines what fraction to subtract.
+;------------------------------------
+_DOWN_LP
+	CP	$00
+	JR	Z,_D_LP_E
+	SRL	D		;Shift DE to the right
+	RR	E		;Decreases with each loop.
+	DEC	A
+	JR	_DOWN_LP
+_D_LP_E
+
+;--------Calculating the 2's complement of DE-----------
+	LD	A,D
+	CPL
+	LD	D,A
+	LD	A,E
+	CPL
+	LD	E,A
+	INC	DE
+;------------------------------------
+	ADD	HL,DE
+	JR	_SET
+
+
+
+;===========================================
+; When the current sunspot number is higher than the target value
+;  Lengthen exposure time
+;===========================================
+_UP
+	LD	B,A		;Put the subtraction result in B
+	LD	(TEST),A
+
+;------------------------------------
+	LD	A,(B_CNTR2)	;Put the current exposure time in HL,DE
+	LD	H,A
+	LD	D,A
+	LD	A,(B_CNTR3)
+	LD	L,A
+	LD	E,A
+;------------------------------------
+	LD	A,B		; Calculation of exposure time increase
+
+;------------------------------------
+	CP	$00		;00, no need to change. Back to.
+	RET	Z
+;------------------------------------
+
+	LD	BC,CHG_TIME_TBL_U	;Get the number of times to shift from table
+	ADD	A,C
+	LD	C,A
+	JR	NC,_NO_CARRY_U
+	INC	B
+_NO_CARRY_U
+	LD	A,(BC)		;Loop counter (number of times to shift)
+
+;------------------------------------
+_UP_LP	
+	CP	$00
+	JR	Z,_U_LP_E
+	SRL	D
+	RR	E
+	DEC	A
+	JR	_UP_LP
+_U_LP_E
+	ADD	HL,DE
+	JR	NC,_SET
+	LD	HL,$FFFF	; If the MAX value (FFFFH) is exceeded, set to MAX.
+;------------------------------------
+
+;======================================================
+;  Actually change the exposure time (and transfer it to the chip)
+;======================================================
+_SET
+	LD	A,H
+	LD	(B_CNTR2),A
+	LD	A,L
+	LD	(B_CNTR3),A
+
+	LD	DE,$FFDF		; Since it is not available below 21H.
+	ADD	HL,DE
+	JR	C,_SET_OK
+
+	LD	A,$00
+	LD	(B_CNTR2),A		; Forced to 21H
+	LD	A,$21
+	LD	(B_CNTR3),A
+
+_SET_OK
+	LD	A,$10
+	LD	($4000),A		; RAM BANK changes
+	
+	LD	A,(B_CNTR2)
+	LD	(CNTR2),A		; Actual change
+	LD	A,(B_CNTR3)
+	LD	(CNTR3),A
+
+	RET
+
+
+
+
+
+;=================================================
+; Subroutine for counting the number of 1's 1 line
+;=================================================
+LINE_CHECK
+	ld	a,$4
+	ld	(r0),a	; loop counter
+_lp
+	call	BIT_COUNT
+	inc	de
+	inc	de
+	
+	call	BIT_COUNT
+	inc	de
+	inc	de
+
+	call	BIT_COUNT
+	inc	de
+	inc	de
+
+	call	BIT_COUNT
+	inc	de
+	inc	de
+	
+	inc	de
+	inc	de
+	
+	call	BIT_COUNT
+	inc	de
+	inc	de
+
+	call	BIT_COUNT
+	inc	de
+	inc	de
+
+	call	BIT_COUNT
+	inc	de
+	inc	de
+
+	call	BIT_COUNT
+
+	ld	a,(r0)
+	dec	a
+	ret	z
+	ld	(r0),a
+	jr	_lp
+
+
+;************************************************
+;*   SCREEN_CHECK		Entire screen*
+;************************************************
+
+SCREEN_CHECK
+	ld	a,$1C
+	ld	(r0),a	; loop counter
+_lp
+	CALL	BIT_COUNT	;The first line of the first character	
+	LD	HL,$14		
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L
+
+	CALL	BIT_COUNT	;Line 4 of the next character	
+	LD	HL,$14
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L
+	
+	CALL	BIT_COUNT	;Line 7 of the following character
+	LD	HL,$4
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L
+	
+	CALL	BIT_COUNT	;The first line of the following character
+	LD	HL,$14
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L
+	
+	CALL	BIT_COUNT
+	LD	HL,$14
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L
+	
+	CALL	BIT_COUNT
+	LD	HL,$4
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L
+	
+	CALL	BIT_COUNT
+	LD	HL,$14
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L
+	
+	CALL	BIT_COUNT
+	LD	HL,$4
+	ADD	HL,DE
+	LD	D,H
+	LD	E,L	
+	
+	ld	a,(r0)
+	dec	a
+	ret	z
+	ld	(r0),a
+	jr	_lp
+
+
+;==================================================
+; Calculate color density 0,1,2,3 for color data 00,01,10,11
+;                     Add them together as
+;	bc : bit counter
+;	de : Address of image data to be checked
+;==================================================
+BIT_COUNT
+	LD	H,$3E		; Table address $3E00
+	LD	A,(DE)
+	INC	DE
+	LD	L,A
+	LD	L,(HL)
+	LD	H,$00
+	ADD	HL,BC
+	LD	B,H
+	LD	C,L
+	
+	LD	H,$3E
+	LD	A,(DE)
+	INC	DE
+	LD	L,A
+	LD	L,(HL)
+	SLA	L		; 1BIT Left Shift
+	LD	H,$00
+	ADD	HL,BC
+	LD	B,H
+	LD	C,L
+
+	RET
+
+
+
+
+;//////////////////////////////////////////////////////////////////////
+;//////////////////////////////////////////////////////////////////////
+
+
+;*******************************************************
+;* SET DITH MATRIX                                     *
+;*     B : dither pattern                              *
+;*     C : contrast                                    *
+;*******************************************************
+SET_DITH_MATRIX
+;++++++Determine S0, S1, S2, W0, W1, W2 from contrast+++++++
+	LD	HL,CONT_PATTERN
+	LD	DE,$6
+_LP0
+	DEC	C		;Contrast 1 to 21H
+	JR	Z,_GET_PAT
+	ADD	HL,DE
+	JR	_LP0
+
+
+_GET_PAT
+	LD	DE,S0		; Set the address of S0 to DE
+	LD	A,(HLI)
+	LD	(DE),A
+	INC	DE
+	LD	A,(HLI)
+	LD	(DE),A
+	INC	DE
+	LD	A,(HLI)
+	LD	(DE),A
+	INC	DE
+	LD	A,(HLI)
+	LD	(DE),A
+	INC	DE
+	LD	A,(HLI)
+	LD	(DE),A
+	INC	DE
+	LD	A,(HLI)
+	LD	(DE),A
+
+;++++++Put the first address of the dither pattern in HL++++++++
+	LD	HL,NO_DITHER_PAT
+	LD	DE,$10
+	LD	A,B
+	OR	A
+	JR	Z,_LP_START
+_LP1
+	ADD	HL,DE
+	DEC	B
+	JR	NZ,_LP1
+
+;++++++Writing to the threshold buffer+++++++++++
+_LP_START
+
+	LD	DE,B_TH000	; Top of write destination buffer (48 bytes)
+
+	LD	A,$10
+	LD	(LOOP_COUNT),A
+_LP2
+	LD	A,(W0)
+	LD	C,A
+
+	LD	A,(HLI)
+	LD	B,A
+	XOR	A
+_LP21
+	DEC	C
+	JR	Z,_LP22
+	ADD	A,B
+	JR	_LP21
+_LP22
+	LD	B,A
+	LD	A,(S0)
+	ADD	A,B
+
+	LD	(DE),A
+	INC	DE
+	LD	A,(LOOP_COUNT)
+	DEC	A
+	LD	(LOOP_COUNT),A
+	JR	NZ,_LP2
+
+;------------------------------
+	LD	BC,$FFF0
+	ADD	HL,BC
+
+	LD	A,$10
+	LD	(LOOP_COUNT),A
+_LP3
+	LD	A,(W1)
+	LD	C,A
+
+	LD	A,(HLI)
+	LD	B,A
+	XOR	A
+_LP31
+	DEC	C
+	JR	Z,_LP32
+	ADD	A,B
+	JR	_LP31
+_LP32
+	LD	B,A
+	LD	A,(S1)
+	ADD	A,B
+
+	LD	(DE),A
+	INC	DE
+	LD	A,(LOOP_COUNT)
+	DEC	A
+	LD	(LOOP_COUNT),A
+	JR	NZ,_LP3
+
+;-------------------------------
+	LD	BC,$FFF0
+	ADD	HL,BC
+
+	LD	A,$10
+	LD	(LOOP_COUNT),A
+_LP4
+	LD	A,(W2)
+	LD	C,A
+
+	LD	A,(HLI)
+	LD	B,A
+	XOR	A
+_LP41
+	DEC	C
+	JR	Z,_LP42
+	ADD	A,B
+	JR	_LP41
+_LP42
+	LD	B,A
+	LD	A,(S2)
+	ADD	A,B
+
+	LD	(DE),A
+	INC	DE
+	LD	A,(LOOP_COUNT)
+	DEC	A
+	LD	(LOOP_COUNT),A
+	JR	NZ,_LP4
+
+
+;=======Write threshold values from buffer to retina chip=========
+
+	C_RAMBK	$10
+
+	LD	HL,$A006
+	
+	LD	A,(B_TH000)
+	LD	(HLI),A
+	LD	A,(B_TH001)
+	LD	(HLI),A
+	LD	A,(B_TH002)
+	LD	(HLI),A
+	LD	A,(B_TH010)
+	LD	(HLI),A
+	LD	A,(B_TH011)
+	LD	(HLI),A
+	LD	A,(B_TH012)
+	LD	(HLI),A
+	LD	A,(B_TH020)
+	LD	(HLI),A
+	LD	A,(B_TH021)
+	LD	(HLI),A
+	LD	A,(B_TH022)
+	LD	(HLI),A
+	LD	A,(B_TH030)
+	LD	(HLI),A
+	LD	A,(B_TH031)
+	LD	(HLI),A
+	LD	A,(B_TH032)
+	LD	(HLI),A
+
+	LD	A,(B_TH100)
+	LD	(HLI),A
+	LD	A,(B_TH101)
+	LD	(HLI),A
+	LD	A,(B_TH102)
+	LD	(HLI),A
+	LD	A,(B_TH110)
+	LD	(HLI),A
+	LD	A,(B_TH111)
+	LD	(HLI),A
+	LD	A,(B_TH112)
+	LD	(HLI),A
+	LD	A,(B_TH120)
+	LD	(HLI),A
+	LD	A,(B_TH121)
+	LD	(HLI),A
+	LD	A,(B_TH122)
+	LD	(HLI),A
+	LD	A,(B_TH130)
+	LD	(HLI),A
+	LD	A,(B_TH131)
+	LD	(HLI),A
+	LD	A,(B_TH132)
+	LD	(HLI),A
+
+	LD	A,(B_TH200)
+	LD	(HLI),A
+	LD	A,(B_TH201)
+	LD	(HLI),A
+	LD	A,(B_TH202)
+	LD	(HLI),A
+	LD	A,(B_TH210)
+	LD	(HLI),A
+	LD	A,(B_TH211)
+	LD	(HLI),A
+	LD	A,(B_TH212)
+	LD	(HLI),A
+	LD	A,(B_TH220)
+	LD	(HLI),A
+	LD	A,(B_TH221)
+	LD	(HLI),A
+	LD	A,(B_TH222)
+	LD	(HLI),A
+	LD	A,(B_TH230)
+	LD	(HLI),A
+	LD	A,(B_TH231)
+	LD	(HLI),A
+	LD	A,(B_TH232)
+	LD	(HLI),A
+
+	LD	A,(B_TH300)
+	LD	(HLI),A
+	LD	A,(B_TH301)
+	LD	(HLI),A
+	LD	A,(B_TH302)
+	LD	(HLI),A
+	LD	A,(B_TH310)
+	LD	(HLI),A
+	LD	A,(B_TH311)
+	LD	(HLI),A
+	LD	A,(B_TH312)
+	LD	(HLI),A
+	LD	A,(B_TH320)
+	LD	(HLI),A
+	LD	A,(B_TH321)
+	LD	(HLI),A
+	LD	A,(B_TH322)
+	LD	(HLI),A
+	LD	A,(B_TH330)
+	LD	(HLI),A
+	LD	A,(B_TH331)
+	LD	(HLI),A
+	LD	A,(B_TH332)
+	LD	(HLI),A
+	
+	R_RAMBK
+
+	RET
+
+
+
+;=========================================================
+;  REGISTER_SETTING
+;
+;   Setting the register of the artificial retina chip
+;
+;   A register : Upper 4 bits Edge strength 0 to 7
+;		Lower 4 bits Mode  0: Negative image
+;				   1: Horizontal edge enhancement
+;				   2: Vertical edge enhancement
+;				   3: Two-dimensional edge enhancement
+;				   4: Horizontal edge
+;				   5: Vertical edge
+;				   6:Two-dimensional edge
+;==========================================================
+REGISTER_SETTING
+	LD	B,A	;Mode and edge strength
+	
+	AND	$0F
+	CP	$00
+	JR	Z,_FUGAZOU
+	CP	$01
+	JR	Z,_YOKO_KYOUTYOU
+	CP	$02
+	JR	Z,_TATE_KYOUTYOU
+	CP	$03
+	JR	Z,_NIJIGEN_KYOUTYOU
+	CP	$04
+	JP	Z,_YOKO_EDGE
+	CP	$05
+	JP	Z,_TATE_EDGE
+	JP	_NIJIGEN_EDGE
+	RET
+
+;--------------negative image------------------
+_FUGAZOU
+	LD	A,$02
+	LD	(B_CNTR0),A
+	LD	A,$02
+	LD	(CNTR1),A
+	LD	(B_CNTR1),A
+	LD	A,$02
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+;	LD	A,$80
+;	LD	(B_CNTR5),A
+	RET
+
+;-----------Horizontal edge enhancement--------------
+_YOKO_KYOUTYOU
+	LD	A,$02
+	LD	(B_CNTR0),A
+	LD	A,$22
+	LD	(B_CNTR1),A
+	LD	(CNTR1),A
+	
+	LD	A,B
+	AND	$F0
+	CP	$00
+	JR	Z,_EDGE_YOWAI1
+	CP	$10
+	JR	Z,_EDGE_YOWAI1
+	CP	$20
+	JR	Z,_EDGE_YOWAI1
+	ADD	A,$6
+	JR	_V_SET_YK
+_EDGE_YOWAI1
+	ADD	A,$03
+_V_SET_YK
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+;	LD	A,$80
+;	LD	(B_CNTR5),A
+	
+	RET
+	
+;-----------Vertical Edge Enhancement--------------
+_TATE_KYOUTYOU
+	LD	A,$00
+	LD	(B_CNTR0),A
+	LD	A,$C2
+	LD	(CNTR1),A
+	LD	(B_CNTR1),A
+	
+	LD	A,B
+	AND	$F0
+	ADD	A,$03
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+	RET
+	
+;---------2D edge enhancement------------
+
+_NIJIGEN_KYOUTYOU
+	LD	A,$00
+	LD	(B_CNTR0),A
+	LD	A,$E2
+	LD	(B_CNTR1),A
+	LD	(CNTR1),A
+
+	LD	A,B
+	AND	$F0
+	CP	$00
+	JR	Z,_EDGE_YOWAI
+	CP	$10
+	JR	Z,_EDGE_YOWAI
+	CP	$20
+	JR	Z,_EDGE_YOWAI
+	CP	$30
+	JR	Z,_EDGE_TYUU
+	ADD	A,$6
+	JR	_V_SET
+_EDGE_YOWAI
+	ADD	A,$03
+	JR	_V_SET
+_EDGE_TYUU
+	ADD	A,$04
+	
+_V_SET
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+;	LD	A,$80
+;	LD	(B_CNTR5),A
+	RET
+
+;--------------lateral edge-----------------
+_YOKO_EDGE
+
+	RET
+	
+;--------------vertical edge-----------------
+_TATE_EDGE
+
+	RET
+	
+;------------two dimensional edge---------------
+_NIJIGEN_EDGE
+	LD	A,$00
+	LD	(B_CNTR0),A
+	LD	A,$E2
+	LD	(CNTR1),A
+	LD	(B_CNTR1),A
+	
+	LD	A,B
+	AND	$F0
+	ADD	A,$03
+	SET	7,A
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+	
+	RET
+	
+
+;///////////////////////////////////////////////////////////////////
+;///////////////////////////////////////////////////////////////////
+
+
+;=====================================================
+;
+;   Offset adjustment
+;
+;  The threshold value is changed, and the dither setting should be set after this
+;=====================================================
+GET_OFFSET
+
+;-------------------------
+	LD	A,$10		; RAMBK $10
+	LD	($4000),A
+
+	LD	B,$70
+	LD	A,(B_MODE)
+	CP	$06
+	JR	NZ,_SET_TH
+
+	LD	B,$55		;Set the threshold value to 55H (1V)
+_SET_TH
+	LD	HL,TH000
+	LD	DE,$30
+_TH_LOOP
+	LD	(HL),B
+	DEC	DE
+	LD	A,D
+	OR	E
+	JR	NZ,_TH_LOOP
+
+
+;--------------------------
+
+	XOR	A		;Set exposure time to 0021H
+	LD	(CNTR2),A
+	LD	A,$21
+	LD	(CNTR3),A
+
+;---------------------------
+
+	LD	A,(B_CNTR5)
+	AND	$C0
+	LD	B,$3F		;Initial value of offset is 3FH (+1FH)
+	OR	B
+	LD	(B_CNTR5),A
+	LD	(CNTR5),A
+
+
+;-------------------------------------
+
+
+	LD	A,$10
+	LD	($4000),A
+	
+	LD	A,(B_CNTR0)	;Set the start bit
+	SET	0,A
+	LD	(CNTR0),A
+
+_POLL1				;Image acquisition polling
+	LD	A,(CNTR0)
+	BIT	0,A
+	JR	NZ,_POLL1
+		
+	LD	A,(B_CNTR0)	;Set the start bit
+	SET	0,A
+	LD	(CNTR0),A
+
+_POLL2				;Image acquisition polling
+	LD	A,(CNTR0)
+	BIT	0,A
+	JR	NZ,_POLL2
+
+
+;-------------------------------------------------------
+_LOOP
+	LD	A,$10
+	LD	($4000),A
+	
+	LD	A,(B_CNTR0)	;Set the start bit
+	SET	0,A
+	LD	(CNTR0),A
+
+_POLL				;Image acquisition polling
+	LD	A,(CNTR0)
+	BIT	0,A
+	JR	NZ,_POLL
+
+	CALL	CHECK_BLACK	;Have we reached the black level?
+	OR	A		;nd when A register is 1
+	JR	NZ,_LOOP_END
+
+	CALL	OFFSET_DOWN	;Lower offset and repeat.
+	OR	A		;End when A register is 1
+	JR	Z,_LOOP
+
+;--------------------------------------------------------
+_LOOP_END
+
+	LD	A,(B_CNTR2)	;Restore exposure time
+	LD	(CNTR2),A
+	LD	A,(B_CNTR3)
+	LD	(CNTR3),A
+
+	RET
+
+
+;=================
+;CHECK_BLACK
+;=================
+CHECK_BLACK
+	XOR	A
+	LD	($4000),A	;RAM BANK 0
+	
+;	LD	HL,$AD0A
+	LD	HL,$A770
+	LD	E,$10
+_LOOP
+	LD	A,(HLI)
+	CP	$FF
+	JR	NZ,_RET
+
+;	LD	A,(HLI)
+;	CP	$FF
+;	JR	NZ,_RET
+;	LD	A,L
+;	ADD	A,$0E
+;	LD	L,A
+
+	DEC	E
+	JR	NZ,_LOOP
+
+;---Black level was found!
+	LD	A,$10
+	LD	($4000),A	;RAM BANK 10H
+	LD	A,$01		;I got the black level, flag set!
+	RET
+
+;---Black level did not appear. Let's lower the offset and come back out.
+_RET
+	LD	A,$10
+	LD	($4000),A	;RAM BANK 10H
+	XOR	A
+	RET
+
+
+;=================
+;OFFSET_DOWN
+;=================
+OFFSET_DOWN
+	LD	A,(B_CNTR5)
+
+	BIT	5,A		;sign check
+	JR	Z,_MINUS
+
+;------------------------------
+_PLUS
+	AND	$3F		;See the lower 6BIT.
+	CP	$20
+	JR	Z,_PLUS_END	;When currently +O... _PLUS_END
+	
+	DEC	A		;decrease
+;	SET	5,A		;make the sign bit
+	LD	B,$00
+	JR	_DOWN_END
+	
+_PLUS_END			;I'll take the -1.
+	LD	A,$01
+	LD	B,$00
+	JR	_DOWN_END
+
+;------------------------------
+_MINUS
+	AND	$1F
+	CP	$1F
+	JR	NZ,_MINUS_DOWN
+	LD	B,$01		;exit flag
+	JR	_DOWN_END
+
+_MINUS_DOWN
+	INC	A		;decrease
+	LD	B,$00
+
+;-----------------------------
+_DOWN_END
+	LD	C,A
+	LD	A,(B_CNTR5)
+	AND	$C0
+	OR	C
+	LD	(B_CNTR5),A
+	LD	(CNTR5),A
+
+	LD	A,B		;Did you get to the bottom? Flag.
+
+	
+	RET
+
+
+;///////////////////////////////////////////////////////////////////////
+;///////////////////////////////////////////////////////////////////////
+
+;=======================================================
+;
+;   TRANSFER_TO_BUF
+;
+;     Transfers images to a buffer
+;     A register : Palette and mode
+;=======================================================
+TRANSFER_TO_BUF
+
+	AND	$1F	; Lower 5BIT is the mode
+_TENSOU1
+	CP	13
+	JR	NZ,_TENSOU2
+	CALL	TENSOU_TATE
+	JP	_TENSOU_END
+
+_TENSOU2
+	CP	16
+	JR	NZ,_TENSOU3
+	CALL	TENSOU_YOKO
+	JP	_TENSOU_END
+
+_TENSOU3
+	CP	2
+	JR	NZ,_TENSOU4
+	CALL	MIRROR_MODE
+	JP	_TENSOU_END
+_TENSOU4
+	CP	8
+	JR	NZ,_TENSOU5
+	CALL	MABIKI_MODE
+	JP	_TENSOU_END
+_TENSOU5
+	CP	9
+	JR	NZ,_TENSOU6
+	CALL	MABIKI_MODE2
+	JP	_TENSOU_END
+_TENSOU6
+	CP	5
+	JR	NZ,_TENSOU7
+	CALL	TATE_NOBASI_MODE
+	JP	_TENSOU_END
+_TENSOU7
+	CP	6
+	JR	NZ,_TENSOU8
+	CALL	YOKO_NOBASI_MODE
+	JP	_TENSOU_END
+_TENSOU8
+	CP	7
+	JR	NZ,_TENSOU0
+	CALL	KAKUDAI_MODE
+	JP	_TENSOU_END
+_TENSOU0
+	XOR	A
+	LD	($4000),A
+	
+	LD	HL,$A100	
+	LD	DE,$D000
+	LD	B,$0E
+	CALL	DATA_MOV_F
+	JR	_TENSOU_END
+
+_TENSOU_END
+
+	RET
+
+;=====================
+
+
+
+AA,$AA,$AA,$AA,$AA,$AA,$AA
+	
+	DEFB	$AA,$AA,$AA,$B6,$1D,$A0,$A0,$A0,$A0
+	DEFB	$A0,$A0,$A0,$A0,$A0,$A0,$A0,$1F
+	DEFB	$AA,$AA,$AA,$AA,$AA,$AA,$AA,$AA
+	DEFB	$AA,$AA,$AA,$AA,$AA,$AA,$AA
+
+	DEFB	$AA,$AA,$AA,$AA,$1D,$A0,$A0,$A0,$A0
+	DEFB	$A0,$A0,$A0,$A0,$␀ﾀ�ﾂA0,$A0,$1F
+	DEFB	$AA,$AA,$AA,$AA,$AA,$AA,$AA,$AA
+	DEFB	$AA,$AA,$AA,$AA,$AA,$AA,$AA
+
+	DEFB	$AA,$AA,$AA,$AA,$1D,$A0,$A0,$A0,$A0
+	DEFB	$A0,$A0,$A0,$A0,$A0,$A0,$A0,$1F
+	DEFB	$AA,$AA,$AA,$AA,$AA,$AA,$AA,$AA
+	DEFB	$AA,$AA,$AA,$AA,$AA,$AA,$AA
+	
+	DEFB04
+	DB	$59,$70,$87,$03,$03,$04
+	DB	$5A,$70,$86,$03,$03,$04
+	DB	$5B,$70,$85,$03,$03,$04
+	DB	$5C,$70,$84,$03,$03,$04
+	DB	$5D,$70,$83,$03,$03,$04
+	DB	$5E,$70,$82,$03,$03,$04
+	DB	$5F,$70,$81,$03,$03,$04
+	DB	$60,$70,$80,$02,$02,$03
+	DB	$61,$70,$7F,$02,$02,$03
+	DB	$62,$70,$7E,$02,$02,$03
+	DB	$63,$70,$7D,$02,$02,$03
+	DB	$64,$70,$7C,$02,$02,$03
+	DB	$65,$70,$7B,$02,$02,$03
+	DB	$66,$70,$7A,$02,$02,$03
+	DB	$67,$70,$79,$02,$02,$03
+	DB	$68,$70,$78,$02,$02,$03
+	DB	$69,$70,$77,$02,$02,$03
+	DB	$6A,$70,$76,$02,$02,$03
+	DB	$6B,$70,$75,$02,$02,$03
+	DB	$6C,$70,$74,$02,$02,$03
+	DB	$6D,$70,$73,$02,$02,$03
+	DB	$6E,$70,$72,$02,$02,$03
+	DB	$6F,$70,$71,$02,$02,$03
+	DB	$70,$70,$70,$03,$03,$03
+
+	
+	
+	
+	DB	$60,$78,$A0,$03,$04,$04
+	DB	$60,$74,$98,$03,$04,$04
+	DB	$60,$70,$90,$02,$03,$04
+	DB	$60,$6C,$84,$02,$03,$04
+	DB	$60,$68,$78,$02,$02,$03
+	
+	
+	
+	
+	DB	$68,$78,$98,$02,$03,$04
+	DB	$70,$80,$A0,$02,$03,$04
+	DB	$78,$88,$A8,$02,$03,$04
+	DB	$80,$90,$B0,$02,$03,$04
+
+	DB	$40,$60,$A0,$03,$05,$05	
+	DB	$41,$60,$9E,$03,$05,$05
+	DB	$42,$60,$9C,$03,$05,$05
+	DB	$43,$60,$9A,$03,$05,$05
+
+	DB	$44,$60,$98,$03,$05,$05
+	DB	$45,$60,$96,$03,$05,$05
+	DB	$46,$60,$94,$03,$05,$05
+	DB	$47,$60,$92,$03,$05,$05
+
+	DB	$48,$60,$90,$03,$04,$05
+	DB	$49,$60,$8E,$03,$04,$05
+	DB	$4A,$60,$8C,$03,$04,$05
+	DB	$4B,$60,$8A,$03,$04,$05
+
+	DB	$4C,$60,$88,$03,$04,$05
+	DB	$4D,$60,$86,$03,$04,$05
+	DB	$4E,$60,$84,$03,$04,$05
+	DB	$4F,$60,$82,$03,$04,$05
+
+	DB	$50,$60,$80,$03,$04,$05
+	DB	$51,$60,$7E,$03,$04,$05
+	DB	$52,$60,$7C,$03,$04,$05
+	DB	$53,$60,$7A,$03,$04,$05
+
+	DB	$54,$60,$78,$03,$04,$05
+	DB	$55,$60,$76,$03,$04,$05
+	DB	$56,$60,$74,$03,$04,$05
+	DB	$57,$60,$72,$03,$04,$05
+
+	DB	$58,$60,$70,$03,$04,$05
+	DB	$59,$60,$6E,$03,$04,$05
+	DB	$5A,$60,$6C,$03,$04,$05
+	DB	$5B,$60,$6A,$03,$04,$05
+
+	DB	$5C,$60,$68,$03,$04,$05
+	DB	$5D,$60,$66,$03,$04,$05
+	DB	$5E,$60,$64,$03,$04,$05
+	DB	$5F,$60,$62,$03,$04,$05
+	DB	$60,$60,$60,$04,$04,$04
+
+
+
+	DB	$40,$58,$88,$03,$04,$05
+	DB	$41,$58,$86,$03,$04,$05
+	DB	$42,$58,$84,$03,$04,$05
+	DB	$43,$58,$82,$03,$04,$05
+
+	DB	$44,$58,$80,$03,$04,$05
+	DB	$45,$58,$8E,$03,$04,$05
+	DB	$46,$58,$7C,$03,$04,$05
+	DB	$47,$58,$7A,$03,$04,$05
+
+	DB	$48,$58,$78,$02,$03,$05
+	DB	$49,$58,$76,$02,$03,$05
+	DB	$4A,$58,$74,$02,$03,$05
+	DB	$4B,$58,$72,$02,$03,$05
+
+	DB	$4C,$58,$70,$02,$03,$05
+	DB	$4D,$58,$6E,$02,$03,$05
+	DB	$4E,$58,$6C,$02,$03,$05
+	DB	$4F,$58,$6A,$02,$03,$05
+
+	DB	$50,$58,$68,$02,$02,$04
+	DB	$51,$58,$66,$02,$02,$04
+	DB	$52,$58,$64,$02,$02,$04
+	DB	$53,$58,$62,$02,$02,$04
+
+	DB	$54,$58,$60,$02,$02,$04
+	DB	$55,$58,$5E,$02,$02,$04
+	DB	$56,$58,$5C,$02,$02,$04
+	DB	$57,$58,$5A,$02,$02,$04
+	DB	$58,$58,$58,$04,$04,$04
+
+
+
+	DB	$40,$58,$A0,$03,$06,$05
+	DB	$41,$58,$9D,$03,$06,$05
+	DB	$42,$58,$9A,$03,$06,$05
+	DB	$43,$58,$97,$03,$05,$05
+
+	DB	$44,$58,$94,$03,$05,$05
+	DB	$45,$58,$91,$03,$05,$05
+	DB	$46,$58,$8E,$03,$05,$05
+	DB	$47,$58,$8B,$03,$05,$05
+
+	DB	$48,$58,$88,$02,$04,$05
+	DB	$49,$58,$85,$02,$04,$05
+	DB	$4A,$58,$82,$02,$04,$05
+	DB	$4B,$58,$7F,$02,$04,$05
+
+	DB	$4C,$58,$7C,$02,$04,$05
+	DB	$4D,$58,$79,$02,$04,$05
+	DB	$4E,$58,$76,$02,$03,$05
+	DB	$4F,$58,$73,$02,$03,$05
+
+	DB	$50,$58,$70,$02,$03,$04
+	DB	$51,$58,$6D,$02,$03,$04
+	DB	$52,$58,$6A,$02,$03,$04
+	DB	$53,$58,$67,$02,$02,$04
+
+	DB	$54,$58,$64,$02,$02,$04
+	DB	$55,$58,$61,$02,$02,$04
+	DB	$56,$58,$5E,$02,$02,$04
+	DB	$57,$58,$5B,$02,$02,$04
+	DB	$58,$58,$58,$04,$04,$04
+
+	
+
+NO_DITHER_PAT
+	DB	$8,$8,$8,$8
+	DB	$8,$8,$8,$8
+	DB	$8,$8,$8,$8
+	DB	$8,$8,$8,$8
+
+BAYER_PAT
+	DB	$0,$8,$2,$A
+	DB	$C,$4,$E,$6
+	DB	$3,$B,$1,$9
+	DB	$F,$7,$D,$5
+HARF_PAT
+	DB	$A,$4,$6,$8
+	DB	$C,$0,$1,$E
+	DB	$7,$9,$B,$5
+	DB	$3,$F,$D,$1
+SCREW_PAT
+	DB	$D,$7,$6,$C
+	DB	$8,$1,$0,$5
+	DB	$9,$2,$3,$4
+	DB	$E,$A,$B,$F
+SCREW2_PAT
+	DB	$F,$4,$8,$C
+	DB	$B,$0,$1,$5
+	DB	$7,$3,$2,$9
+	DB	$E,$A,$6,$D
+TYUUKAN_PAT
+	DB	$C,$4,$8,$E
+	DB	$B,$0,$2,$6
+	DB	$7,$3,$1,$A
+	DB	$F,$9,$5,$D
+CONCENT_PAT
+	DB	$D,$4,$8,$E
+	DB	$A,$0,$1,$7
+	DB	$6,$3,$2,$B
+	DB	$F,$9,$5,$C
+
+	DB	$F,$0,$F,$0	;Ｈ
+	DB	$F,$F,$F,$0
+	DB	$F,$0,$F,$0
+	DB	$0,$0,$0,$0
+	
+	DB	$8,$0,$8,$F	;diagonal (line)
+	DB	$0,$8,$F,$8
+	DB	$8,$F,$8,$0
+	DB	$F,$8,$0,$8
+
+	DB	$F,$0,$0,$0	;cross mark
+	DB	$0,$F,$0,$F
+	DB	$0,$0,$F,$0
+	DB	$0,$F,$0,$F
+
+	DB	$7,$3,$7,$B	;white circle
+	DB	$3,$0,$3,$7
+	DB	$7,$3,$7,$B
+	DB	$B,$7,$B,$F
+
+	DB	$8,$8,$8,$0	;■
+	DB	$8,$F,$8,$0
+	DB	$8,$8,$8,$0
+	DB	$0,$0,$0,$0
+	
+	
+;*******************************************
+;* Table used to determine exposure time  *
+;*******************************************
+CHG_TIME_TBL_U
+	DB	$10,$07,$06,$06,$06,$05,$05,$05
+	DB	$05,$05,$04,$04,$04,$04,$04,$04
+	DB	$03,$03,$03,$03,$03,$03,$03,$03
+	DB	$02,$02,$02,$02,$02,$02,$02,$02
+	DB	$02,$02,$02,$02,$02,$02,$02,$02
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00,$00,$00,$00,$00,$00,$00,$00
+	DB	$00
+
+CHG_TIME_TBL_D
+	DB	$10,$07,$06,$06,$06,$05,$05,$05
+	DB	$05,$05,$04,$04,$04,$04,$04,$04
+	DB	$03,$03,$03,$03,$03,$03,$03,$03
+	DB	$02,$02,$02,$02,$02,$02,$02,$02
+	DB	$02,$02,$02,$02,$02,$02,$02,$02
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01,$01,$01,$01,$01,$01,$01,$01
+	DB	$01
+
+
+;*********************************
+;* Table for mirror mode      *
+;*********************************
+	ORG	$3D00
+MIRROR_TABLE
+	DB	$00,$80,$40,$C0,$20,$A0,$60,$E0
+	DB	$10,$90,$50,$D0,$30,$B0,$70,$F0
+	DB	$08,$88,$48,$C8,$28,$A8,$68,$E8
+	DB	$18,$98,$58,$D8,$38,$B8,$78,$F8
+	DB	$04,$84,$44,$C4,$24,$A4,$64,$E4
+	DB	$14,$94,$54,$D4,$34,$B4,$74,$F4
+	DB	$0C,$8C,$4C,$CC,$2C,$AC,$6C,$EC
+	DB	$1C,$9C,$5C,$DC,$3C,$BC,$7C,$FC
+	DB	$02,$82,$42,$C2,$22,$A2,$62,$E2
+	DB	$12,$92,$52,$D2,$32,$B2,$72,$F2
+	DB	$0A,$8A,$4A,$CA,$2A,$AA,$6A,$EA
+	DB	$1A,$9A,$5A,$DA,$3A,$BA,$7A,$FA
+	DB	$06,$86,$46,$C6,$26,$A6,$66,$E6
+	DB	$16,$96,$56,$D6,$36,$B6,$76,$F6
+	DB	$0E,$8E,$4E,$CE,$2E,$AE,$6E,$EE
+	DB	$1E,$9E,$5E,$DE,$3E,$BE,$7E,$FE
+	DB	$01,$81,$41,$C1,$21,$A1,$61,$E1
+	DB	$11,$91,$51,$D1,$31,$B1,$71,$F1
+	DB	$09,$89,$49,$C9,$29,$A9,$69,$E9
+	DB	$19,$99,$59,$D9,$39,$B9,$79,$F9
+	DB	$05,$85,$45,$C5,$25,$A5,$65,$E5
+	DB	$15,$95,$55,$D5,$35,$B5,$75,$F5
+	DB	$0D,$8D,$4D,$CD,$2D,$AD,$6D,$ED
+	DB	$1D,$9D,$5D,$DD,$3D,$BD,$7D,$FD
+	DB	$03,$83,$43,$C3,$23,$A3,$63,$E3
+	DB	$13,$93,$53,$D3,$33,$B3,$73,$F3
+	DB	$0B,$8B,$4B,$CB,$2B,$AB,$6B,$EB
+	DB	$1B,$9B,$5B,$DB,$3B,$BB,$7B,$FB
+	DB	$07,$87,$47,$C7,$27,$A7,$67,$E7
+	DB	$17,$97,$57,$D7,$37,$B7,$77,$F7
+	DB	$0F,$8F,$4F,$CF,$2F,$AF,$6F,$EF
+	DB	$1F,$9F,$5F,$DF,$3F,$BF,$7F,$FF
+
+
+;********************************************
+;* Table for counting the number of bits in a byte *
+;********************************************
+	ORG	$3E00
+COUNT_TABLE
+	DB	$00,$01,$01,$02,$01,$02,$02,$03
+	DB	$01,$02,$02,$03,$02,$03,$03,$04
+	DB	$01,$02,$02,$03,$02,$03,$03,$04
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$01,$02,$02,$03,$02,$03,$03,$04
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$01,$02,$02,$03,$02,$03,$03,$04
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$04,$05,$05,$06,$05,$06,$06,$07
+	DB	$01,$02,$02,$03,$02,$03,$03,$04
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$04,$05,$05,$06,$05,$06,$06,$07
+	DB	$02,$03,$03,$04,$03,$04,$04,$05
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$04,$05,$05,$06,$05,$06,$06,$07
+	DB	$03,$04,$04,$05,$04,$05,$05,$06
+	DB	$04,$05,$05,$06,$05,$06,$06,$07
+	DB	$04,$05,$05,$06,$05,$06,$06,$07
+	DB	$05,$06,$06,$07,$06,$07,$07,$08
+
+CK
+	LD	de,BUF_ADR+$940
+	CALL	LINE_CHECK
+	ENDIF
+
+;------------Black spot count (entire screen)----------------------
+	ifn	ZENTAI
+	LD	BC,$00
+	
+	LD	DE,BUF_ADR
+	CALL	SCREEN_CHECK
+
+	endif
+
+;********At this point, the number of sunspots in BC***********
+;********    Possible values for BC are 0000 to 1500H      ***********
+
+_COUNT_END
+
+	LD	A,(AKARUSA)
+	LD	D,A		; AKARUSA's target value for the number of sunspots (0 to A8)
+
+	SLA	C	B_TH320)
+	LD	(HLI),A
+	LD	A,(B_TH321)
+	LD	(HLI),A
+	LD	A,(B_TH322)
+	LD	(HLI),A
+	LD	A,(B_TH330)
+	LD	(HLI),A
+	LD	A,(B_TH331)
+	LD	(HLI),A
+	LD	A,(B_TH332)
+	LD	(HLI),A
+	
+	R_RAMBK
+
+	RET
+
+
+
+;=========================================================
+;  REGISTER_SETTING
+;
+;   Setting the register of the artificial retina chip
+;
+;   A register : Upper 4 bits Edge strength 0 to 7
+;		Lower 4 bits Mode  0: Negative image
+;				   1: Horizontal edge enhancement
+;				   2: Vertical edge enhancement
+;				   3: Two-dimensional edge enhancement
+;				   4: Horizontal edge
+;				   5: Vertical edge
+;				   6:Two-dimensional edge
+;==========================================================
+REGISTER_SETTING
+	LD	B,A	;Mode and edge strength
+	
+	AND	$0F
+	CP	$00
+	JR	Z,_FUGAZOU
+	CP	$01
+	JR	Z,_YOKO_KYOUTYOU
+	CP	$02
+	JR	Z,_TATE_KYOUTYOU
+	CP	$03
+	JR	Z,_NIJIGEN_KYOUTYOU
+	CP	$04
+	JR	Z,_YOKO_EDGE
+	CP	$05
+	JR	Z,_TATE_EDGE
+	JR	_NIJIGEN_EDGE
+
+
+;--------------negative image------------------
+_FUGAZOU
+	LD	A,$02
+	LD	(B_CNTR0),A
+	LD	A,$02
+	LD	(CNTR1),A
+	LD	(B_CNTR1),A
+	LD	A,$02
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+;	LD	A,$80
+;	LD	(B_CNTR5),A
+	JR	_REGI_SET_END
+
+;-----------Horizontal edge enhancement--------------
+_YOKO_KYOUTYOU
+	LD	A,$02
+	LD	(B_CNTR0),A
+	LD	A,$22
+	LD	(B_CNTR1),A
+	LD	(CNTR1),A
+	
+	LD	A,B
+	AND	$F0
+	CP	$00
+	JR	Z,_EDGE_YOWAI1
+	CP	$10
+	JR	Z,_EDGE_YOWAI1
+	CP	$20
+	JR	Z,_EDGE_YOWAI1
+	ADD	A,$6
+	JR	_V_SET_YK
+_EDGE_YOWAI1
+	ADD	A,$03
+_V_SET_YK
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+;	LD	A,$80
+;	LD	(B_CNTR5),A
+	
+	JR	_REGI_SET_END
+	
+;-----------Vertical Edge Enhancement--------------
+_TATE_KYOUTYOU
+
+	JR	_REGI_SET_END
+	
+;---------2D edge enhancement------------
+
+_NIJIGEN_KYOUTYOU
+	LD	A,$00
+	LD	(B_CNTR0),A
+	LD	A,$E2
+	LD	(B_CNTR1),A
+	LD	(CNTR1),A
+
+	LD	A,B
+	AND	$F0
+	CP	$00
+	JR	Z,_EDGE_YOWAI
+	CP	$10
+	JR	Z,_EDGE_YOWAI
+	CP	$20
+	JR	Z,_EDGE_YOWAI
+	CP	$30
+	JR	Z,_EDGE_TYUU
+	ADD	A,$6
+	JR	_V_SET
+_EDGE_YOWAI
+	ADD	A,$03
+	JR	_V_SET
+_EDGE_TYUU
+	ADD	A,$04
+	
+_V_SET
+	LD	(CNTR4),A
+	LD	(B_CNTR4),A
+;	LD	A,$80
+;	LD	(B_CNTR5),A
+	JR	_REGI_SET_END
+
+;--------------lateral edge-----------------
+_YOKO_EDGE
+
+	JR	_REGI_SET_END
+	
+;--------------vertical edge-----------------
+_TATE_EDGE
+
+	JR	_REGI_SET_END
+	
+;------------two dimensional edge---------------
+_NIJIGEN_EDGE
+	JR	_REGI_SET_END
+	
+_REGI_SET_END
+
+	RET
+
+
+;///////////////////////////////////////////////////////////////////
+;///////////////////////////////////////////////////////////////////
+
+
+;=====================================================
+;
+;   Offset adjustment
+;
+;  The threshold value is changed, and the dither setting should be set after this
+;=====================================================
+GET_OFFSET
+
+;-------------------------
+	LD	A,$10		; RAMBK $10
+	LD	($4000),A
+
+	LD	B,$55		;Set the threshold value to 55H (1V)
+	LD	HL,TH000
+	LD	DE,$30
+_TH_LOOP
+	LD	(HL),B
+	DEC	DE
+	LD	A,D
+	OR	E
+	JR	NZ,_TH_LOOP
+
+
+;--------------------------
+
+	XOR	A		;Set exposure time to 0000H
+	LD	(CNTR2),A
+	LD	(CNTR3),A
+
+;---------------------------
+
+	LD	A,(B_CNTR5)
+	AND	$C0
+	LD	B,$3F		;Initial value of offset is 3FH (+1FH)
+	OR	B
+	LD	(B_CNTR5),A
+	LD	(CNTR5),A
+
+
+;-------------------------------------
+
+
+	LD	A,$10
+	LD	($4000),A
+	
+	LD	A,(B_CNTR0)	;Set the start bit
+	SET	0,A
+	LD	(CNTR0),A
+
+_POLL1				;Image acquisition polling
+	LD	A,(CNTR0)
+	BIT	0,A
+	JR	NZ,_POLL1
+		
+	LD	A,(B_CNTR0)	;Set the start bit
+	SET	0,A
+	LD	(CNTR0),A
+
+_POLL2				;Image acquisition polling
+	LD	A,(CNTR0)
+	BIT	0,A
+	JR	NZ,_POLL2
+
+
+;-------------------------------------------------------
+_LOOP
+	LD	A,$10
+	LD	($4000),A
+	
+	LD	A,(B_CNTR0)	;Set the start bit
+	SET	0,A
+	LD	(CNTR0),A
+
+_POLL				;Image acquisition polling
+	LD	A,(CNTR0)
+	BIT	0,A
+	JR	NZ,_POLL
+
+	CALL	CHECK_BLACK	;Have we reached the black level?
+	OR	A		;End when A register is 1
+	JR	NZ,_LOOP_END
+
+	CALL	OFFSET_DOWN	;Lower offset and repeat.
+	OR	A		;End when A register is 1
+	JR	Z,_LOOP
+
+;--------------------------------------------------------
+_LOOP_END
+
+	LD	A,(B_CNTR2)	;Restore exposure time
+	LD	(CNTR2),A
+	LD	A,(B_CNTR3)
+	LD	(CNTR3),A
+
+	RET
+
+
+;=================
+;CHECK_BLACK
+;=================
+CHECK_BLACK
+	XOR	A
+	LD	($4000),A	;RAM BANK 0
+	
+	LD	HL,$AD0A
+	LD	E,$10
+_LOOP
+	LD	A,(HLI)
+	CP	$FF
+	JR	NZ,_RET
+
+	LD	A,(HLI)
+	CP	$FF
+	JR	NZ,_RET
+
+	LD	A,L
+	ADD	A,$0E
+	LD	L,A
+
+	DEC	E
+	JR	NZ,_LOOP
+
+;---黒レベルがでた！
+	LD	A,$10
+	LD	($4000),A	;RAM BANK 10H
+	LD	A,$01		;I got the black level, flag set!
+	RET
+
+;---黒レベルは出なかった。オフセットを下げて出直そう
+_RET
+	LD	A,$10
+	LD	($4000),A	;RAM BANK 10H
+	XOR	A
+	RET
+
+
+;=================
+;OFFSET_DOWN
+;=================
+OFFSET_DOWN
+	LD	A,(B_CNTR5)
+
+	BIT	5,A		;sign check
+	JR	Z,_MINUS
+
+;------------------------------
+_PLUS
+	AND	$3F		;See the lower 6BIT.
+	CP	$20
+	JR	Z,_PLUS_END	;When currently +O... _PLUS_END
+	
+	DEC	A		;decrease
+;	SET	5,A		;make the sign bit
+	LD	B,$00
+	JR	_DOWN_END
+	
+_PLUS_END			;I'll take the -1.
+	LD	A,$01
+	LD	B,$00
+	JR	_DOWN_END
+
+;------------------------------
+_MINUS
+	AND	$1F
+	CP	$1F
+	JR	NZ,_MINUS_DOWN
+	LD	B,$01		;exit flag
+	JR	_DOWN_END
+
+_MINUS_DOWN
+	INC	A		;decrease
+	LD	B,$00
+
+;-----------------------------
+_DOWN_END
+	LD	C,A
+	LD	A,(B_CNTR5)
+	AND	$C0
+	OR	C
+	LD	(B_CNTR5),A
+	LD	(CNTR5),A
+
+	LD	A,B		;Did you get to the bottom? Flag.
+
+	
+	RET
+
+
+;///////////////////////////////////////////////////////////////////////
+;///////////////////////////////////////////////////////////////////////
+
+;=======================================================
+;
+;   TRANSFER_TO_BUF
+;
+;     Transfers images to a buffer
+;     A register : Palette and mode
+;=======================================================
+TRANSFER_TO_BUF
+
+	AND	$1F	; Lower 5BIT is the mode
+_TENSOU1
+	CP	13
+	JR	NZ,_TENSOU2
+	CALL	TENSOU_TATE
+	JP	_TENSOU_END
+
+_TENSOU2
+	CP	16
+	JR	NZ,_TENSOU3
+	CALL	TENSOU_YOKO
+	JP	_TENSOU_END
+
+_TENSOU3
+	CP	2
+	JR	NZ,_TENSOU4
+	CALL	MIRROR_MODE
+	JP	_TENSOU_END
+_TENSOU4
+	CP	8
+	JR	NZ,_TENSOU5
+	CALL	MABIKI_MODE
+	JP	_TENSOU_END
+_TENSOU5
+	CP	9
+	JR	NZ,_TENSOU6
+	CALL	MABIKI_MODE2
+	JP	_TENSOU_END
+_TENSOU6
+	CP	5
+	JR	NZ,_TENSOU7
+	CALL	TATE_NOBASI_MODE
+	JP	_TENSOU_END
+_TENSOU7
+	CP	6
+	JR	NZ,_TENSOU8
+	CALL	YOKO_NOBASI_MODE
+	JP	_TENSOU_END
+_TENSOU8
+	CP	7
+	JR	NZ,_TENSOU0
+	CALL	KAKUDAI_MODE
+	JP	_TENSOU_END
+_TENSOU0
+	XOR	A
+	LD	($4000),A
+	
+	LD	HL,$A100	
+	LD	DE,$D000
+	LD	B,$0E
+	CALL	DATA_MOV_F
+	JR	_TENSOU_END
+
+_TENSOU_END
+
+	RET
+
+;============================================
+
+
+;--  DDDD   AAA  TTTTT  AAA  ---------------
+;--  D   D A   A   T   A   A ---------------
+;--  D   D AAAAA   T   AAAAA ---------------
+;--  D   D A   A   T   A   A ---------------
+;--  DDDD  A   A   T   A   A ---------------
+
+;****'(,$5C,$5C	;0155
+	DEFB	$98,$98,$18,$18,$1E,$1E,$00,$00
+	DEFB	$1B,$18,$1B,$18,$1C,$18,$1C,$18	;0156
+	DEFB	$1B,$18,$1B,$18,$1C,$18,$1C,$18
+	DEFB	$FF,$09,$FF,$0F,$FF,$09,$FF,$00	;0157
+	DEFB	$FF,$00,$FF,$00,$FF,$00,$FF,$00
+	DEFB	$FF,$1F,$FF,$04,$FF,$04,$F␀ﾐ�ﾂ0	;0158
+	DEFB	$FF,$00,$FF,$00,$FF,$00,$FF,$00
+	DEFB	$E0,$1F,$FC,$03,$FC,$03,$FC,$03	;0159
+	DEFB	$FF,$00,$FF,$00,$FF,$00,$FF,$00
+	DEFB	$1F,$E0,$FF,$00,$FF,$00,$FF,$00	;015A
+	DEFB	$FF,$00,$FF,$00,$FF,$00,$FF,$00
+	DEFB	$FF,$A8,$FF,$00,$FF,$00,$FF,$0
+
+
