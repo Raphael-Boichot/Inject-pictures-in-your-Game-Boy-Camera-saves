@@ -245,7 +245,7 @@ Funfact: as the number of borders in HK rom is higher than in regular roms (and 
 
 ## 2023-05-20 Update: structure of the Debagame Tester - Second Impact
 
-A [prototype of Game Boy Camera](https://tcrf.net/Proto:Game_Boy_Camera) has been found on Ebay in may 2023. Images of the device are [archived here](https://archive.org/details/gbcam-debug-cart). It has a main menu very similar with the [MBC5 mapper chip test program](https://twitter.com/WaluigiBSOD/status/1659914999765008384?s=20) linked in 2020. Most intersting things are within the rom as it contains quite a lot of hidden features like programmer faces, unused graphics and pieces of assembly code with comments. I rapidely checked the save format:
+A prototype of Game Boy Camera has been found on Ebay in may 2023. Images of the device are [archived here](https://archive.org/details/gbcam-debug-cart). It has a main menu very similar with the [MBC5 mapper chip test program](https://twitter.com/WaluigiBSOD/status/1659914999765008384?s=20) linked in 2020. Most intersting things are within the rom as it contains [quite a lot of hidden features](https://tcrf.net/Proto:Game_Boy_Camera) like programmer faces, unused graphics and [pieces of assembly code with comments](/Codes%20Debagame%20Tester%20-%20Second%20Impact/Debagame_tester_code_translated.txt). I rapidely checked the save format:
 
 - **0x00000-0x00FFF: same as Game Boy Camera, ram exchange data;**
 - **0x01000-0x01FFF: remnants of the ram read/write and aging test;**
