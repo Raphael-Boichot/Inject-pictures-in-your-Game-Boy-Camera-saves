@@ -264,3 +264,5 @@ Summary of some tests made on real hardware:
 ## The Debagame Tester
 ![Debagame_Tester](Pictures/Debagame_Tester.jpg)
 
+## Aknowledgments
+- [Cristofer Cruz](https://github.com/cristofercruz) for helping with mapping some tricky sram area, making the HK pocket camera as soon as it leaked and testing my janky sram hacks.
