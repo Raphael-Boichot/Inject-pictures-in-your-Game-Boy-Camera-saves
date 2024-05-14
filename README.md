@@ -261,7 +261,7 @@ Summary of some tests made on real hardware:
 - The MOVIE function allows trying register configurations and dithering patterns not available in the original rom;
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
 
-My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to play with the sensor outside, the main dev being probably continued on a test board with EPROMs. It's surprising in the other hand to have such a close-to-definitive hardware design equipped with a mask rom of such a primitive camera version.
+My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to play with the sensor outside, the main dev being probably continued on a test board with EPROMs. It's surprising in the other hand to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version. I mean, an EPROM would be enough for the task.
 
 ## The Debagame Tester
 ![Debagame_Tester](Pictures/Debagame_Tester.jpg)
