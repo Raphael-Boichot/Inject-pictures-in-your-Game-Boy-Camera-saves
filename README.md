@@ -182,10 +182,10 @@ Well enough to enjoy all the crappy images of the B album of the camera (At leas
 ## Example of Minigame checksum attack
 ![Minigames](Pictures/Minigame_checksum.png)
 
-That damn mole is now beaten by brute force.
-
 ## Examples of score attack on real hardware
 ![Scores you will never get in real](Pictures/Scores%20hacked%203.png)
+That damn mole finally beaten by brute force.
+
 
 # Part 3: Calibrating the sensor
 
