@@ -261,6 +261,7 @@ Summary of some tests made on real hardware:
 - Aging test can be made only by writing saves with [certain patterns more or less convoluted](Codes%20Debagame%20Tester%20-%20Second%20Impact). It must be possible to generate them onboard but I did not find how;
 - Many functions let no traces in ram so I cannot really document their effect at the moment;
 - The MOVIE function allows trying register configurations and dithering patterns not available in the original rom;
+- The COM function just triggers the CLOCK pin from serial port on and off but does not send regular printer packets.
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
 
 My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to play with the sensor outside, the main dev being probably continued on a test board with EPROMs. It's surprising in the other hand to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version. I mean, an EPROM would be enough for the task.
