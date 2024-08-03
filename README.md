@@ -152,7 +152,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 
 **Images are then repeated from 0xXX000 to 0xXXFFF with XX ranging from 03 to 1F.**
 
-**Image slot 5 (range 0x04FF2-0x04FFF) contains calibration data for camera, echoed in image slot 18 (range 0x11FF2-0x011FFF). To trigger auto-calibration, fill these ranges with 0xAA and boot the camera in the dark. The function of these calibration bytes is not fully understood as modifying them can lead to glitchy images, but I'm not able to recognize a particular pattern.**
+**Image slot 5 (range 0x04FF2-0x04FFF) contains calibration data for camera, echoed in image slot 18 (range 0x11FF2-0x011FFF). To trigger auto-calibration, fill these ranges with 0xAA and boot the camera in the dark. The function of these calibration bytes is not fully understood today. They change camera register O for sure (fine voltage tuning) and maybe some other sensor settings. I did not investigate enough for the moment as it requires lot of datalogging for basically not that an interesting result. At this point, camera rom disassembly will be more relevant than reverse engineering.**
 
 General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode.
 
