@@ -265,7 +265,7 @@ Summary of some tests made on real hardware:
 - The COM function just triggers the CLOCK pin from serial port on and off but does not send regular printer packets, despite all printing commands been compiled into the rom.
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
 
-My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to test the hardware on the battlefied (kid room and car ), the main dev being probably continued on a test board with EPROMs. It's surprising in the other hand to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version. I mean, an EPROM would be enough for the task.
+My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to test the hardware on the real battlefied (messy kid room, dirty kitchen table and car rear shelf in full sun), the main dev being probably continued on a test board with EPROMs. It's still surprising to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version. I mean, an EPROM would be enough for the task.
 
 ## The Debagame Tester
 ![Debagame_Tester](Pictures/Debagame_Tester.jpg)
