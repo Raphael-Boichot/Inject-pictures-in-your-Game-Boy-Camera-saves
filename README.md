@@ -258,13 +258,14 @@ A prototype of Game Boy Camera has been found on Ebay in may 2023. Images of the
 Summary of some tests made on real hardware:
 - The camera writes nothing in ram at boot;
 - It allows accessing any memory slot in GALLERY mode, so it does not keep track of the slots occupied except than locally in software;
+- There is no data protection nor vector state of any kind.
 - Aging test can be made only by writing saves with [certain patterns more or less convoluted](Codes%20Debagame%20Tester%20-%20Second%20Impact). It must be possible to generate them onboard but I did not find how;
 - Many functions let no traces in ram so I cannot really document their effect at the moment;
 - The MOVIE function allows trying register configurations and dithering patterns not available in the original rom;
 - The COM function just triggers the CLOCK pin from serial port on and off but does not send regular printer packets, despite all printing commands been compiled into the rom.
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
 
-My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to play with the sensor outside, the main dev being probably continued on a test board with EPROMs. It's surprising in the other hand to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version. I mean, an EPROM would be enough for the task.
+My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to test the hardware on the battlefied (kid room and car ), the main dev being probably continued on a test board with EPROMs. It's surprising in the other hand to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version. I mean, an EPROM would be enough for the task.
 
 ## The Debagame Tester
 ![Debagame_Tester](Pictures/Debagame_Tester.jpg)
