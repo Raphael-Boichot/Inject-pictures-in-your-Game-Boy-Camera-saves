@@ -265,10 +265,10 @@ Summary of some tests made on real hardware:
 - The COM function just triggers the CLOCK pin from serial port on and off but does not send regular printer packets, despite all printing commands been compiled into the rom.
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
 
-My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (aging, printing, data protection, etc.). It was probably a very early version used to test the hardware on the real battlefied (messy kid room, dirty kitchen table and car rear shelf in full sun), the main dev being probably continued on a test board with EPROMs. It's still surprising to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version. I mean, an EPROM would be enough for the task.
+My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (printing, data protection, etc.). It was probably an early version used to validate the quite definitive hardware into the real battlefield (messy kid room and car rear shelf in full sun), the main dev being probably continued on a test board with EPROMs. It's still surprising to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version.
 
 ## The Debagame Tester
 ![Debagame_Tester](Pictures/Debagame_Tester.jpg)
 
 ## Aknowledgments
-- [Cristofer Cruz](https://github.com/cristofercruz) for helping with mapping some tricky sram area, making the HK pocket camera as soon as it leaked and testing my janky sram hacks.
+- [Cristofer Cruz](https://github.com/cristofercruz) for helping with mapping some tricky sram area, making the HK pocket camera for real as soon as it leaked with EPROM and testing my janky sram hacks.
