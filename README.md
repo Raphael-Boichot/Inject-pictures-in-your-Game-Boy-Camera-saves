@@ -174,7 +174,9 @@ And that's all ! The checksum could be calculated from scratch from always the s
 
 If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii).
 
-Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file in legit save. [This folder](Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
+Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file (for example a random sequence or a save from another game) in legit Game Boy Camera save. [This folder](Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
+
+Sidenote: I've never managed to trigger arbitrary code execution (ACE) by injecting random saves. The Camera code is solid.
 
 ## Example of state vector checksum attack
 ![State vector](Pictures/Vector_state_checksum.png)
@@ -189,7 +191,9 @@ That damn mole finally beaten by brute force.
 
 # Part 3: Calibrating the sensor
 
-A secret factory menu have been discovered in december 2021 independently by me and [Cristofer Cruz](https://github.com/cristofercruz): by pressing all inputs (4 directions included, I know this is completely stupid) at the same time when booting, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The exact purpose of this menu have been discovered by serendipity the 7 august 2022 from a glitched save of my own (lost since, sadly) that changes the sensor auto-exposure rules: this is a calibration menu.
+A secret factory menu have been discovered in december 2021 independently by me and [Cristofer Cruz](https://github.com/cristofercruz): by pressing all inputs (4 directions included) at the same time when booting, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The "all inputs" method leads to a glitchy menu (maybe an entry point for ACE), so the "normal way" is probably to inject 0xAA save.
+
+The exact purpose of this menu have been discovered later by serendipity, the 7 august 2022, from a glitched save of my own (lost since, sadly) that changes the sensor auto-exposure rules: this is a calibration menu.
 
 During this procedure, the camera sensor is activated and the game stores data in the range 0x04FF2-0x04FFF, echoed at the range 0x11FF2-0x011FFF. By comparing this vector extracted from new cameras (new old stocks) and cameras placed in different lightning conditions during this calibration procedure, it has been established that these data are probably setpoints or offsets for guiding the auto-exposure of the camera calculated from activating the sensor in the dark in different conditions.
 
@@ -237,7 +241,7 @@ These minor ram save format inconsistencies mean that switching from regular rom
 
 Save functionality of the leaked rom was probably enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
 
-It was also observed that the image is overall "smoother" (in a not pleasant way I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of sensor registers or dithering tables compared to regular roms. I've never investigated more on this point as I guess that nobody (included me) cares of that in fact.
+It was also observed that the image is overall "smoother" (in a not pleasant way I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of dithering tables compared to regular roms (registers sent to the sensor are exactly the same, I've compared them).
 
 Funfact: as the number of borders in HK rom is higher than in regular roms (and checksum correctly updated for this entry in HK rom), you can save a value from HK rom not supported by regular rom. This leads to an incorrect address to tilemap and very interesting glitched borders appear.
 
