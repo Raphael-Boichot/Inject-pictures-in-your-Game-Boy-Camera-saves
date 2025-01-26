@@ -65,7 +65,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 
 ## Game Boy Camera save ram format by increasing adresses
 
-- **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective visual resolution is only 128x123 as indicated in the datasheet of the M64282FP sensor. The 5 missing lines (at the bottom of image) gather the signal of pixels physically masked on the sensor intended to measure the residual dark voltage. How to use this signal for practical calibration of the sensor is unclear in its documentation;**
+- **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective visual resolution is only 128x123 as indicated in the datasheet of the M64282FP sensor. The 5 "missing lines" at the bottom of each image always return the saturation voltage (which purpose, if any, is currently undocumented);**
 - **0x01000-0x010D8: Animation settings, Trippy H and minigames save area, see details:**
     - *0x01000-0x0102E: animation slots 1-47 (index 0-29. MSB=1 for album B);*
     - *0x0102F: animation loop flag;*
