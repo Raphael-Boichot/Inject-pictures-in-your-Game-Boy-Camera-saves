@@ -174,7 +174,7 @@ And that's all ! The checksum could be calculated from scratch from always the s
 
 If "Magic" is included into the checksum and replaced by 5x 0x00, it becomes simply 0x4E, 0x54 ("NT" in Ascii).
 
-Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file (for example a random sequence or a save from another game) in legit Game Boy Camera save. [This folder](Universal%20cheater%20all%20cameras) contains a code that generate an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
+Well enough to enjoy all the crappy images of the B album of the camera (At least in the international version, Gold and Japanese are a bit better). [This folder](Glitched%20save%20creator) contains self-explanatory code to transform any 128 kB file (for example a random sequence or a save from another game) in legit Game Boy Camera save. [This folder](Universal%20cheater%20all%20cameras) contains a code that generates an **universal save unlocking all the features of all the camera versions** starting from any of your prefered save.
 
 Sidenote: I've never managed to trigger arbitrary code execution (ACE) by injecting random saves. The Camera code is solid.
 
