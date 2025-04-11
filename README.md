@@ -154,7 +154,7 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 
 **Image slot 5 (range 0x04FF2-0x04FFF) contains calibration data for camera, echoed in image slot 18 (range 0x11FF2-0x011FFF). To trigger auto-calibration, fill these ranges with 0xAA and boot the camera in the dark. The function of these calibration bytes is not fully understood today. They change camera sensor register O for sure (fine voltage tuning) and maybe some other settings. I did not investigate that much for the moment as it requires lot of datalogging and calculations for basically no reward (I honestly doubt anybody would give a shit of the result). At this point, camera rom disassembly will be more relevant than reverse engineering.**
 
-General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode.
+General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode. This unused bytes scattered all along the save ram are used by [Photo!](https://github.com/untoxa/gb-photo) to store its own parameters without erasing data from the Game Boy Camera !
 
 ## Visual representation of data at the beginning of the sram
 ![Visual representation of data at the beginning of save ram](Pictures/Image_ram_beginning2.png)
