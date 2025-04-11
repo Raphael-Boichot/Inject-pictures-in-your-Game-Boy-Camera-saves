@@ -266,7 +266,7 @@ Summary of some tests made on real hardware:
 - Aging test can be made only by writing saves with [certain patterns more or less convoluted](Codes%20Debagame%20Tester%20-%20Second%20Impact). It must be possible to generate them onboard but I did not find how;
 - Many functions let no traces in ram so I cannot really document their effect at the moment;
 - The MOVIE function allows trying register configurations and dithering patterns not available in the original rom;
-- The COM function just allows two Debagame cartridges connected with a serial cable to increase a counter on screen but does not send regular printer packets, despite all printing commands been compiled into the rom.
+- The COM function just allows two Debagame cartridges connected with a serial cable to synchronize and increase a counter on screen but does not send regular printer packets, despite all printing commands been compiled into the rom.
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
 
 My overall impression is that the 10.24 version (the only known to date) lacks several key features as some menus lead to dead end and/or have no effects (printing, data protection, etc.). It was probably an early version used to validate the quite definitive hardware into the real battlefield (messy kid room and car rear shelf in full sun), the main dev being probably continued on a test board with EPROMs. It's still surprising to have such a close-to-definitive hardware design equipped with a mask ROM of such a primitive camera version.
