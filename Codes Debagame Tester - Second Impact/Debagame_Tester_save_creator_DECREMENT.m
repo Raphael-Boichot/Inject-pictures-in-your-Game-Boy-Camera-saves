@@ -1,4 +1,4 @@
-%By Raphaël BOICHOT, 23 august 2023
+%By RaphaÃ«l BOICHOT, 23 august 2023
 clc
 clear
 %------------------------------------------------------------------------
