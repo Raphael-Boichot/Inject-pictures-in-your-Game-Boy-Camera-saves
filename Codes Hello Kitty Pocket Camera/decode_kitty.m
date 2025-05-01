@@ -1,4 +1,4 @@
-%By Raphaël BOICHOT, 1 june 2021
+%By RaphaÃ«l BOICHOT, 1 june 2021
 function GB_pixels=decode_kitty(GB_tile)
     PACKET_image_width=40;
     PACKET_image_height=56;
