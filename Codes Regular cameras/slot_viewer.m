@@ -1,4 +1,4 @@
-%By Raphaël BOICHOT, 7 june 2021
+%By RaphaÃ«l BOICHOT, 7 june 2021
 clc
 clear
 fid = fopen('GAMEBOYCAMERA.sav','r'); %indicate your. sav file name here

@@ -1,4 +1,4 @@
-%By Raphaël BOICHOT, 1 june 2021
+%By RaphaÃ«l BOICHOT, 1 june 2021
 clc
 clear
 fid = fopen('GAMEBOYCAMERA.sav','r');    %save file where you want to activate all slots
