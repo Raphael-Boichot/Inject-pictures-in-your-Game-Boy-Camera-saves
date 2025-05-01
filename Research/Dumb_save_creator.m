@@ -1,4 +1,4 @@
-%By Raphaël BOICHOT, 1 june 2021
+%By RaphaÃ«l BOICHOT, 1 june 2021
 clc
 clear
 %------------------------------------------------------------------------

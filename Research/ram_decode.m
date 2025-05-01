@@ -1,4 +1,4 @@
-%By Raphaël BOICHOT, 1 june 2021
+%By RaphaÃ«l BOICHOT, 1 june 2021
 function GB_pixels=ram_decode(GB_tile,PACKET_image_width,PACKET_image_height)
     PACKET_image=zeros(PACKET_image_height,PACKET_image_width);    
     pos=1;
