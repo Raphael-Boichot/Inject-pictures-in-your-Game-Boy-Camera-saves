@@ -43,23 +43,25 @@ My general (tedious) strategy was to compare different dumped savesates with som
 
 - The Game Boy Camera save uses several internal checksums systematically echoed to protect its own data : one for scores (minigames and counter for images), one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots), one for camera owner informations and one for picture owner informations (In case the picture was exchanged). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
 
-- Each checksum have two bytes corresponding to two different calculation rules (see next sections) and is preceded by the ascii word "Magic" (a kind of crual programmer joke probably);
+- Each checksum have two bytes corresponding to two different calculation rules (see next sections) and is preceded by the ascii word "Magic" (a kind of crual programmer joke probably). The word "Magic" placed at known positions can be used to detect automatically a Game Boy Camera save dump;
 
-- Any discrepancy between data, scores, states and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to zero, end of story, reward for cheating. I think that the long booting time of the Game Boy Camera is precisely due to the amount of verifications/rewrite made; 
+- Any discrepancy between data, scores, states and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to default values, end of story, reward for cheating. The long booting time of the Game Boy Camera is partly due to the amount of verifications/rewrite made (the other part is for [detecting sensor sanity](https://github.com/Raphael-Boichot/Play-with-the-Game-Boy-Camera-Mitsubishi-M64282FP-sensor/tree/main/Research%20on%20real%20camera%202024)); 
 
-- Data protected by checksums are systematically echoed but first occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file);
+- Data protected by checksums are systematically echoed but first occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file). I did not investigate that much on echo priority;
 
-- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Game Genie, Gameshark or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a **suicide code** as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum);
+- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Gameshark or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a **suicide code** as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum). Only Game Genie codes could be used with success (it attacks the ROM code, not the RAM) but camera does not fit physically into the device;
 
-- On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way (as well as Game Face data);
+- On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way (as well as Game Face data). This is kind of safe regarding the huge size of the SRAM and the non-zero probability to have a bit flipping somewhere with time ruining the whole image collection;
 
 - Forcing the minigame scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary;
 
-- Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles.
+- Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles. This is not the case of the leaked rom prototypes (see next sections).
 
 - Funfact:  the beginning of the save ram acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird (or cringe) surprises.
 
-- It was a bit tedious to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is reliable enough to do mostly the same more rapidely...
+- It was a bit tedious to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is now reliable enough to do mostly the same more rapidely... But not when I did these experiments.
+
+- I've tried to inject random data is SRAM (with or without correct checksum) to induce Arbitrary Code Execution but it was not successful. The only way to make the camera glitch is to press all buttons at boot (which is impossible on the real hardware with the control pad), it triggers the calibration procedure with lot of graphical glitches (see next sections).
 
 So I can now propose a revised structure of the Game Boy Camera save format since [Jeff Frohwein](https://www.devrs.com/gb/files/gbcam.txt) proposed the first one in the early 2000's.
 
@@ -237,11 +239,11 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 
 The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich corresponds to animation settings in the regular Game Boy Camera (so it will mess all minigames data if you change the rom as checksum won't be updated properly).
 
-These minor ram save format inconsistencies mean that switching from regular rom to HK rom with the same save is OK, but switching back will probably wipe your records if you catch any "kitt", the rom "currency". Images are anyway always conserved.
+These minor ram save format inconsistencies mean that switching from regular rom to HK rom with the same save is OK, but switching back will probably wipe your records if you catch any "kitt", the rom "currency", as this ram area will be considered as corrupted. Images are anyway always conserved.
 
 Save functionality of the leaked rom was probably enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
 
-It was also observed that the image is overall "smoother" (in a not pleasant way I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of dithering tables compared to regular roms (registers sent to the sensor are exactly the same, I've compared them).
+It was also observed that the image is overall "smoother" (in a not pleasant way I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of dithering tables (or just default contrast setting) compared to regular roms (registers sent to the sensor are exactly the same, I've compared them).
 
 Funfact: as the number of borders in HK rom is higher than in regular roms (and checksum correctly updated for this entry in HK rom), you can save a value from HK rom not supported by regular rom. This leads to an incorrect address to tilemap and very interesting glitched borders appear.
 
