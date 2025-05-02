@@ -1,6 +1,6 @@
 ## All you want to know about the Game Boy Camera save format !
 
-*Quick disclaimer 2025: this repo was initially just about injecting images into the Game Boy Camera save until I fall in the rabbit hole of reverse engineering the whole SRAM format. It should be read more as a collection of notes than as a tutorial with a beginning and an end, so I ask the reader's indulgence regarding the coherence of the whole story. That said, good reading.*
+*Quick disclaimer 2025: this repo was initially just about injecting images into the Game Boy Camera save until I fall in the rabbit hole of reverse engineering the whole SRAM format. It should be read as "my own story of progressively understanding the format in sweat and blood", so I ask the reader's indulgence regarding the whole coherence. That said, good reading.*
 
 # Part 1: Injecting custom pictures into the save
 
