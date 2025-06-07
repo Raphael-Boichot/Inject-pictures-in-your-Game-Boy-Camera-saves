@@ -59,7 +59,7 @@ My general (tedious) strategy was to compare different dumped savestates with so
 
 - Good news, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatible. This is not the case of the leaked rom prototypes (see next sections).
 
-- Funfact:  the beginning of the save ram acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means that when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird (or cringe) surprises.
+- Funfact:  the beginning of the save RAM acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means that when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird (or cringe) surprises.
 
 - It was a bit tedious to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is now reliable enough to do mostly the same more rapidly... But not when I did these experiments.
 
@@ -67,7 +67,7 @@ My general (tedious) strategy was to compare different dumped savestates with so
 
 So I can now propose a revised structure of the Game Boy Camera save format since [Jeff Frohwein](https://www.devrs.com/gb/files/gbcam.txt) proposed the first one in the early 2000's.
 
-## Game Boy Camera save ram format by increasing adresses
+## Game Boy Camera save RAM format by increasing adresses
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles). The camera copies 0x0100-0x0EFF to memory slots when save is activated. The effective visual resolution is only 128x123 as indicated in the datasheet of the M64282FP sensor. The 5 "missing lines" at the bottom of each image always return the saturation voltage (which purpose, if any, is currently undocumented);**
 - **0x01000-0x010D8: Animation settings, Trippy H and minigames save area, see details:**
@@ -158,10 +158,10 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 
 **Image slot 5 (range 0x04FF2-0x04FFF) contains calibration data for camera, echoed in image slot 18 (range 0x11FF2-0x011FFF). To trigger auto-calibration, fill these ranges with 0xAA and boot the camera in the dark. The function of these calibration bytes is not fully understood today. They change camera sensor register O for sure (fine voltage tuning) and maybe some other settings. I did not investigate that much for the moment as it requires lot of datalogging and calculations for basically no reward (I honestly doubt anybody would give a shit of the result). At this point, camera rom disassembly will be more relevant than reverse engineering.**
 
-General comment: any extended 0xAA range is a remnant of the initial factory sram tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode. This unused bytes scattered all along the save ram are used by [Photo!](https://github.com/untoxa/gb-photo) to store its own parameters without erasing data from the Game Boy Camera !
+General comment: any extended 0xAA range is a remnant of the initial factory SRAM tests, never erased since camera release. Other value means that backup battery has been replaced one time in the camera life. By extension, these ranges are never included into any checksums as they are never used by the camera code in writing mode. This unused bytes scattered all along the save RAM are used by [Photo!](https://github.com/untoxa/gb-photo) to store its own parameters without erasing data from the Game Boy Camera !
 
-## Visual representation of data at the beginning of the sram
-![Visual representation of data at the beginning of save ram](Pictures/Image_ram_beginning2.png)
+## Visual representation of data at the beginning of the SRAM
+![Visual representation of data at the beginning of save RAM](Pictures/Image_ram_beginning2.png)
           
 ## Now let's finally reverse engineer this damn checksum system !
 
@@ -193,7 +193,7 @@ That damn mole finally beaten by brute force.
 
 # Part 3: Calibrating the sensor
 
-A secret factory menu was discovered in december 2021 independently by me and [Cristofer Cruz](https://github.com/cristofercruz): by pressing all inputs (4 directions included) at the same time when booting, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The "all inputs" method leads to a glitchy menu (maybe an entry point for ACE), so the "normal way" is probably to inject 0xAA save.
+A secret factory menu was discovered in december 2021 independently by me and [Cristofer Cruz](https://github.com/cristofercruz): by pressing all inputs (4 directions included) at the same time when booting, or by filling the SRAM with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The "all inputs" method leads to a glitchy menu (maybe an entry point for ACE), so the "normal way" is probably to inject 0xAA save.
 
 The exact purpose of this menu have been discovered later by serendipity, the 7 august 2022, from a glitched save of my own (lost since, sadly) that changes the sensor auto-exposure rules: this is a calibration menu.
 
@@ -202,7 +202,7 @@ During this procedure, the camera sensor is activated and the game stores data i
 So for calibrating the camera, you must proceed as following:
 
 **Method 1:**
-- Write to the sram a save filled with 0xAA (you can download one [here](Research/DUMB_AA.sav));
+- Write to the SRAM a save filled with 0xAA (you can download one [here](Research/DUMB_AA.sav));
 - Place your camera in complete dark and boot it;
 - Wait for the ending jingle (take about 10-20 seconds);
 - Reboot your camera and enjoy its fresh calibration.
@@ -239,9 +239,9 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 
 The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected, possibly because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich corresponds to animation settings in the regular Game Boy Camera (so it will mess all minigames data if you change the rom as checksum won't be updated properly).
 
-These minor ram save format inconsistencies mean that switching from regular rom to HK rom with the same save is OK, but switching back will probably wipe your records if you catch any "kitt", the rom "currency", as this ram area will be considered as corrupted. Images are anyway always conserved.
+These minor RAM save format inconsistencies mean that switching from regular rom to HK rom with the same save is OK, but switching back will probably wipe your records if you catch any "kitt", the rom "currency", as this RAM area will be considered as corrupted. Images are anyway always conserved.
 
-Save functionality of the leaked rom was probably enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
+Save functionality of the leaked rom was probably enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the SRAM, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
 
 It was also observed that the image is overall "smoother" (in a not-so-pleasant way, I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of dithering tables (or just default contrast setting) compared to regular roms (registers sent to the sensor are exactly the same, I've compared them).
 
@@ -255,18 +255,18 @@ Funfact: as the number of borders in HK rom is higher than in regular roms (and 
 
 A prototype of Game Boy Camera has been found on Ebay in may 2023. Images of the device are [archived here](https://archive.org/details/gbcam-debug-cart). It has a main menu very similar with the [MBC5 mapper chip test program](https://twitter.com/WaluigiBSOD/status/1659914999765008384?s=20) linked in 2020. Most intersting things are within the rom as it contains [quite a lot of hidden features](https://tcrf.net/Proto:Game_Boy_Camera) like programmer faces, unused graphics and [pieces of assembly code with comments](/Codes%20Debagame%20Tester%20-%20Second%20Impact/Debagame_tester_code_translated.txt). I rapidely checked the save format:
 
-- **0x00000-0x00FFF: same as Game Boy Camera, ram exchange data;**
-- **0x01000-0x01FFF: remnants of the ram read/write and aging test;**
+- **0x00000-0x00FFF: same as Game Boy Camera, RAM exchange data;**
+- **0x01000-0x01FFF: remnants of the RAM read/write and aging test;**
 - **0x02000-0x02DFF: image data tiles in first memory slot (128x112, 224 tiles);**
 - **0x02E00-0x02FFF: image tag or metadata (mostly empty but 0x02FE8-0x02FFF contains data of unknown purpose);**
 - **0x02000-0x1FFFF: overall the same as the Game Boy Camera, images are stored exactly at the same offsets**
 
 Summary of some tests made on real hardware:
-- The camera writes nothing in ram at boot;
+- The camera writes nothing in RAM at boot;
 - It allows accessing any memory slot in GALLERY mode, so it does not keep track of the slots occupied except than locally in software;
 - There is no data protection nor vector state of any kind.
 - Aging test can be made only by writing saves with [certain patterns more or less convoluted](Codes%20Debagame%20Tester%20-%20Second%20Impact). It must be possible to generate them onboard but I did not find how;
-- Many functions let no traces in ram so I cannot really document their effect at the moment;
+- Many functions let no traces in RAM so I cannot really document their effect at the moment;
 - The MOVIE function allows trying register configurations and dithering patterns not available in the original rom;
 - The COM function just allows two Debagame cartridges connected with a serial cable to synchronize and increase a counter on screen but does not send regular printer packets, despite [all printing commands been compiled into the rom](https://github.com/Raphael-Boichot/GameboyPrinterPaperSimulation).
 - Looks like image metadata does not contain the registers used at first glance. Maybe some control sums and comments.
@@ -277,4 +277,4 @@ My overall impression is that the 10.24 version (the only known to date) lacks s
 ![Debagame_Tester](Pictures/Debagame_Tester.jpg)
 
 ## Acknowledgments
-- [Cristofer Cruz](https://github.com/cristofercruz) for helping with mapping some tricky sram area, making the HK pocket camera for real as soon as it leaked with EPROM and testing my janky sram hacks.
+- [Cristofer Cruz](https://github.com/cristofercruz) for helping with mapping some tricky SRAM area, making the HK pocket camera for real as soon as it leaked with EPROM and testing my janky sram hacks.
