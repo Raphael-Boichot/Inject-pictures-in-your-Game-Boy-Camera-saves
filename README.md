@@ -1,33 +1,33 @@
 ## All you want to know about the Game Boy Camera save format !
 
-*Quick disclaimer 2025: this repo was initially just about injecting images into the Game Boy Camera save until I fall into the rabbit hole of reverse engineering the whole SRAM format. It should be read as "my own story of progressively understanding the format in sweat and blood", so I ask the reader's indulgence regarding the whole coherence. That said, good reading.*
+*Quick disclaimer 2025: this repo was initially just about injecting images into the Game Boy Camera save until I fell into the rabbit hole of reverse engineering the whole SRAM format. It should be read as "my own story of progressively understanding the format in sweat and blood", so I ask the reader's indulgence regarding the whole coherence. That said, good reading.*
 
 # Part 1: Injecting custom pictures into the save
 
 So, despite the fact that extracting images from Game Boy Camera saves was made possible by fans since many years, it was virtually impossible in 2021 to do the inverse : inject custom pictures into saves. At least until now. What could be the interest, dear reader ? It can be usefull to mess with pixel perfect artworks, to reuse an image that was erased long ago from camera but still stored somewhere on a computer or internet or simply exchange pictures with friends if you have no friends, which is my case.
 
-All codes given here are [GNU Octave](https://octave.org/) / Matlab compatible. GNU Octave is an open source version of Matlab, a langage for scientific computing. Codes are meant to be short and easy to use / modify from any of these multi OS development environments.
+All codes given here are [GNU Octave](https://octave.org/) / Matlab compatible. GNU Octave is an open source version of Matlab, a language for scientific computing. Codes are meant to be short and easy to use / modify from any of these multi OS development environments.
 
-The small codes [presented here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Codes%20Regular%20cameras) allows injecting custom pictures in any save. Here are the steps:
+The small codes [presented here](https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves/tree/main/Codes%20Regular%20cameras) allow injecting custom pictures in any save. Here are the steps:
 - Extract your save from Game Boy Camera with any great tool like the [GBxCart dumper](https://shop.insidegadgets.com/product/gbxcart-rw/);
 - Scan your save with [**slot_viewer.m**](Codes%20Regular%20cameras/slot_viewer.m) to identify memory slots available for injection. By default an available slot is one ever occupied by an image. Game face and address 0 are also writable as slots 0 and -1 respectively (they are by default active);
 - In option, activate all memory slots with [**slot_activator.m**](Codes%20Regular%20cameras/slot_activator.m) if you want to occupy any slot on camera. Blank slots will become white images, erased images will appear again, images will be numbered according to their address in memory;
-- Prepare a 128x112 (ore 128x128 for slot -1) image and a 32x32 pixels thumbnail (optional), 4 shades of gray;  
+- Prepare a 128x112 (or 128x128 for slot -1) image and a 32x32 pixels thumbnail (optional), 4 shades of gray;  
 - Inject the two pictures at once with [**image_injector.m**](Codes%20Regular%20cameras/image_injector.m) into any desired memory slot;
 - You can check again the success of image injection with [**slot_viewer.m**](Codes%20Regular%20cameras/slot_viewer.m);
 - Burn your modified save into the Game Boy Camera;
 - Enjoy your new image and play with stamps;
-- You can additionnaly extract your images from save in .png format with [**image_extractor.m**](Codes%20Regular%20cameras/image_extractor.m);
+- You can additionaly extract your images from save in .png format with [**image_extractor.m**](Codes%20Regular%20cameras/image_extractor.m);
 
 The scanning code basically extracts and analyses values at addresses 0x011B2 to 0x011CF that contains the state and numbering of any image slot on the save (which I will call **"State Vector"** because it had no name until now). These data are also duplicated from addresses 0x011D7 to 0x011F4. Any number between 0x00 and 0x1D on this state vector represents the image number (minus one) that shows on the camera screen, FF is an unused slot (erased of never used). The number assignated to an image on camera is in consequence not related to the slot number (or physical address). Deleting an image on camera will simply write 0xFF on the vector state at the good place and all images will be renumbered dynamically, but image data stay on their respective slots as long as another image is not written on it. When a picture is taken, memory slots marked as unused on the vector state will be used by writing data in priority to the lowest address one. Next image illustrates the principle of this state vector:
 
 ![Vector state](Pictures/Vector%20state.png)
 
-Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came some very bad undocumented surprise. There is an **undocumented checksum system** at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture or activating a new memory slot by simply manipulating the state vector (except as a whole as in this case the checksum is known). Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've basically fucked your precious images in case you just own original hardware in 1998).
+Until this step, everything was fine and easy, tricky enough to occupy my brain for an evening but not much. Here came some a very bad undocumented surprise. There is an **undocumented checksum system** at addresses 0x011D5-0x011D6 and 0x011FA-0x011FB that precludes any possibility of un-erasing a single picture or activating a new memory slot by simply manipulating the state vector (except as a whole as in this case the checksum is known). Doing this simply forces the camera to replace any value on state vector by 0xFF (means you've basically fucked your precious images in case you just own original hardware in 1998).
 
-This is why I wrote [slot_activator.m](Codes%20Regular%20cameras/slot_activator.m), which activates all slots (an unerases all pictures). This was the only operation that I was initially able to perform, knowing the checksum of this particular state vector. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! This means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Activating the 30 slots of a camera after a factory reset gives you 30 white images.
+This is why I wrote [slot_activator.m](Codes%20Regular%20cameras/slot_activator.m), which activates all slots (and unerases all pictures). This was the only operation that I was initially able to perform, knowing the checksum of this particular state vector. For doing this, I simply stuff addresses 0x011B2 to 0x011CF with a fake "camera full" state vector (0x00, 0x01, 0x02 ...0x1C, 0x1D) and addresses 0x011D5-0x011D6 with the corresponding checksum (0xE2, 0x14). Et voilà ! This means that range 0x011D7 to 0x011F4 and addresses 0x011FA-0x011FB are just echos. Activating the 30 slots of a camera after a factory reset gives you 30 white images.
 
-## Hexadecimal codes to unerase all picture
+## Hexadecimal codes to unerase all pictures
 ![unerase pictures](Pictures/uneraser.png)
 
 Hopefully, I've found that an active image could be replaced bytewise without activating any suicide code. In consequence, the image injection code just substitutes the data corresponding to the image tiles (address range : 0xXX000-0xXXDEF for the image, address range : 0xXXDF0-0xXXEFF for the thumbnail, XX ranging from 02 to 1F). Additionnal data (range 0xXXF00-0xXXFFF), are not modified. Apart from that, data are arranged in Game Boy tile format, tile after tile, in reading order, so nothing particular for you Nintendo nerds.
@@ -37,33 +37,33 @@ Funfact, the thumbnail is dynamically rewritten each time the image is saved int
 ## This was the easy part, now began the tricky one
 ![Time for creativity](Pictures/Piece%20of%20cake.png)
 
-# Part 2: breaking the data encoding system just for science
+# Part 2: Breaking the data encoding system just for science
 
 I loosely continued collecting data to understand how bytes are arranged into the savestate (see [research folder](Research)). The principle reason is that it seems that there is not any single cheating codes on the whole planet Earth for this device (except the [CoroCoro save hack](https://tcrf.net/Game_Boy_Camera) that targets one of the rare unprotected range), even more than 25 years after the camera was released, which is quite annoying when you know the requirement to unlock the full B album (Yes, accomplish 1000 points at Ball, 7000 points at Space Fever II and less that 16 seconds at Run! Run! Run! means you were at some point of your life stuck at home with two broken legs and only a Game Boy to entertain yourself, believe me). So my motivation to crack the thing was rather strong. 
 
-My general (tedious) strategy was to compare different dumped savesates with some accomplishments made (not all, I'm not mad nor stuck at home with broken legs), byte per byte, to understand where were the targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
+My general (tedious) strategy was to compare different dumped savestates with some accomplishments made (not all, I'm not mad nor stuck at home with broken legs), byte per byte, to understand where were the targeted addresses. I systematically compared with a blank savestate (all data erased). Everything was made on real hardware (Game Boy Camera and Pocket Camera in parallel). So here are my conclusions: 
 
-- The Game Boy Camera save uses several internal checksums systematically echoed to protect its own data : one for scores (minigames and counter for images), one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots), one for camera owner informations and one for picture owner informations (In case the picture was exchanged). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
+- The Game Boy Camera save uses several internal checksums systematically echoed to protect its own data : one for scores (minigames and image counter), one for controlling the vector state and prevent any erased or transfered image to be recovered by byte attack (as data still exist in memory slots), one for camera owner informations and one for picture owner informations (In case the picture was exchanged). This means that when you play with a Gameboy Camera, you play with the rules. That may explain the scarcity, even the total absence of cheat codes for the Camera. The beast is robust !
 
-- Each checksum have two bytes corresponding to two different calculation rules (see next sections) and is preceded by the ascii word "Magic" (a kind of crual programmer joke probably). The word "Magic" placed at known positions can be used to detect automatically a Game Boy Camera save dump;
+- Each checksum have two bytes corresponding to two different calculation rules (see next sections) and is preceded by the ASCII word "Magic" (a kind of cruel programmer joke probably). The word "Magic" placed at known positions can be used to detect automatically a Game Boy Camera save dump;
 
-- Any discrepancy between data, scores, states and checksums causes the camera to erase all informations into the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to default values, end of story, reward for cheating. The long booting time of the Game Boy Camera is partly due to the amount of verifications/rewrite made (the other part is for [detecting sensor sanity](https://github.com/Raphael-Boichot/Play-with-the-Game-Boy-Camera-Mitsubishi-M64282FP-sensor/tree/main/Research%20on%20real%20camera%202024)); 
+- Any discrepancy between data, scores, states and checksums causes the camera to erase all information in the save at reboot (camera must consider the savestate as corrupted or modified by cheating). Everything is set to default values, end of story, reward for cheating. The long booting time of the Game Boy Camera is partly due to the amount of verifications/rewrite made (the other part is for [detecting sensor sanity](https://github.com/Raphael-Boichot/Play-with-the-Game-Boy-Camera-Mitsubishi-M64282FP-sensor/tree/main/Research%20on%20real%20camera%202024)); 
 
-- Data protected by checksums are systematically echoed but first occurence seems to have priority on its echo (modifying the first occurence with correct checksum is enough to modify safely the save file). I did not investigate that much on echo priority;
+- Data protected by checksums are systematically echoed but first occurrence seems to have priority on its echo (modifying the first occurrence with correct checksum is enough to modify safely the save file). I did not investigate that much on echo priority;
 
-- I suppose that all of this (obfusctation + checksum with different rules) was implemented as some Gameshark or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a **suicide code** as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum). Only Game Genie codes could be used with success (it attacks the ROM code, not the RAM) but camera does not fit physically into the device;
+- I suppose that all of this (obfuscation + checksum with different rules) was implemented as some Gameshark or other cheating hardware counter measure as it is twisted as hell. Clearly a single byte attack will inevitably lead to the activation of a **suicide code** as at least three bytes must be modified to hack something (one byte of data + 2 bytes of checksum). Only Game Genie codes could be used with success (it attacks the ROM code, not the RAM) but camera does not fit physically into the device;
 
-- On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected by any way (as well as Game Face data). This is kind of safe regarding the huge size of the SRAM and the non-zero probability to have a bit flipping somewhere with time ruining the whole image collection;
+- On the contrary, the data corresponding to picture tiles stored in memory slots of camera are not protected in any way (as well as Game Face data). This is kind of safe regarding the huge size of the SRAM and the non-zero probability to have a bit flipping somewhere with time ruining the whole image collection;
 
 - Forcing the minigame scores in memory with the correct checksum is enough to unlock image B album, there is no other trick necessary;
 
-- Good new, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatibles. This is not the case of the leaked rom prototypes (see next sections).
+- Good news, Pocket Camera and Game Boy Camera seems to have the exact same save structure. They are fully intercompatible. This is not the case of the leaked rom prototypes (see next sections).
 
-- Funfact:  the beginning of the save ram acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means than when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird (or cringe) surprises.
+- Funfact:  the beginning of the save ram acts as an image buffer in which everything seen by the sensor and displayed on screen is copied. This means that when you stop the camera, the last image buffered stay in memory as long as you do not display the camera image onscreen again. This image can be extracted (or modified) as easily as another. So when you buy a camera, dump the save BEFORE testing the camera for weird (or cringe) surprises.
 
-- It was a bit tedious to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is now reliable enough to do mostly the same more rapidely... But not when I did these experiments.
+- It was a bit tedious to do this on original hardware as [BGB emulator](https://bgb.bircd.org/) is now reliable enough to do mostly the same more rapidly... But not when I did these experiments.
 
-- I've tried to inject random data is SRAM (with or without correct checksum) to induce Arbitrary Code Execution but it was not successful. The only way to make the camera glitch is to press all buttons at boot (which is impossible on the real hardware with the control pad), it triggers the calibration procedure with lot of graphical glitches (see next sections).
+- I've tried to inject random data in SRAM (with or without correct checksum) to induce Arbitrary Code Execution but it was not successful. The only way to make the camera glitch is to press all buttons at boot (which is impossible on the real hardware with the control pad), it triggers the calibration procedure with lot of graphical glitches (see next sections).
 
 So I can now propose a revised structure of the Game Boy Camera save format since [Jeff Frohwein](https://www.devrs.com/gb/files/gbcam.txt) proposed the first one in the early 2000's.
 
@@ -169,7 +169,7 @@ OK, at this point I was curious to understand how the checksum system worked (it
 
 - **modify the old byte value by a new byte value;**
 - **modify the left byte of its checksum like this: old checksum byte+(new byte value-old byte value);**
-- **modify the rigth byte of its checksum like this : old checksum byte XOR old byte value XOR new byte value;**
+- **modify the right byte of its checksum like this : old checksum byte XOR old byte value XOR new byte value;**
 
 And that's all ! The checksum could be calculated from scratch from always the same seed: "Magic" followed by 0x2F, 0x15 (starting checksum when all data are 0x00). Each new data entering a protected area modifies the values of its corresponding checksum according to the rules. "Magic" is a mandatory keyword (its absence triggers the suicide code even if the checksum is correct).
 
@@ -193,7 +193,7 @@ That damn mole finally beaten by brute force.
 
 # Part 3: Calibrating the sensor
 
-A secret factory menu have been discovered in december 2021 independently by me and [Cristofer Cruz](https://github.com/cristofercruz): by pressing all inputs (4 directions included) at the same time when booting, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The "all inputs" method leads to a glitchy menu (maybe an entry point for ACE), so the "normal way" is probably to inject 0xAA save.
+A secret factory menu was discovered in december 2021 independently by me and [Cristofer Cruz](https://github.com/cristofercruz): by pressing all inputs (4 directions included) at the same time when booting, or by filling the sram with 0xAAs on real device, the camera enters a factory reset mode saying "STORE PLEASE WAIT", then "STORE END" and playing a Run!Run!Run jingle. The "all inputs" method leads to a glitchy menu (maybe an entry point for ACE), so the "normal way" is probably to inject 0xAA save.
 
 The exact purpose of this menu have been discovered later by serendipity, the 7 august 2022, from a glitched save of my own (lost since, sadly) that changes the sensor auto-exposure rules: this is a calibration menu.
 
@@ -211,11 +211,11 @@ So for calibrating the camera, you must proceed as following:
  - Just burn [this custom save](Universal%20cheater%20all%20cameras/Universal_unlocking_save.sav) and boot your Game Boy in the dark. It will calibrate the sensor, unlock B album and CoroCoro features at the same time.
 - Reboot your camera and enjoy its new features.
 
-This should be made after battery loss/replacement as non-calibrated cameras can behave weirdly.
+This should be made after battery loss/replacement since non-calibrated cameras can behave weirdly.
 
 ![Secret menu](Pictures/Secret%20menu.png)
 
-# Part 4: some random stuff for camera nerds
+# Part 4: Some random stuff for camera nerds
 ## 2021-07-01 Update: structure of the Hello Kitty Pocket Camera save
 
 Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dead body of a Pocket Camera and a MX27C8000 EPROM, we were able to explore the SRAM structure from various dumps. The save format is about the same than the Game Boy Camera with some exceptions: 
@@ -226,7 +226,7 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
     - *0x01002-0x01003: counter for image erased (on 2x2 digits reversed);*
     - *0x01004-0x01005: counter for image transfered (on 2x2 digits reversed);*
     - *0x01006-0x01007: counter for image printed (on 2x2 digits reversed);*
-    - *0x01008-0x01009: counter for pictures received by males an females (2x2 digits);*
+    - *0x01008-0x01009: counter for pictures received by males and females (2x2 digits);*
     - *0x0100A-0x0100C: counter for Kitts (on 3x2 digits reversed);*
     - *0x0100D-0x01011: Unknown data;*
     - *0x01012-0x01016: "Magic" word in ascii with NO CHECKSUM after, data are not protected;*
@@ -237,13 +237,13 @@ Thanks to Cristofer Cruz who built a real Hello Kitty Pocket Camera from the dea
 - **0x0187C-0x01FFF: 0x00;**
 - **0x02000-0x1FFFF: same as Game Boy Camera;**
 
-The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected just because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich corresponds to animation settings in the regular Game Boy Camera (so it will mess all minigames data if you change the rom as checksum won't be updated properly).
+The counter for images is followed by a nice flower meter just below. I think that the game save data are not protected, possibly because the game is not finished. Indeed, the "Magic" word exists but without checksum after and the game save data are not echoed contrary to the state vector that may originate from the old Game Boy Camera code the Hello Kitty is based on. Moreover, game save data are written in address range 0x01000-0x0102E wich corresponds to animation settings in the regular Game Boy Camera (so it will mess all minigames data if you change the rom as checksum won't be updated properly).
 
 These minor ram save format inconsistencies mean that switching from regular rom to HK rom with the same save is OK, but switching back will probably wipe your records if you catch any "kitt", the rom "currency", as this ram area will be considered as corrupted. Images are anyway always conserved.
 
 Save functionality of the leaked rom was probably enough for running and testing the game but not "polished" for antipiracy and public release. Structure of the sram, very similar to the Game Boy Camera, reinforces the idea that this version is more a port of the GB Camera than a complete reboot.
 
-It was also observed that the image is overall "smoother" (in a not pleasant way I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of dithering tables (or just default contrast setting) compared to regular roms (registers sent to the sensor are exactly the same, I've compared them).
+It was also observed that the image is overall "smoother" (in a not-so-pleasant way, I should admit) with this camera rom (hardware being the same) which probably involves some subtle modifications of dithering tables (or just default contrast setting) compared to regular roms (registers sent to the sensor are exactly the same, I've compared them).
 
 Funfact: as the number of borders in HK rom is higher than in regular roms (and checksum correctly updated for this entry in HK rom), you can save a value from HK rom not supported by regular rom. This leads to an incorrect address to tilemap and very interesting glitched borders appear.
 
@@ -276,5 +276,5 @@ My overall impression is that the 10.24 version (the only known to date) lacks s
 ## The Debagame Tester
 ![Debagame_Tester](Pictures/Debagame_Tester.jpg)
 
-## Aknowledgments
+## Acknowledgments
 - [Cristofer Cruz](https://github.com/cristofercruz) for helping with mapping some tricky sram area, making the HK pocket camera for real as soon as it leaked with EPROM and testing my janky sram hacks.
