@@ -1,4 +1,4 @@
-%By Raphaël BOICHOT, 1 june 2021
+%By Raphael BOICHOT, 1 june 2021
 clc;
 clear;
 slot=7;                                 %slot for injection after inspection with slot_viewer.m

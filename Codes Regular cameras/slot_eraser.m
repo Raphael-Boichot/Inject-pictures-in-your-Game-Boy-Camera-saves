@@ -1,13 +1,10 @@
-%By Raphaël BOICHOT, 7 Mai 2022, revised 2025
+%By Raphael BOICHOT, 7 Mai 2022, revised 2025
 %this code replaces pictures by random data
 clc;
 clear;
 
 % --- Read save file ---
 fid = fopen('POCKETCAMERA.sav','r');
-if fid == -1
-    error('Failed to open POCKETCAMERA.sav for reading.');
-end
 a = fread(fid);
 fclose(fid);
 
