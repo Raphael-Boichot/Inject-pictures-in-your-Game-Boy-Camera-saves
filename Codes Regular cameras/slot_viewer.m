@@ -38,59 +38,58 @@ end
 game_face = a(4605 : 4605 + 3584 - 1);
 image_zero = a(1:4096);
 
-% --- Display images in subplots ---
-figure('Name', 'Game Boy Camera Slots', 'NumberTitle', 'off');
+% --- Create a 4x8 grid composite image from Game Boy Camera Slots ---
 
-% Slot -1 (zero image)
-subplot(4, 8, 1);
+% Cell array to hold all 32 images (4 rows × 8 columns)
+images = cell(4, 8);
+
+% --- Slot -1 (zero image, 128x128) ---
 img0 = decode_zero(image_zero);
-img0_scaled = uint8(img0 * (255/3)); % scale 0-3 to 0-255
-imshow(img0_scaled);
-title('Slot -1');
-disp('Displaying Slot -1 image');
-drawnow;
+img0_scaled = uint8(img0 * (255/3));
+img0_cropped = img0_scaled(9:end-8, :);  % Crop top and bottom 8 pixels
+images{1, 1} = img0_cropped;
 
-% Game Face Slot 0
-subplot(4, 8, 2);
+% --- Game Face Slot 0 (128x112) ---
 imgGame = decode(game_face);
 imgGame_scaled = uint8(imgGame * (255/3));
-imshow(imgGame_scaled);
-title('Game Face Slot 0');
-disp('Displaying Game Face Slot 0 image');
-drawnow;
+images{1, 2} = imgGame_scaled;
 
-% Slots 1 to 30
+% --- Slots 1 to 30 (128x112 each) ---
 for i = 1:30
+    row = floor((i + 1) / 8) + 1;  % +1 for offset due to Slot -1 and Slot 0
+    col = mod(i + 1, 8) + 1;
+
     start = 8193 + 4096 * (i - 1);
     ending = start + 3584 - 1;
     imagek = a(start:ending);
 
-    subplot(4, 8, 2 + i);
     img = decode(imagek);
     img_scaled = uint8(img * (255/3));
-    imshow(img_scaled);
-
-    status = sum(imagek);
-    if vector_state(i) ~= 255
-        if status == 0
-            title(['Slot ', num2str(i), ': active (blank)']);
-            disp(['Displaying Slot ', num2str(i), ': active (blank)']);
-        else
-            title(['Slot ', num2str(i), ': active']);
-            disp(['Displaying Slot ', num2str(i), ': active']);
-        end
-    else
-        if status == 0
-            title(['Slot ', num2str(i), ': blank']);
-            disp(['Displaying Slot ', num2str(i), ': blank']);
-        else
-            title(['Slot ', num2str(i), ': erased']);
-            disp(['Displaying Slot ', num2str(i), ': erased']);
-        end
-    end
-
-    drawnow;
+    images{row, col} = img_scaled;
 end
+
+% --- Assemble the 4x8 grid image ---
+row_images = cell(4, 1);
+for r = 1:4
+    row_images{r} = images{r, 1};
+    for c = 2:8
+        row_images{r} = [row_images{r}, images{r, c}];  % Horizontal concatenation
+    end
+end
+
+giant_image = row_images{1};
+for r = 2:4
+    giant_image = [giant_image; row_images{r}];  % Vertical concatenation
+end
+
+% --- Display the giant image ---
+figure('Name', 'Giant Game Boy Camera Image', 'NumberTitle', 'off');
+imshow(giant_image);
+title('Giant 4x8 Composite Image');
+
+% --- Save as PNG ---
+imwrite(giant_image, 'giant_gameboy_grid.png');
+disp('Saved giant 4x8 image as giant_gameboy_grid.png');
 
 
 
