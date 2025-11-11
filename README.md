@@ -69,9 +69,9 @@ So I can now propose a revised structure of the Game Boy Camera save format sinc
 
 ## Game Boy Camera save RAM format by increasing adresses (starting at offset 0)
 
-**Some preliminary informations:** from a Game Boy point of view, CPU sees only 8 KB at address range 0xA000–0xBFFF, so the CPU switches between 16 banks to access all 128 KB. Writing a value of $0 to $F to address $4000 selects a bank number for access. Writing a value of $10 to this address selects the Camera I/O registers instead (source Jeff Frohwein). Further informations about camera I/O registers and how to apply them were proposed by [Antonio Niño Díaz](https://github.com/AntonioND/gbcam-rev-engineer/blob/master/doc/gb_camera_doc_v1_1_1.pdf).
+**Some preliminary informations:** from a Game Boy point of view, CPU sees only 8 KB at address range 0xA000–0xBFFF, so the CPU switches between 16 banks to access all 128 KB. Writing a value of 0x0 to 0xF to address 0x4000 selects a bank number for access. Writing a value of 0x10 to this address selects the Camera I/O registers instead (source Jeff Frohwein). Further informations about camera I/O registers and how to apply them were proposed by [Antonio Niño Díaz](https://github.com/AntonioND/gbcam-rev-engineer/blob/master/doc/gb_camera_doc_v1_1_1.pdf).
 
-So basically except bank 0 which contains system-wide / global data, all 15 remaining banks can handle 2 images per bank.
+So basically except bank 0 which contains system-wide / global data, all 15 remaining banks can handle 2 images per bank + their metadata.
 
 - **0x00000-0x00FFF: the last image seen by the sensor (128x128 pixels, 256 tiles), or camera exchange buffer. The camera keeps range 0x0100-0x0EFF when save is activated (112x128 pixels). The effective visual resolution is only 128x123 as indicated in the datasheet of the M64282FP sensor. The 5 "missing lines" at the bottom of each image always return the saturation voltage (which purpose, if any, is currently undocumented);**
 - **0x01000-0x010D8: Animation settings, Trippy H and minigames save area, see details:**
